@@ -92,6 +92,7 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			(function($, doc) {
 				$.init({
@@ -121,7 +122,7 @@
 					};
 					// close splash
 					setTimeout(function() {
-						//关闭 splash
+						//关闭 splash  
 						plus.navigator.closeSplashscreen();
 					}, 600);
 					//检查 "登录状态/锁屏状态" 结束
@@ -131,21 +132,30 @@
 					var regButton = doc.getElementById('reg');
 					var forgetButton = doc.getElementById('forgetPassword');
 					loginButton.addEventListener('tap', function(event) {
+						if (accountBox.value.trim() == "") {
+							you.alert("请输入手机号");
+							return;
+						} else if (passwordBox.value.trim() == "") {
+							you.alert("请输入密码");
+							return;
+						}
 						var loginInfo = {
-							account: accountBox.value,
+							phone: accountBox.value,
 							password: passwordBox.value
 						};
-						app.login(loginInfo, function(err) {
-							if (err) {
-								plus.nativeUI.toast(err);
-								return;
-							}
+						you.loading();
+						you.post("/login", loginInfo, function(result) {
+							you.endLoding();
+							plus.storage.setItem("token", result.authen_token);
 							toMain();
-						});
+						}, function(res) {
+							you.alert("手机或密码错误");
+							you.endLoding();
+						})
 					});
 					$.enterfocus('#login-form input', function() {
 						$.trigger(loginButton, 'tap');
-					});
+					});   
 					regButton.addEventListener('tap', function(event) {
 						$.openWindow({
 							url: 'reg.html',
