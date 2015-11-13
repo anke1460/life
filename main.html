@@ -71,12 +71,10 @@
 			var title = document.getElementById("title");
 			 //选项卡点击事件
 			mui('.mui-bar-tab').on('tap', 'a', function(e) {
-				console.log("tap")
 				var targetTab = this.getAttribute('href');
 				if (targetTab == activeTab) {
 					return;
 				}
-				console.log(233)
 				//更换标题
 				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
 				//显示目标选项卡

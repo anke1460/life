@@ -14,6 +14,16 @@
   background-color: #ccc;
 }
 
+.mui-btn-default {
+	color: #fff;
+	border: 1px solid #1FCC7C;
+  background-color: #1FCC7C;
+}
+
 a {
   color: #ccc;
 }
+
+/*html, body, .mui-content {
+	background-color: #fff;
+}*/
