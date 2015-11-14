@@ -130,9 +130,11 @@
 							password: passwordBox.value
 						};
 						you.loading();
+						document.activeElement.blur();
 						you.post("/login", loginInfo, function(result) {
 							you.endLoding();
 							plus.storage.setItem("token", result.authen_token);
+							you.setStore("name", result.name);
 							toMain();
 						}, function(res) {
 							you.alert("手机或密码错误");

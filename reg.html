@@ -43,9 +43,6 @@
 		<div class="mui-content">
 			<form class="mui-input-group">
 				<div class="mui-input-row">
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="用户名">
-				</div>
-				<div class="mui-input-row">
 					<input id='phone' type="number" class="mui-input-clear mui-input" placeholder="手机号">
 				</div>
 				<div class="mui-input-row" style="position: relative;">
@@ -54,15 +51,9 @@
 					</div>
 					<a class="mui-btn mui-btn-default" id="send_code" style="width: 100px;right: 10px;top: 1px;">发送验证码</a>
 				</div>
-				<div class="mui-input-row">
-					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="密码(至少6位数密码)">
-				</div>
-				<div class="mui-input-row">
-					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="确认密码">
-				</div>
 			</form>
 			<div class="mui-content-padded">
-				<button id='reg' class="mui-btn mui-btn-block mui-btn-default">注册</button>
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-default">下一步</button>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
@@ -74,71 +65,77 @@
 				$.plusReady(function() {
 					var settings = app.getSettings();
 					var regButton = doc.getElementById('reg');
-					var accountBox = doc.getElementById('account');
 					var phoneBox = doc.getElementById('phone');
-					var passwordBox = doc.getElementById('password');
-					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var code = doc.getElementById('code');
-					regButton.addEventListener('tap', function(event) {
-						var regInfo = {
-							name: accountBox.value.trim(),
-							password: passwordBox.value,
-							code: code.value,
-							phone: phoneBox.value
-						};
-						var passwordConfirm = passwordConfirmBox.value;
-						if (passwordConfirm != regInfo.password) {
-							plus.nativeUI.toast('密码两次输入不一致');
+					
+					regButton.addEventListener("tap", function() {
+						if (phoneBox.value == "") {
+							you.totast("请输入手机号");
 							return;
 						}
-						
-						if (regInfo.name == "") {
-							plus.nativeUI.toast("请输入用户名");
+						if (code.value == "") {
+							you.totast("请输入验证码");
 							return;
 						}
-						if (regInfo.phone == "") {
-							plus.nativeUI.toast("请输入手机号");
-							return;
-						}
-						if (/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/.test(regInfo.phone) == false) {
-							plus.nativeUI.toast("请输入正确手机号格");
-							return;
-						}
-						
-						if (regInfo.code == "") {
-							plus.nativeUI.toast("请输入验证码");
-							return;
-						}
-						if (regInfo.password.length < 6) {
-							plus.nativeUI.toast("请输入6位数密码");
-							return;
-						}
-						you.post("/registrations", regInfo, function(result) {
-							you.loading();
+						you.loading();
+						you.post("/registrations", {phone: phoneBox.value, code: code.value}, function(result) {
+							you.endLoding();
 							if (result.success) {
-								you.endLoding();
+								plus.storage.setItem("token", result.authen_token);
 								$.openWindow({
-									id: 'main',
+									url: 'finish_reg.html',
+									id: 'finish_reg',
 									show: {
 										aniShow: 'pop-in'
+									},
+									extras: {
+										phone: phoneBox.value
 									}
 								});
 							} else {
 								plus.nativeUI.toast(result.msg);
 							}
 						})
-					});
+					})
+          var can_send = true;
 					document.getElementById('send_code').addEventListener("tap", function() {
+						document.activeElement.blur();
+						if (can_send) {
+							can_send = false;
+						} else {
+							return;
+						}
 						if (/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/.test(phoneBox.value)) {
 							you.get("/send_reg_code", {phone: phoneBox.value}, function(result) {
 								if (result.success) {
+									showTip();
 									plus.nativeUI.toast("已发送短信验证码");
 								} else {
+									mui("#send_code")[0].classList.remove("disabled");
 									plus.nativeUI.toast(result.msg);
+									can_send = true;
 								}
 							})
+						} else {
+							can_send = true;
+							you.totast("请输入手机号");
 						}
 					})
+					
+					function showTip() {//60s后重发验证
+				   	var i = 60;
+				  	  var inter = window.setInterval(function() {
+				  	  	  mui("#send_code")[0].innerText = (i) + "s";
+				  	  	  if (i == 0) {
+				  	  	  	  window.clearInterval(inter);
+				  	  	  	  mui("#send_code")[0].innerText = "重新获取";
+				  	  	  	  mui("#send_code")[0].classList.remove("disabled");
+				  	  	  	  can_send = true;
+				  	  	  } 
+				  	  	  i = i -1;
+				  	  }, 1000);
+				  	  mui("#send_code")[0].classList.add("disabled");
+				  }
 				});
 			}(mui, document));
 		</script>

@@ -450,6 +450,10 @@
 		}
 		return true;
 	}
+	
+	$.totast = function(text) {
+		plus.nativeUI.toast(text);
+	}
 			
 })(window.you = {});
 
