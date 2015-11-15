@@ -10,6 +10,21 @@
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style>
+		#pingfen {
+			margin: 0 auto;
+	    width: 300px;
+	    display: block;
+		}
+		
+		#score {
+			width: 300px;
+			height: 300px;
+			margin: 0 auto;
+		}
+		
+		#score_trend {
+			height: 300px;
+		}
 		</style>
 	</head>
 
@@ -17,7 +32,10 @@
 		<div class="mui-content">
 			<div class="mui-card">
 				<div class="mui-text-center">
-					<img src="images/user-photo.png" style="width: 80px;margin-top: 10px;"> 
+					<a id="user_setting">
+						<img src="images/user-photo.png" style="width: 0px;margin-top: 10px;"> 
+					</a>
+					
 				</div>
 				<div class="mui-table-view mui-grid-view">
 					<div class="mui-col-xs-3  mui-table-view-cell">
@@ -38,21 +56,131 @@
 				</div>
 			</div>
 			<div class="mui-card" style="margin-top: 15px;padding: 15px;">
-				<h5 class="mui-text-center">评分根据以下五个纬度综合评估而来</h5>
+				<!--<h5 class="mui-text-center">评分根据以下五个纬度综合评估而来</h5>-->
+				<!--<img id="pingfen" src="images/pingfen.jpeg"/>-->
+				<div id="score"></div>
 			</div>
 			<div class="mui-card" style="margin-top: 15px;padding: 15px;">
-				<h5 class="mui-text-center">近六月有友评分趋势</h5>
+				<!--<h5 class="mui-text-center">近六月有友评分趋势</h5>-->
+				<div id="score_trend"></div>
 			</div>
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+	<script src="libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
 			swipeBack: true
 		});
 		mui.plusReady(function() {
 			mui("#user_name")[0].innerText = you.getStore("name");
+			  var score = echarts.init(document.getElementById('score'));
+        var option = {
+			    title : {
+			    	    show: true
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+//			    	  y: 'center',
+//			    	  backgroundColor: '#fff',
+//			    	  textStyle: {
+//			    	    	color: "red"
+//			    	  },
+			      data:['评分根据以下五个纬度综合评估而来']
+			    },
+			    toolbox: {
+		        show : true,
+		        feature : {
+	            mark : {show: false},
+	            dataView : {show: false, readOnly: false},
+	            restore : {show: false},
+	            saveAsImage : {show: false}
+		        }
+			    },
+			    calculable : true,
+			    polar : [
+		        {
+		          indicator : [
+                {text : '爱好', max  : 100},
+                {text : '社交', max  : 100},
+                {text : '旅行', max  : 100},
+                {text : '技能', max  : 100},
+                {text : '美食', max  : 100}
+	            ],
+	            radius : 110
+		        }
+			    ],
+			    series : [
+		        {
+	            name: '',
+	            type: 'radar',
+	            itemStyle: {
+                normal: {
+                  areaStyle: {
+                    type: 'default'
+                  }
+                }
+	            },
+	            data : [
+                {
+                  value : [97, 42, 88, 94, 90, 86],
+                  name : you.getStore("name")
+                }
+	            ]
+		        }
+			    ]
+			};
+                    
+      score.setOption(option);
+      
+      var score_trend_option = {
+		    title : {
+		      show: false
+		    },
+		    tooltip : {
+		      trigger: 'axis'
+		    },
+		    legend: {
+		       data:['近六月有友评分趋势']
+		    },
+		    toolbox: {
+		      show : true,
+		      feature : {
+		        mark : {show: false},
+		        dataView : {show: false, readOnly: false},
+		        magicType : {show: false, type: ['line']},
+		        restore : {show: false},
+		        saveAsImage : {show: false}
+		      }
+		    },
+		    calculable : true,
+		    xAxis : [
+		      {
+		        type : 'category',
+		        boundaryGap : false,
+		        data : ['一月','二月','三月','四月','五月','六月']
+		      }
+		    ],
+		    yAxis : [
+		      {
+		        type : 'value'
+		      }
+		    ],
+		    series : [
+		      {
+		        name:'趋势',
+		        type:'line',
+		        smooth:true,
+		        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+		        data:[10, 12, 21, 54, 260, 830, 710]
+		      }
+		    ]
+		  };
+      var score_trend = echarts.init(document.getElementById('score_trend'));  
+      score_trend.setOption(score_trend_option);
 		})
 	</script>
 
