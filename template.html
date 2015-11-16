@@ -2,8 +2,113 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
 	</head>
 	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-btn mui-btn-link mui-action-back mui-btn-nav mui-pull-left">
+				<span class="mui-icon mui-icon-left-nav"></span>
+			</button>
+			<a id="menu" class="mui-icon iconfont icon-more mui-pull-right" style="display: none;"></a>
+			<button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right" id="custom_btn" style="display: none;">
+				<span id="custom_text"></span>
+				<span class="mui-icon mui-icon-right-nav"></span>
+		  </button>
+			<h1 class="mui-title" id="title"></h1>
+		</header>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+		  var contentWebview = null, self = null;
+			mui.init({
+				gestureConfig:{
+					doubletap:true
+				}
+			});
+		  mui.plusReady(function () {
+				self = plus.webview.currentWebview();
+			});
+			mui.back = function() {
+				self.hide('auto');
+				setTimeout(function() {
+					titleElem.className = 'mui-title mui-fadeout';
+					titleElem.innerText = '';
+					if(contentWebview==null){
+						contentWebview = self.children()[0];
+					}
+					contentWebview.hide("none");
+				}, 150);
+			}
+			
+			var titleElem = document.getElementById("title")
+			var menuElem = document.getElementById("menu")
+	
+			window.addEventListener("updateHeader", function(e) {
+				var title = e.detail.title;
+				var show_menu = e.detail.show_menu;
+				var href = e.detail.target;
+				var aniShow = e.detail.aniShow;
+				titleElem.innerHTML = title;
+				titleElem.className = "mui-title mui-fadein";
+				var display = show_menu ? "" : "none";
+				if (show_menu) {
+					mui.options.keyEventBind.menubutton = true;
+				} else {
+					mui.options.keyEventBind.menubutton = false;
+				}
+				menu.style.display = display;
+				
+				//自定义右侧按钮
+				if (e.detail.custom_text) {
+					mui("#custom_text")[0].innerText = e.detail.custom_text;
+					mui("#custom_btn")[0].style.display = "";
+				}
+				
+				if(mui.os.android && aniShow && parseFloat(mui.os.version) >= 4.4) {
+					if( contentWebview == null ) {
+						contentWebview = self.children()[0];
+					}
+					
+					if (contentWebview.getURL() != href) {
+						contentWebview.loadURL(href);
+					} else {
+						contentWebview.show();
+					}
+					setTimeout(function () {
+						self.show(aniShow);
+					},10);
+				}
+			});
+			
+			mui("#custom_btn")[0].addEventListener('tap', function(e) {
+				e.stopPropagation();
+				if( contentWebview==null ) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS('showMenu()');
+			});
+			
+			menuElem.addEventListener('tap', function(e) {
+				e.stopPropagation();
+				if( contentWebview==null ) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS('showMenu()');
+			});
+			
+			document.querySelector('header').addEventListener('doubletap',function () {
+				if(contentWebview==null){
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS('mui.scrollTo(0, 100)');
+			});
+			
+
+		</script>
 	</body>
+
 </html>

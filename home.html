@@ -10,21 +10,38 @@
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style>
-		#pingfen {
-			margin: 0 auto;
-	    width: 300px;
-	    display: block;
-		}
-		
-		#score {
-			width: 300px;
-			height: 300px;
-			margin: 0 auto;
-		}
-		
-		#score_trend {
-			height: 300px;
-		}
+			#pingfen {
+				margin: 0 auto;
+				width: 280px;
+				display: block;
+			}
+			#score {
+				width: 280px;
+				height: 280px;
+				margin: 0 auto;
+			}
+			#score_trend {
+				height: 300px;
+				width: 300px;
+			}
+			
+		  #user_setting {
+		    	display: inline-block;
+		  }
+		  
+		  #user_setting span {
+		  	  width: 80px;
+		    height: 80px;
+		    display: block;
+		    background: #ccc;
+		    border-radius: 50px;
+		    line-height: 80px;
+		    color: red;
+		    font-size: 40px;
+		    font-weight: bold;
+		    margin: 0 auto;
+		    margin-top: 15px;
+		  }
 		</style>
 	</head>
 
@@ -33,9 +50,10 @@
 			<div class="mui-card">
 				<div class="mui-text-center">
 					<a id="user_setting">
-						<img src="images/user-photo.png" style="width: 0px;margin-top: 10px;"> 
+						<span></span>
+						<!--<img src="images/user-photo.png" style="width: 80px;margin-top: 10px;">-->
 					</a>
-					
+
 				</div>
 				<div class="mui-table-view mui-grid-view">
 					<div class="mui-col-xs-3  mui-table-view-cell">
@@ -75,113 +93,119 @@
 		});
 		mui.plusReady(function() {
 			mui("#user_name")[0].innerText = you.getStore("name");
-			  var score = echarts.init(document.getElementById('score'));
-        var option = {
-			    title : {
-			    	    show: true
-			    },
-			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-//			    	  y: 'center',
-//			    	  backgroundColor: '#fff',
-//			    	  textStyle: {
-//			    	    	color: "red"
-//			    	  },
-			      data:['评分根据以下五个纬度综合评估而来']
-			    },
-			    toolbox: {
-		        show : true,
-		        feature : {
-	            mark : {show: false},
-	            dataView : {show: false, readOnly: false},
-	            restore : {show: false},
-	            saveAsImage : {show: false}
-		        }
-			    },
-			    calculable : true,
-			    polar : [
-		        {
-		          indicator : [
-                {text : '爱好', max  : 100},
-                {text : '社交', max  : 100},
-                {text : '旅行', max  : 100},
-                {text : '技能', max  : 100},
-                {text : '美食', max  : 100}
-	            ],
-	            radius : 110
-		        }
-			    ],
-			    series : [
-		        {
-	            name: '',
-	            type: 'radar',
-	            itemStyle: {
-                normal: {
-                  areaStyle: {
-                    type: 'default'
-                  }
-                }
-	            },
-	            data : [
-                {
-                  value : [97, 42, 88, 94, 90, 86],
-                  name : you.getStore("name")
-                }
-	            ]
-		        }
-			    ]
+			console.log(you.getStore("name"))
+			mui("#user_setting span")[0].innerText = you.getStore("name").slice(0,1);
+			var score = echarts.init(document.getElementById('score'));
+			var option = {
+				title: {
+					show: true
+				},
+				tooltip: {
+					trigger: 'axis'
+				},
+				legend: {
+					data: ['评分根据以下五个纬度综合评估而来']
+				},
+				toolbox: {
+					show: false
+				},
+				calculable: true,
+				polar: [{
+					indicator: [{
+						text: '爱好',
+						max: 100
+					}, {
+						text: '社交',
+						max: 100
+					}, {
+						text: '旅行',
+						max: 100
+					}, {
+						text: '技能',
+						max: 100
+					}, {
+						text: '美食',
+						max: 100
+					}],
+					radius: 90
+				}],
+				series: [{
+					name: '',
+					type: 'radar',
+					itemStyle: {
+						normal: {
+							areaStyle: {
+								type: 'default'
+							}
+						}
+					},
+					data: [{
+						value: [97, 42, 88, 94, 90, 86],
+						name: you.getStore("name")
+					}]
+				}]
 			};
-                    
-      score.setOption(option);
-      
-      var score_trend_option = {
-		    title : {
-		      show: false
-		    },
-		    tooltip : {
-		      trigger: 'axis'
-		    },
-		    legend: {
-		       data:['近六月有友评分趋势']
-		    },
-		    toolbox: {
-		      show : true,
-		      feature : {
-		        mark : {show: false},
-		        dataView : {show: false, readOnly: false},
-		        magicType : {show: false, type: ['line']},
-		        restore : {show: false},
-		        saveAsImage : {show: false}
-		      }
-		    },
-		    calculable : true,
-		    xAxis : [
-		      {
-		        type : 'category',
-		        boundaryGap : false,
-		        data : ['一月','二月','三月','四月','五月','六月']
-		      }
-		    ],
-		    yAxis : [
-		      {
-		        type : 'value'
-		      }
-		    ],
-		    series : [
-		      {
-		        name:'趋势',
-		        type:'line',
-		        smooth:true,
-		        itemStyle: {normal: {areaStyle: {type: 'default'}}},
-		        data:[10, 12, 21, 54, 260, 830, 710]
-		      }
-		    ]
-		  };
-      var score_trend = echarts.init(document.getElementById('score_trend'));  
-      score_trend.setOption(score_trend_option);
-		})
+			score.setOption(option);
+			var score_trend_option = {
+				title: {
+					show: false
+				},
+				tooltip: {
+					trigger: 'axis'
+				},
+				legend: {
+					data: ['近六月有友评分趋势']
+				},
+				toolbox: {
+					show: false
+				},
+				grid: {
+					x: 50,
+					x2: 50
+				},
+				calculable: true,
+				xAxis: [{
+					type: 'category',
+					boundaryGap: false,
+					data: ['一月', '二月', '三月', '四月', '五月', '六月']
+				}],
+				yAxis: [{
+					type: 'value'
+				}],
+				series: [{
+					name: '趋势',
+					type: 'line',
+					smooth: true,
+					itemStyle: {
+						normal: {
+							areaStyle: {
+								type: 'default'
+							}
+						}
+					},
+					data: [10, 12, 21, 54, 260, 830, 710]
+				}]
+			};
+			var score_trend = echarts.init(document.getElementById('score_trend'));
+			score_trend.setOption(score_trend_option);
+		});
+		
+		mui("#user_setting")[0].addEventListener("tap", function() {
+			var href = "user/info.html";
+		  	  third_search_web = plus.webview.getWebviewById("template");
+        children_view = third_search_web.children()[0];
+        aniShow = mui.os.ios ? 'pop-in' : 'slide-in-right';
+        mui.fire(third_search_web,'updateHeader',{title: "个人信息", target: href, aniShow: 'slide-in-right', custom_text: "保存"});
+				if(mui.os.ios || parseFloat(mui.os.version) < 4.4) {
+					if (children_view.getURL() != href) {
+						children_view.loadURL(href);
+					} else {
+						 children_view.show();
+						 giant.endLoding();
+					}
+					third_search_web.show('slide-in-right', 150);
+				}
+		});
 	</script>
 
 </html>
