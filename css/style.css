@@ -30,6 +30,10 @@ a {
   background-color: #1FCC7C;
 }
 
-.header .mui-title {
+.header .mui-title, .header .mui-btn {
 	color: #fff;
+}
+
+html, body, .mui-content {
+	background-color: #fafafa;
 }

@@ -454,6 +454,10 @@
 	$.totast = function(text) {
 		plus.nativeUI.toast(text);
 	}
+	
+	$.dom = function(id) {
+		return document.getElementById(id);
+	}
 			
 })(window.you = {});
 
