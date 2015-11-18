@@ -15,12 +15,17 @@
 			body {
 				background-color: #efeff4;
 			}
+			#menu {
+				color: #fff;
+				font-weight: bold;
+			}
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<h1 id="title" class="mui-title">我有</h1>
+			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
@@ -29,7 +34,7 @@
 			</a>
 			<a class="mui-tab-item" href="contact.html">
 				<span class="mui-icon mui-icon-email"></span>
-				<span class="mui-tab-label">成长</span>
+				<span class="mui-tab-label">提升</span>
 			</a>
 			<a class="mui-tab-item" href="circle.html">
 				<span class="mui-icon mui-icon-contact"></span>
@@ -42,7 +47,7 @@
 		</nav>
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
-			 //mui初始化
+			var activeTab = null;
 			mui.init();
 			var subpages = ['home.html', 'contact.html', 'circle.html', 'setting.html'];
 			var subpage_style = {
@@ -68,13 +73,17 @@
 				}
 			});
 			 //当前激活选项
-			var activeTab = subpages[0];
+			activeTab = subpages[0];
 			var title = document.getElementById("title");
 			 //选项卡点击事件
 			mui('.mui-bar-tab').on('tap', 'a', function(e) {
 				var targetTab = this.getAttribute('href');
 				if (targetTab == activeTab) {
 					return;
+				}
+				document.getElementById("menu").style.display = "none";
+				if (targetTab == 'contact.html') {
+					document.getElementById("menu").style.display = "";
 				}
 				//更换标题
 				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
@@ -103,6 +112,10 @@
 					current.classList.remove('mui-active');
 					defaultTab.classList.add('mui-active');
 				}
+			});
+			
+			document.getElementById("menu").addEventListener("tap", function() {
+				plus.webview.getWebviewById(activeTab).evalJS("showMenu()");
 			});
 		</script>
 	</body>

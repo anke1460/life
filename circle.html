@@ -7,22 +7,86 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<style>
-	
+	    #score {
+	    	  height: 300px;
+	    }
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-
+			<div class="mui-card" style="">
+				<div id="score"></div>
+			</div>
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
+	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+	<script src="libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
 			swipeBack: true
 		});
+		mui.ready(function(){
+			loadScore();
+		});
+		function loadScore() {
+			var score = echarts.init(document.getElementById('score'));
+			var option = {
+				title: {
+					show: true,
+					x: 'center',
+					text: '好友圈价值'
+				},
+				tooltip: {
+					trigger: 'axis'
+				},
+				legend: {
+					data: []
+				},
+				toolbox: {
+					show: false
+				},
+				calculable: true,
+				polar: [{
+					indicator: [{
+						text: '朋友圈总分',
+						max: 100
+					}, {
+						text: '互补与同趣',
+						max: 100
+					}, {
+						text: '数量及分布',
+						max: 100
+					}, {
+						text: '好友亲密度',
+						max: 100
+					}, {
+						text: '好友与性别',
+						max: 100
+					}],
+					radius: 60
+				}],
+				series: [{
+					name: '',
+					type: 'radar',
+					itemStyle: {
+						normal: {
+							areaStyle: {
+								type: 'default'
+							}
+						}
+					},
+					data: [{
+						value: [97, 42, 88, 94, 90, 86],
+						name: ''
+					}]
+				}]
+			};
+			score.setOption(option);
+		}
 	</script>
 </html>

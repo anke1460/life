@@ -9,6 +9,8 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css"/>
 		<style>
 		  #avatar {
 		 	  height: 60px;
@@ -93,7 +95,7 @@
 				</li>
 				<li class="mui-table-view-divider"></li>
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
+					<a class="mui-navigate-right" id="hometown_select">
 					  <label>家乡</label>
 					   <span class="mui-pull-right" id="hometown">
 					   	未填写
@@ -101,7 +103,7 @@
 				  </a>
 				</li>
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
+					<a class="mui-navigate-right" id="place_select">
 					  <label>常住地</label>
 					   <span class="mui-pull-right" id="place">
 					   	未填写
@@ -113,6 +115,9 @@
 	</body>
 	<script src="../js/mui.min.js"></script>
 	<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/city_data.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
@@ -160,11 +165,47 @@
 					aniShow: 'pop-in'
 				}
 			});
-		})
+		});
 		
 		window.addEventListener("set_sign", function(e) {
 			you.dom("sign").innerText = e.detail.name;
-		})
+		});
+		
+		you.dom("rank").addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'rank.html',
+				id: "rank",
+				styles: {
+					aniShow: 'pop-in'
+				}
+			});
+		});
+		
+		mui.ready(function() {
+			var hometown_pop = new mui.PopPicker({
+				layer: 2
+			});
+			hometown_pop.setData(cityData);
+			var hometown_select = document.getElementById('hometown_select');
+			var hometown = document.getElementById('hometown');
+			hometown_select.addEventListener('tap', function(event) {
+				hometown_pop.show(function(items) {
+					hometown.innerText = items[1].text ? (items[0].text + items[1].text) : '未填写';
+				});
+			}, false);
+			
+			var place_pop = new mui.PopPicker({
+				layer: 2
+			});
+			place_pop.setData(cityData);
+			var place_select = document.getElementById('place_select');
+			var place = document.getElementById('place');
+			place_select.addEventListener('tap', function(event) {
+				place_pop.show(function(items) {
+					place.innerText = items[1].text ? (items[0].text + items[1].text) : '未填写';
+				});
+			}, false);
+		});
 	  
 	</script>
 </html>

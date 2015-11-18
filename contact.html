@@ -20,13 +20,13 @@
 			}
 	
 			.oa-contact-avatar {
-				width: 75px;
+				width: 100%;
 			}
 			.oa-contact-avatar img {
 				border-radius: 50%;
 			}
 			.oa-contact-content {
-				width: 100%;
+				width: 150px;
 			}
 			.oa-contact-name {
 				margin-right: 20px;
@@ -34,6 +34,18 @@
 			.oa-contact-name, oa-contact-position {
 				float: left;
 			}
+			.Bars {
+			  position: relative;
+			  width: 120px;
+        border: 1px solid #B1D632;
+        padding: 1px; } 
+			.Bars div {
+			  position: relative;
+        background:#090;
+        color: #333333;
+        height: 10px;
+        line-height: 10px;
+       } 
 		</style>
 	</head>
 
@@ -42,35 +54,50 @@
 			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
 				<li class="mui-table-view-cell">
 					<div class="mui-slider-cell">
+						<h6>
+							<span class="mui-pull-left">许愿10天</span>
+							<span class="mui-pull-right">剩余1天</span>
+						</h6>
 						<div class="oa-contact-cell mui-table">
 							<div class="oa-contact-avatar mui-table-cell">
-								<img src="../images/60x60.gif" />
+								英语cet-6
 							</div>
 							<div class="oa-contact-content mui-table-cell">
-								<div class="mui-clearfix">
-									<h4 class="oa-contact-name">叶文洁</h4>
-									<span class="oa-contact-position mui-h6">董事长</span>
-								</div>
+								<p>完成进度：
+								  <span>11/200</span>
+								</p>
 								<p class="oa-contact-email mui-h6">
-									yewenjie@sina.com
+									<div class="Bars"> 
+								    <div style="width: 33%;"> 
+								       <span></span> 
+								    </div> 
+									</div> 
 								</p>
 							</div>
 						</div>
 					</div>
 				</li>
+				<li class="mui-table-view-divider"></li>
 				<li class="mui-table-view-cell">
 					<div class="mui-slider-cell">
+						<h6>
+							<span class="mui-pull-left">许愿10天</span>
+							<span class="mui-pull-right">剩余1天</span>
+						</h6>
 						<div class="oa-contact-cell mui-table">
 							<div class="oa-contact-avatar mui-table-cell">
-								<img src="../images/60x60.gif" />
+								钢琴十级
 							</div>
 							<div class="oa-contact-content mui-table-cell">
-								<div class="mui-clearfix">
-									<h4 class="oa-contact-name">罗辑</h4>
-									<span class="oa-contact-position mui-h6">员工</span>
-								</div>
+								<p>完成进度：
+								  <span>12/500</span>
+								</p>
 								<p class="oa-contact-email mui-h6">
-									luoji@126.com
+									<div class="Bars"> 
+								    <div style="width: 63%;"> 
+								       <span></span> 
+								    </div> 
+									</div> 
 								</p>
 							</div>
 						</div>
@@ -84,5 +111,9 @@
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
+		
+		function showMenu() {
+			console.log(3333)
+		}
 	</script>
 </html>

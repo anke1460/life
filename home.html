@@ -57,7 +57,7 @@
 				</div>
 				<div class="mui-table-view mui-grid-view">
 					<div class="mui-col-xs-3  mui-table-view-cell">
-						<h5>已实现</h5>
+						<h6>已实现</h6>
 						<span id="finish_count">
 							0
 						</span>
@@ -66,7 +66,7 @@
 						<h4 id="user_name"></h4>
 					</div>
 					<div class="mui-col-xs-3 mui-table-view-cell">
-						<h5>超过用户</h5>
+						<h6>超过用户</h6>
 						<span id="over_count">
 							1
 						</span>
@@ -191,20 +191,20 @@
 		});
 		
 		mui("#user_setting")[0].addEventListener("tap", function() {
-			var href = "user/info.html";
-		  	  third_search_web = plus.webview.getWebviewById("template");
-        children_view = third_search_web.children()[0];
-        aniShow = mui.os.ios ? 'pop-in' : 'slide-in-right';
-        mui.fire(third_search_web,'updateHeader',{title: "个人信息", target: href, aniShow: 'slide-in-right', custom_text: "保存"});
-				if(mui.os.ios || parseFloat(mui.os.version) < 4.4) {
-					if (children_view.getURL() != href) {
-						children_view.loadURL(href);
-					} else {
-						 children_view.show();
-						 giant.endLoding();
-					}
-					third_search_web.show('slide-in-right', 150);
+		  var href = "user/info.html";
+	  	  third_search_web = plus.webview.getWebviewById("template");
+      children_view = third_search_web.children()[0];
+      aniShow = mui.os.ios ? 'pop-in' : 'slide-in-right';
+      mui.fire(third_search_web,'updateHeader',{title: "个人信息", target: href, aniShow: 'slide-in-right', custom_text: "保存"});
+			if(mui.os.ios || parseFloat(mui.os.version) < 4.4) {
+				if (children_view.getURL() != href) {
+					children_view.loadURL(href);
+				} else {
+					 children_view.show();
+					 giant.endLoding();
 				}
+				third_search_web.show('slide-in-right', 150);
+			}
 		});
 	</script>
 
