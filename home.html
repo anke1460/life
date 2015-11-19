@@ -93,7 +93,6 @@
 		});
 		mui.plusReady(function() {
 			mui("#user_name")[0].innerText = you.getStore("name");
-			console.log(you.getStore("name"))
 			mui("#user_setting span")[0].innerText = you.getStore("name").slice(0,1);
 			var score = echarts.init(document.getElementById('score'));
 			var option = {

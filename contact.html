@@ -16,7 +16,7 @@
 			}
 			.oa-contact-cell {
 				position: relative;
-				margin: -11px 0;
+				padding: 0 15px;
 			}
 	
 			.oa-contact-avatar {
@@ -36,9 +36,11 @@
 			}
 			.Bars {
 			  position: relative;
-			  width: 120px;
+			  width: 100%;
         border: 1px solid #B1D632;
-        padding: 1px; } 
+        padding: 1px; 
+        margin-top: 5px;
+      } 
 			.Bars div {
 			  position: relative;
         background:#090;
@@ -46,11 +48,21 @@
         height: 10px;
         line-height: 10px;
        } 
+       .mui-slider-cell h6 {
+       	 display: table;
+			   width: 100%;
+			   background: #ddd;
+			   margin: 0px;
+		     padding: 2px 15px;
+       }
+       .mui-table-view-cell {
+       	padding: 0px;
+       }
 		</style>
 	</head>
 
 	<body>
-		<div class="mui-content">
+		<div class="mui-content mui-content-padded">
 			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
 				<li class="mui-table-view-cell">
 					<div class="mui-slider-cell">
@@ -60,19 +72,18 @@
 						</h6>
 						<div class="oa-contact-cell mui-table">
 							<div class="oa-contact-avatar mui-table-cell">
-								英语cet-6
+								钢琴十级
 							</div>
 							<div class="oa-contact-content mui-table-cell">
-								<p>完成进度：
-								  <span>11/200</span>
+								<p>
+									完成进度：
+								  <span>12/500</span>
 								</p>
-								<p class="oa-contact-email mui-h6">
-									<div class="Bars"> 
-								    <div style="width: 33%;"> 
-								       <span></span> 
-								    </div> 
-									</div> 
-								</p>
+								<div class="Bars"> 
+							    <div style="width: 63%;"> 
+							       <span></span> 
+							    </div> 
+								</div> 
 							</div>
 						</div>
 					</div>
@@ -89,16 +100,15 @@
 								钢琴十级
 							</div>
 							<div class="oa-contact-content mui-table-cell">
-								<p>完成进度：
+								<p>
+									完成进度：
 								  <span>12/500</span>
 								</p>
-								<p class="oa-contact-email mui-h6">
-									<div class="Bars"> 
-								    <div style="width: 63%;"> 
-								       <span></span> 
-								    </div> 
-									</div> 
-								</p>
+								<div class="Bars"> 
+							    <div style="width: 63%;"> 
+							       <span></span> 
+							    </div> 
+								</div> 
 							</div>
 						</div>
 					</div>
