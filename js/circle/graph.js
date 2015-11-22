@@ -61,121 +61,221 @@ function loadScore() {
 	score.setOption(option);
 }
 
-var ecConfig = echarts.config,
-	zrEvent = zrender.tool.event;
-var curIndx = 0;
-var mapType = [
-	'china',
-	// 23个省
-	'广东', '青海', '四川', '海南', '陕西',
-	'甘肃', '云南', '湖南', '湖北', '黑龙江',
-	'贵州', '山东', '江西', '河南', '河北',
-	'山西', '安徽', '福建', '浙江', '江苏',
-	'吉林', '辽宁', '台湾',
-	// 5个自治区
-	'新疆', '广西', '宁夏', '内蒙古', '西藏',
-	// 4个直辖市
-	'北京', '天津', '上海', '重庆',
-	// 2个特别行政区
-	'香港', '澳门'
-];
 
-var distribute = echarts.init(document.getElementById('distribute'));
-
-
-var distribute_option = {
-	title: {
-		text: '全国34个省市自治区',
-		subtext: '（点击切换）'
-	},
-	tooltip: {
-		show: false
-			//	        trigger: 'item'
-			//	        formatter: '点击进入该省<br/>{b}'
-	},
-	legend: {
-		orient: 'vertical',
-		x: 'right',
-		data: ['好友分布']
-	},
-	dataRange: {
-		min: 0,
-		max: 1000,
-		color: ['orange', 'yellow'],
-		calculable: true
-	},
-	series: [{
-		name: '好友分布',
-		type: 'map',
-		mapType: 'china',
-		selectedMode: 'single',
-		itemStyle: {
-			normal: {
-				label: {
-					show: true
-				}
-			},
-			emphasis: {
-				label: {
-					show: true
-				}
-			}
+(function() {
+	var detailoption = {
+		tooltip: {
+			trigger: 'item'
 		},
-		data: [{
-			name: '重庆市',
-			value: Math.round(Math.random() * 1000)
-		}, {
-			name: '北京市',
-			value: Math.round(Math.random() * 1000)
-		}, {
-			name: '天津市',
-			value: Math.round(Math.random() * 1000)
-		}, {
-			name: '上海市',
-			value: Math.round(Math.random() * 1000)
-		}, {
-			name: '香港',
-			value: Math.round(Math.random() * 1000)
-		}, {
-			name: '五指山市',
-			value: Math.round(Math.random() * 1000)
-		}]
-	}]
-};
-distribute.setOption(distribute_option);
+		toolbox: {
+			show: false
+		},
+		series: [{
+			tooltip: {
+				show: false
+			},
+			name: '好友数',
+			type: 'map',
+			mapType: 'china',
+			mapLocation: {
+				x: 'left',
+				y: '20',
+				width: '100%',
+				height: '50%'
+			},
+			selectedMode: 'single',
+		  itemStyle:{
+         emphasis:{label:{show:true}}
+       },
+			data: [{
+				name: '北京',
+				selected: false
+			}, {
+				name: '天津',
+				selected: false
+			}, {
+				name: '上海',
+				selected: false
+			}, {
+				name: '重庆',
+				selected: false
+			}, {
+				name: '河北',
+				selected: false
+			}, {
+				name: '河南',
+				selected: true,
+				value: 20
+			}, {
+				name: '云南',
+				selected: false
+			}, {
+				name: '辽宁',
+				selected: false
+			}, {
+				name: '黑龙江',
+				selected: false
+			}, {
+				name: '湖南',
+				selected: false
+			}, {
+				name: '安徽',
+				selected: false
+			}, {
+				name: '山东',
+				selected: false
+			}, {
+				name: '新疆',
+				selected: false
+			}, {
+				name: '江苏',
+				selected: false
+			}, {
+				name: '浙江',
+				selected: false
+			}, {
+				name: '江西',
+				selected: false
+			}, {
+				name: '湖北',
+				selected: true,
+				value: 400
+			}, {
+				name: '广西',
+				selected: false
+			}, {
+				name: '甘肃',
+				selected: false
+			}, {
+				name: '山西',
+				selected: false
+			}, {
+				name: '内蒙古',
+				selected: false
+			}, {
+				name: '陕西',
+				selected: false
+			}, {
+				name: '吉林',
+				selected: false
+			}, {
+				name: '福建',
+				selected: false
+			}, {
+				name: '贵州',
+				selected: false
+			}, {
+				name: '广东',
+				selected: false
+			}, {
+				name: '青海',
+				selected: false
+			}, {
+				name: '西藏',
+				selected: false
+			}, {
+				name: '四川',
+				selected: false
+			}, {
+				name: '宁夏',
+				selected: false
+			}, {
+				name: '海南',
+				selected: false
+			}, {
+				name: '台湾',
+				selected: false
+			}, {
+				name: '香港',
+				selected: false
+			}, {
+				name: '澳门',
+				selected: false
+			}]
+		}],
+		animation: false
+	};
+	var distribute = echarts.init(document.getElementById('distribute'));
+	distribute.setOption(detailoption);
 
-distribute.on(ecConfig.EVENT.MAP_SELECTED, function(param) {
-	var len = mapType.length;
-	var mt = mapType[curIndx % len];
-	if (mt == 'china') {
+	var ecConfig = echarts.config;
+	distribute.on(ecConfig.EVENT.MAP_SELECTED, function(param) {
 		var selected = param.selected;
-		for (var i in selected) {
-			if (selected[i]) {
-				mt = i;
-				while (len--) {
-					if (mapType[len] == mt) {
-						curIndx = len;
-					}
-				}
-				break;
+		var selectedProvince;
+		var name;
+		for (var i = 0, l = detailoption.series[0].data.length; i < l; i++) {
+			name = detailoption.series[0].data[i].name;
+			detailoption.series[0].data[i].selected = selected[name];
+			if (selected[name]) {
+				selectedProvince = name;
 			}
 		}
-		//	  distribute_option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
-	} else {
-		curIndx = 0;
-		mt = 'china';
-		//	 distribute_option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
-	}
-	distribute_option.series[0].mapType = mt;
-	//	 distribute_option.title.subtext = mt + ' （滚轮或点击切换）';
-	distribute.setOption(distribute_option, true);
-});
+		if (typeof selectedProvince == 'undefined') {
+			detailoption.series.splice(1);
+			detailoption.legend = null;
+			detailoption.dataRange = null;
+			distribute.setOption(detailoption, true);
+			return;
+		}
+		detailoption.series[1] = {
+			name: '人数',
+			type: 'map',
+			mapType: selectedProvince,
+			itemStyle: {
+				normal: {
+					label: {
+						show: false
+					}
+				},
+				emphasis: {
+					label: {
+						show: false
+					}
+				}
+			},
+			mapLocation: {
+				x: 'center',
+				y: '50%',
+				height: '30%'
+			},
+			data: [{
+					name: '仙桃市',
+					value: Math.round(Math.random() * 1000)
+				}, {
+					name: '武汉市',
+					value: Math.round(Math.random() * 1000)
+				}, {
+					name: '襄阳市',
+					value: Math.round(Math.random() * 1000)
+				}
+
+			]
+		};
+		detailoption.legend = {
+			x: 'right',
+			data: ['好友分布图']
+		};
+		detailoption.dataRange = {
+			orient: 'horizontal',
+			x: 'right',
+			min: 0,
+			max: 1000,
+//			color: ['orange', 'yellow'],
+			text: ['大', '小'], // 文本，默认为数值文本
+			splitNumber: 0
+		};
+		distribute.setOption(detailoption, true);
+	})
+})()
 
 var constellation = echarts.init(document.getElementById('constellation'));
+var constellation_names = ['白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'];
 var constellation_option = {
+	title: {
+		show: false
+	},
 	tooltip: {
 		trigger: 'axis',
-		showDelay: 0,
 		axisPointer: {
 			show: true,
 			type: 'cross',
@@ -185,36 +285,94 @@ var constellation_option = {
 			}
 		}
 	},
-	legend: {
-		data: []
-	},
 	toolbox: {
 		show: false
 	},
+	dataZoom: {
+		show: true,
+		start: 20,
+		end: 80
+			//		zoomLock: true
+	},
+	grid: {
+		x: 30,
+		x2: 30
+	},
+	legend: {
+		data: ['男', '女']
+	},
+	dataRange: {
+		min: 0,
+		max: 80,
+		calculable: true,
+		orient: 'horizontal',
+		y: 30,
+		x: 'center',
+		color: ['lightgreen', 'orange'],
+		//		splitNumber: 4
+	},
 	xAxis: [{
 		type: 'category',
-		data: ['白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'],
-		name: '星座'
+		data: constellation_names
 	}],
 	yAxis: [{
-		//		type: 'category',
-		type: 'value',
-		//		data: ["55-90","36-55","26-35","16-25", "0-15", "0", "0-15", "16-25", "26-35", "36-55", "55-90"],
-		name: '年龄',
-		splitNumber: 10,
-		min: -80,
-		max: 80,
-		scale: true
+		type: 'value'
 	}],
+	animation: false,
 	series: [{
-		name: '年龄',
+		name: '男',
 		type: 'scatter',
-		large: true,
-		data: [
-			[2, 20],
-			[4, 50],
-			[20, 4]
-		]
+		tooltip: {
+			trigger: 'item',
+			formatter: function(params) {
+				return params.seriesName + '（' + params.value[0] + '）<br/>年龄 ' + params.value[1];
+			},
+			axisPointer: {
+				show: true
+			}
+		},
+		symbolSize: function(value) {
+			return Math.round(value[2] / 10);
+		},
+		data: (function() {
+			var d = [];
+			var len = 0;
+			var value;
+			while (len++ < 200) {
+				console.log(constellation_names[parseInt(Math.random() * 10)])
+				var a = constellation_names[parseInt(Math.random() * 10)];
+				d.push([
+					a, (Math.random() * 80).toFixed(2) - 0, 40
+				]);
+			}
+			return d;
+		})()
+	}, {
+		name: '女',
+		type: 'scatter',
+		tooltip: {
+			trigger: 'item',
+			formatter: function(params) {
+				return params.seriesName + '（' + params.value[0] + '）<br/>年龄 ' + params.value[1];
+			},
+			axisPointer: {
+				show: true
+			}
+		},
+		symbolSize: function(value) {
+			return Math.round(value[2] / 10);
+		},
+		data: (function() {
+			var d = [];
+			var len = 0;
+			var value;
+			while (len++ < 100) {
+				d.push([
+					constellation_names[parseInt(Math.random() * 10)], (Math.random() * 30).toFixed(2) - 0, 50
+				]);
+			}
+			return d;
+		})()
 	}]
 };
 
