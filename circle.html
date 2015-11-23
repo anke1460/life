@@ -26,6 +26,30 @@
 			<div class="mui-card">
 				<div id="score"></div>
 			</div>
+			<div style="margin-top: 20px;">
+				<ul class="mui-table-view mui-grid-view mui-grid-9" id="statistics_list">
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<a href="distribute.html">
+							好友分布图
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<a href="constellation.html">
+							星座分布
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<a href="complementary.html">
+							同趣互补
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<a href="#">
+							其它
+						</a>
+					</li>
+				</ul>
+			</div>
 			<div class="mui-card" style="margin-top:15px;">
 				<div id="distribute"></div>
 			</div>
@@ -35,12 +59,21 @@
 			<div class="mui-card" style="margin-top:15px;">
 				<div id="complementary"></div>
 			</div>
-			
+
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/circle/graph.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			you("statistics_list").on("tap", "a", function(e) {
+				console.log(22222)
+				mui.openWindow({
+					url: this.getAttribute("href"),
+					id: this.getAttribute("href")
+				});
+			});
+		</script>
 	</body>
 
 </html>

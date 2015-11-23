@@ -67,24 +67,40 @@ function loadScore() {
 		tooltip: {
 			trigger: 'item'
 		},
+		title: {
+			show: true,
+			x: 'center',
+			text: '好友分布图'
+		},
 		toolbox: {
 			show: false
+		},
+	  dataRange: {
+			orient: 'horizontal',
+			y: '20',
+			x: 'center',
+			show: false,
+			min: 0,
+			max: 1000,
+			text: ['大', '小'],
+			calculable : true
 		},
 		series: [{
 			tooltip: {
 				show: false
 			},
-			name: '好友数',
+			name: '好友分布',
 			type: 'map',
 			mapType: 'china',
 			mapLocation: {
-				x: 'left',
+				x: 'center',
 				y: '20',
 				width: '100%',
 				height: '50%'
 			},
 			selectedMode: 'single',
 		  itemStyle:{
+		    	normal:{label:{show:false}},
          emphasis:{label:{show:true}}
        },
 			data: [{
@@ -104,7 +120,7 @@ function loadScore() {
 				selected: false
 			}, {
 				name: '河南',
-				selected: true,
+				selected: false,
 				value: 20
 			}, {
 				name: '云南',
@@ -138,8 +154,9 @@ function loadScore() {
 				selected: false
 			}, {
 				name: '湖北',
-				selected: true,
+				selected: false,
 				value: 400
+				
 			}, {
 				name: '广西',
 				selected: false
@@ -200,9 +217,11 @@ function loadScore() {
 
 	var ecConfig = echarts.config;
 	distribute.on(ecConfig.EVENT.MAP_SELECTED, function(param) {
+		console.log('sellle')
 		var selected = param.selected;
 		var selectedProvince;
 		var name;
+		
 		for (var i = 0, l = detailoption.series[0].data.length; i < l; i++) {
 			name = detailoption.series[0].data[i].name;
 			detailoption.series[0].data[i].selected = selected[name];
@@ -213,23 +232,18 @@ function loadScore() {
 		if (typeof selectedProvince == 'undefined') {
 			detailoption.series.splice(1);
 			detailoption.legend = null;
-			detailoption.dataRange = null;
+//			detailoption.dataRange = null;
 			distribute.setOption(detailoption, true);
 			return;
 		}
 		detailoption.series[1] = {
-			name: '人数',
+			name: '好友分布',
 			type: 'map',
 			mapType: selectedProvince,
 			itemStyle: {
-				normal: {
-					label: {
-						show: false
-					}
-				},
 				emphasis: {
 					label: {
-						show: false
+						show: true
 					}
 				}
 			},
@@ -251,18 +265,19 @@ function loadScore() {
 
 			]
 		};
-		detailoption.legend = {
-			x: 'right',
-			data: ['好友分布图']
-		};
+//		detailoption.legend = {
+//			x: 'left',
+//			data: ['']
+//		};
 		detailoption.dataRange = {
 			orient: 'horizontal',
-			x: 'right',
+			show: false,
+			x: 'center',
+			y: '60%',
 			min: 0,
 			max: 1000,
-//			color: ['orange', 'yellow'],
-			text: ['大', '小'], // 文本，默认为数值文本
-			splitNumber: 0
+			text: ['大', '小'],
+			calculable : true
 		};
 		distribute.setOption(detailoption, true);
 	})
