@@ -11,63 +11,68 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style>
 			#score {
-	    	  height: 300px;
-	    }
-	    
-	    #distribute, #constellation, #complementary {
-	   	 	height: 600px;
-	   	 	width: 100%;
-	    }
+				height: 300px;
+			}
+			
+			.mui-table-view:before,
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.title {
+				padding: 10px;
+				background: #fff;
+				margin: 0px;
+				border-bottom: 1px solid #eee;
+			}
+			
+			#statistics_list {
+				background: transparent;
+			}
+			
+			#statistics_list li {
+				padding: 12px 15px;
+				line-height: 59px;
+			}
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-			<div class="mui-card">
-				<div id="score"></div>
-			</div>
+			<h4 class="mui-text-center title">好友圈价值</h4>
+			<div id="score"></div>
 			<div style="margin-top: 20px;">
-				<ul class="mui-table-view mui-grid-view mui-grid-9" id="statistics_list">
+				<h4 class="mui-text-center title">数据解读</h4>
+				<ul class="mui-table-view mui-grid-view" id="statistics_list">
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
-						<a href="distribute.html">
-							好友分布图
+						<a href="graph/distribute.html">
+							数量及分布
 						</a>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
-						<a href="constellation.html">
-							星座分布
+						<a href="graph/age.html">
+							年龄及性别
 						</a>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
-						<a href="complementary.html">
-							同趣互补
+						<a href="graph/relativily.html">
+							互补与同趣
 						</a>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
 						<a href="#">
-							其它
+							好友亲密度
 						</a>
 					</li>
 				</ul>
 			</div>
-			<div class="mui-card" style="margin-top:15px;">
-				<div id="distribute"></div>
-			</div>
-			<div class="mui-card" style="margin-top:15px;">
-				<div id="constellation"></div>
-			</div>
-			<div class="mui-card" style="margin-top:15px;">
-				<div id="complementary"></div>
-			</div>
-
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/circle/graph.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/circle/radar_graph.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			you("statistics_list").on("tap", "a", function(e) {
-				console.log(22222)
+			mui("#statistics_list").on("tap", "a", function(e) {
 				mui.openWindow({
 					url: this.getAttribute("href"),
 					id: this.getAttribute("href")
