@@ -1,0 +1,69 @@
+.mc-container *{
+	color:#8F8F94;
+	font-size: 1em;
+}
+
+.mc-container{
+	 padding-left: 10px;
+	 padding-right: 10px;
+	 
+}
+.mc-toolbar{
+  height: 30px;
+  padding-bottom: 20px;
+}
+.mc-table  {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1em;
+  text-align: center;
+ 
+  border-bottom: solid 1px;
+  
+}
+
+
+.mc-table-row  {
+  height: 50px; 
+}
+.mc-table-head {
+	border-top: solid 1px;
+	border-bottom: solid 1px;
+	height: 30px; 
+}
+
+.mc-table-cell[disabled='disabled'] a  {
+ 	color:#dddddd;
+}
+.mc-cell-selected{
+	background-color: #1FCC7C;
+	border-radius: 30px;
+	color:#CF2D28 ;
+}
+.mc-cell-selected a{
+	color:#FFF ;
+	font-size: 1.1em;
+}
+.mc-table-cell-today a {
+ 	color:#CF2D28;
+}
+
+#mc-btn-previous{
+	height: 30px;
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	display:none;
+	
+}
+#mc-btn-today{
+	height: 30px;
+	display:none;
+}
+#mc-btn-next{
+	height: 30px;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	display:none;
+}

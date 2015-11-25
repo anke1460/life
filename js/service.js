@@ -458,6 +458,23 @@
 	$.dom = function(id) {
 		return document.getElementById(id);
 	}
+	
+	$.loadWebUrl = function(url, options) {
+		var href = url;
+  	  third_search_web = plus.webview.getWebviewById("template");
+    children_view = third_search_web.children()[0];
+    aniShow = mui.os.ios ? 'pop-in' : 'slide-in-right';
+    mui.fire(third_search_web,'updateHeader', options);
+		if(mui.os.ios || parseFloat(mui.os.version) < 4.4) {
+			if (children_view.getURL() != href) {
+				children_view.loadURL(href);
+			} else {
+				 children_view.show();
+				 giant.endLoding();
+			}
+			third_search_web.show('slide-in-right', 150);
+		}
+	}
 			
 })(window.you = {});
 

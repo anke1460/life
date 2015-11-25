@@ -58,12 +58,21 @@
        .mui-table-view-cell {
        	padding: 0px;
        }
+       
+       .unselect {
+       	  background: url(images/uncheck.png);
+			    width: 48px;
+			    height: 48px;
+			    display: block;
+			    background-size: cover;
+			    float: right;
+       }
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content mui-content-padded">
-			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
 				<li class="mui-table-view-cell">
 					<div class="mui-slider-cell">
 						<h6>
@@ -72,9 +81,7 @@
 						</h6>
 						<div class="oa-contact-cell mui-table">
 							<div class="oa-contact-avatar mui-table-cell">
-								钢琴十级
-							</div>
-							<div class="oa-contact-content mui-table-cell">
+								书虫
 								<p>
 									完成进度：
 								  <span>12/500</span>
@@ -84,6 +91,9 @@
 							       <span></span> 
 							    </div> 
 								</div> 
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<a class="unselect" data-name="书虫"></a>
 							</div>
 						</div>
 					</div>
@@ -98,8 +108,6 @@
 						<div class="oa-contact-cell mui-table">
 							<div class="oa-contact-avatar mui-table-cell">
 								钢琴十级
-							</div>
-							<div class="oa-contact-content mui-table-cell">
 								<p>
 									完成进度：
 								  <span>12/500</span>
@@ -110,6 +118,9 @@
 							    </div> 
 								</div> 
 							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<a class="unselect" data-name="钢琴十级"></a>
+							</div>
 						</div>
 					</div>
 				</li>
@@ -117,9 +128,13 @@
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
+	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
+		});
+		mui("#list").on("tap", "a", function(){
+			you.loadWebUrl("wish/wish_detail.html", {title: this.dataset.name, target: "wish/wish_detail.html", aniShow: 'slide-in-right'});
 		});
 		
 		function showMenu() {
