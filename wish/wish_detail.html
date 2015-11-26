@@ -27,6 +27,40 @@
 		    font-size: 20px;
 		    float: right;
 			}
+			
+			.pop-title {
+				background-color: #1FCC7C;
+				color: #fff;
+				text-align: center;
+				padding: 10px;
+				margin: 0px;
+				border-top-left-radius: 7px;
+				border-top-right-radius: 7px;
+			}
+			div.mui-popover-arrow {
+				display: none;
+			}
+			
+			.mui-numbox {
+				float: left;
+				margin: 2px 0px;
+			}
+			
+			#pop_custom {
+				width: 280px;
+				height: 220px;
+			}
+			
+			#pop_custom .btn {
+				margin: 3px 0px;
+			}
+			div#pop_custom.mui-popover.mui-active {
+				position: fixed;
+				top: 50% !important;
+				left: 50% !important;
+				margin-top: -110px;
+				margin-left: -140px;
+			}
 		</style>
 	</head>
 
@@ -56,7 +90,7 @@
 
 			<div id="habit">
 				关联并坚持一个好习惯，让目标更容易实现
-				<a id="add_habit">+</a>
+				<a id="add_habit" href="#pop_custom" class="">+</a>
 			</div>
 			<div class="mui-content-padded">
 				<h5>习惯1: 每天看书1小时</h5>
@@ -91,6 +125,31 @@
 				</li>
 			</ul>
 		</div>
+		<div id="pop_custom" class="mui-popover">
+			<h4 class="pop-title">关联习惯</h4>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>名称</label>
+					<input type="text" name="name" placeholder="习惯名称">
+				</div>
+				<div class="mui-input-row">
+					<label>显示顺序</label>
+					<div class="mui-numbox" data-numbox-max="10" data-numbox-min="1">
+						<button class="mui-numbox-btn-minus" type="button">-</button>
+						<input class="mui-numbox-input" type="number" value="1"/>
+						<button class="mui-numbox-btn-plus" type="button">+</button>
+					</div>
+				</div>
+				<div class="mui-input-row">
+					<label>检查方式</label>
+					<button class="btn" id="self_btn">自主打卡</button>
+					<button class="btn" id="friend_btn">好友监督</button>
+				</div>
+		  </form>
+		  <div class="mui-content-padded">
+				<button class="mui-btn mui-btn-block mui-btn-default" style="padding: 10px;">生成</button>
+			</div>
+		</div>
 	</body>
 	<script src="../js/mui.min.js"></script>
 	<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
@@ -99,5 +158,9 @@
   	  mui.init();
   	  var yesterday = mui.DateUtil.addDate(mui.DateUtil.getToday(),-1);
 	  var MC = mui("#calendar").MCalendar({date:yesterday});
+	  mui("#pop_custom").on("tap", ".btn", function(e) {
+	  	 console.log(222)
+	  	 e.stopPropagation()
+	  });
   </script>
 </html>

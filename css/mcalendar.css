@@ -38,13 +38,19 @@
  	color:#dddddd;
 }
 .mc-cell-selected{
-	background-color: #1FCC7C;
-	border-radius: 30px;
+	/*background-color: #1FCC7C;
+	border-radius: 30px;*/
 	color:#CF2D28 ;
 }
 .mc-cell-selected a{
 	color:#FFF ;
 	font-size: 1.1em;
+	background-color: #1FCC7C;
+	padding: 5px;
+  border-radius: 16px;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
 }
 .mc-table-cell-today a {
  	color:#CF2D28;
