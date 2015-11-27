@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>旅行</title>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style type="text/css">
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			}
+			
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content mui-row mui-fullscreen">
+			<div class="mui-col-xs-4">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+					<a class="mui-control-item" href="#content1">自然景观</a>
+					<a class="mui-control-item" href="#content2">探索类景观</a>
+					<a class="mui-control-item" href="#content3">生物景观</a>
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-8" style="border-left: 1px solid #c8c7cc;">
+				<div id="item1" class="mui-control-content mui-active">
+					<div id="content1" class="mui-control-content mui-active">
+						<ul class="mui-table-view">
+						  <li class="mui-table-view-cell">
+							  	<a class="mui-navigate-right">
+							  		八大奇迹
+							  	</a>
+						  </li>
+						</ul>
+					</div>
+					<div id="content2" class="mui-control-content">
+						<ul class="mui-table-view">
+						  <li class="mui-table-view-cell">2432</li>
+						</ul>
+					</div>
+					<div id="content3" class="mui-control-content">
+						<ul class="mui-table-view">
+						  <li class="mui-table-view-cell">24432</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: true
+			});
+			var controls = document.getElementById("segmentedControls");
+			var contents = document.getElementById("segmentedControlContents");
+			
+			controls.querySelector('.mui-control-item').classList.add('mui-active');
+			contents.querySelector('.mui-control-content').classList.add('mui-active');
+			mui("#segmentedControlContents").on("tap", "a", function() {
+				mui.openWindow({
+					url: 'footprint.html',
+					id: 'footprint'
+				})
+			})
+		</script>
+	</body>
+
+</html>

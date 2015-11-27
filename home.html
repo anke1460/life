@@ -76,10 +76,10 @@
 			<div class="mui-card" style="margin-top: 15px;padding: 15px;">
 				<h5 class="mui-text-center">评分根据以下五个纬度综合评估而来</h5>
 				<!--<img id="pingfen" src="images/pingfen.jpeg"/>-->
-				<div id="" style="position: relative;width: 280px;margin:0 auto;">
+				<div id="redar" style="position: relative;width: 280px;margin:0 auto;">
 					<div id="score">
 					</div>
-					<a style="position: absolute;top:25px;left:125px;">爱好</a>
+					<a href="travel/index.html" style="position: absolute;top:25px;left:125px;">爱好</a>
 					<a style="position: absolute;top:100px;left:20px;">社交</a>
 					<a style="position: absolute;top:210px;left:50px;">旅行</a>
 					<a style="position: absolute;top:210px;left:200px;">技能</a>
@@ -217,6 +217,10 @@
 				third_search_web.show('slide-in-right', 150);
 			}
 		});
+		
+		mui("#redar").on("tap", "a", function() {
+			you.loadWebUrl("travel/index.html", {title: this.innerText, target: "travel/index.html", aniShow: 'slide-in-right'});
+		})
 	</script>
 
 </html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>足迹</title>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style type="text/css">
+			#map {
+				height: 500px;
+			}
+		</style>
+	</head>
+	<header class="mui-bar mui-bar-nav header">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">足迹</h1>
+	</header>
+	<div class="mui-content">
+		<div class="mui-content-padded">
+			<h4 class="mui-text-center">走遍中国</h4>
+			<p>达成条件：到达中国每一个省级行政区域</p>
+			<p>达成成就：500点</p>
+			<p>奖励头衔：神州探索者</p>
+			<div id="map">
+
+			</div>
+		</div>
+	</div>
+
+	<body>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			var echart = echarts.init(document.getElementById('map'));
+			var option = {
+				tooltip: {
+					trigger: 'item',
+					show: false,
+					formatter: '{b}'
+				},
+				series: [{
+					name: '中国',
+					type: 'map',
+					mapType: 'china',
+					mapLocation: {
+						x: 'center',
+						y: '20',
+						width: '100%'
+					},
+					selectedMode: 'single',
+					itemStyle: {
+						normal: {
+							label: {
+								show: false
+							}
+						},
+						emphasis: {
+							label: {
+								show: true
+							}
+						}
+					},
+					data: [{
+						name: '北京',
+						selected: false
+					}, {
+						name: '天津',
+						selected: false
+					}, {
+						name: '上海',
+						selected: false
+					}, {
+						name: '重庆',
+						selected: false
+					}, {
+						name: '河北',
+						selected: false
+					}, {
+						name: '河南',
+						selected: false,
+						value: 20
+					}, {
+						name: '云南',
+						selected: false
+					}, {
+						name: '辽宁',
+						selected: false
+					}, {
+						name: '黑龙江',
+						selected: false
+					}, {
+						name: '湖南',
+						selected: false
+					}, {
+						name: '安徽',
+						selected: false
+					}, {
+						name: '山东',
+						selected: false
+					}, {
+						name: '新疆',
+						selected: false
+					}, {
+						name: '江苏',
+						selected: false
+					}, {
+						name: '浙江',
+						selected: false
+					}, {
+						name: '江西',
+						selected: false
+					}, {
+						name: '湖北',
+						selected: false,
+						value: 400
+					}, {
+						name: '广西',
+						selected: false
+					}, {
+						name: '甘肃',
+						selected: false
+					}, {
+						name: '山西',
+						selected: false
+					}, {
+						name: '内蒙古',
+						selected: false
+					}, {
+						name: '陕西',
+						selected: false
+					}, {
+						name: '吉林',
+						selected: false
+					}, {
+						name: '福建',
+						selected: false
+					}, {
+						name: '贵州',
+						selected: false
+					}, {
+						name: '广东',
+						selected: false
+					}, {
+						name: '青海',
+						selected: false
+					}, {
+						name: '西藏',
+						selected: false
+					}, {
+						name: '四川',
+						selected: false
+					}, {
+						name: '宁夏',
+						selected: false
+					}, {
+						name: '海南',
+						selected: false
+					}, {
+						name: '台湾',
+						selected: false
+					}, {
+						name: '香港',
+						selected: false
+					}, {
+						name: '澳门',
+						selected: false
+					}]
+				}]
+			};
+			echart.setOption(option);
+			option.series[0].data[5].selected = true
+			echart.setOption(option, true)
+		</script>
+	</body>
+
+</html>

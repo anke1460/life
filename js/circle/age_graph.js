@@ -25,7 +25,7 @@ var constellation_option = {
 		showDetail: false
 	},
 	grid: {
-		x: 30,
+		x: 40,
 		x2: 30,
 		y: 90
 	},
@@ -44,19 +44,21 @@ var constellation_option = {
 	},
 	xAxis: [{
 		type: 'value',
+		name: '年龄',
 		min: 0,
-		max: 365,
-		name: '星座',
-		splitNumber: 12,
-		axisLabel: {
-			formatter: function(v) {
-					return ['白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'][parseInt(v/30)];
-			}
-		}
+		max: 80
 	}],
 	yAxis: [{
 		type: 'value',
-		name: '年龄'
+		name: '星座',
+		min: 0,
+		max: 365,
+		splitNumber: 12,
+		axisLabel: {
+			formatter: function(v) {
+				return ['白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'][parseInt(v/30)];
+			}
+		}
 	}],
 	animation: false,
 	series: [{
@@ -65,7 +67,7 @@ var constellation_option = {
 		tooltip: {
 			trigger: 'item',
 			formatter: function(params) {
-				return params.seriesName + '（' + params.value[0] + '）<br/>年龄 ' + params.value[1];
+				return params.seriesName + '（' + constellation_names[parseInt(params.value[1]/30)] + '）<br/>' + params.value[0] + "岁";
 			},
 			axisPointer: {
 				show: true
@@ -79,9 +81,9 @@ var constellation_option = {
 			var len = 0;
 			var value;
 			while (len++ < 50) {
-				var a = parseInt(Math.random() * 365) //constellation_names[parseInt(Math.random() * 10)];
+				var a = parseInt(Math.random() * 80) //constellation_names[parseInt(Math.random() * 10)];
 				d.push([
-					a, (Math.random() * 80).toFixed(2) - 0, 40
+					a, (Math.random() * 365).toFixed(2) - 0, 35
 				]);
 			}
 			return d;
@@ -92,7 +94,7 @@ var constellation_option = {
 		tooltip: {
 			trigger: 'item',
 			formatter: function(params) {
-				return params.seriesName + '（' + params.value[0] + '）<br/>年龄 ' + params.value[1];
+				return params.seriesName + '（' + constellation_names[parseInt(params.value[1]/30)] + '）<br/>' + params.value[0] + "岁";
 			},
 			axisPointer: {
 				show: true
@@ -107,7 +109,7 @@ var constellation_option = {
 			var value;
 			while (len++ < 50) {
 				d.push([
-					parseInt(Math.random() * 365), (Math.random() * 30).toFixed(2) - 0, 50
+					parseInt(Math.random() * 80), (Math.random() * 365).toFixed(2) - 0, 20
 				]);
 			}
 			return d;
