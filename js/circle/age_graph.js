@@ -27,26 +27,26 @@ var constellation_option = {
 	grid: {
 		x: 40,
 		x2: 30,
-		y: 90
+		y: 40
 	},
 	legend: {
 		data: ['男', '女']
 	},
-	dataRange: {
-		min: 0,
-		max: 80,
-		calculable: true,
-		orient: 'horizontal',
-		y: 30,
-		x: 'center',
-		color: ['lightgreen', 'orange'],
-		//		splitNumber: 4
-	},
+//	dataRange: {
+//		min: 0,
+//		max: 60,
+//		calculable: true,
+//		orient: 'horizontal',
+//		y: 30,
+//		x: 'center'
+////		color: ['lightgreen', 'orange']
+//		//		splitNumber: 4
+//	},
 	xAxis: [{
 		type: 'value',
 		name: '年龄',
 		min: 0,
-		max: 80
+		max: 60
 	}],
 	yAxis: [{
 		type: 'value',
@@ -60,30 +60,30 @@ var constellation_option = {
 			}
 		}
 	}],
-	animation: false,
+//	animation: false,
 	series: [{
 		name: '男',
 		type: 'scatter',
 		tooltip: {
 			trigger: 'item',
 			formatter: function(params) {
-				return params.seriesName + '（' + constellation_names[parseInt(params.value[1]/30)] + '）<br/>' + params.value[0] + "岁";
+				return '<img style="width:50px" src="http://youyou.dev/assets/qq.png" class="mui-pull-left"/><div class="mui-pull-left"><span>sdfd</span>' + params.seriesName + '（' + constellation_names[parseInt(params.value[1]/30)] + '）<br/>' + params.value[0] + "岁"+"</div>";
 			},
 			axisPointer: {
 				show: true
 			}
 		},
 		symbolSize: function(value) {
-			return Math.round(value[2] / 10);
+			return 8;
 		},
 		data: (function() {
 			var d = [];
 			var len = 0;
 			var value;
 			while (len++ < 50) {
-				var a = parseInt(Math.random() * 80) //constellation_names[parseInt(Math.random() * 10)];
+				var a = parseInt(Math.random() * 60) //constellation_names[parseInt(Math.random() * 10)];
 				d.push([
-					a, (Math.random() * 365).toFixed(2) - 0, 35
+					a, (Math.random() * 365).toFixed(2) - 0, 30
 				]);
 			}
 			return d;
@@ -101,7 +101,7 @@ var constellation_option = {
 			}
 		},
 		symbolSize: function(value) {
-			return Math.round(value[2] / 10);
+			return 8;
 		},
 		data: (function() {
 			var d = [];
@@ -109,7 +109,7 @@ var constellation_option = {
 			var value;
 			while (len++ < 50) {
 				d.push([
-					parseInt(Math.random() * 80), (Math.random() * 365).toFixed(2) - 0, 20
+					parseInt(Math.random() * 60), (Math.random() * 365).toFixed(2) - 0, 20
 				]);
 			}
 			return d;

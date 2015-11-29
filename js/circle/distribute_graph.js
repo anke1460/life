@@ -41,44 +41,56 @@
        },
 			data: [{
 				name: '北京',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '天津',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '上海',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '重庆',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '河北',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '河南',
 				selected: false,
 				value: 20
 			}, {
 				name: '云南',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '辽宁',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '黑龙江',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '湖南',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '安徽',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '山东',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '新疆',
-				selected: false
+				selected: false,
+				value: 0
 			}, {
 				name: '江苏',
 				selected: false
@@ -143,7 +155,8 @@
 				selected: false
 			}, {
 				name: '澳门',
-				selected: false
+				selected: false,
+				value: 0
 			}]
 		}],
 		animation: false
@@ -153,27 +166,28 @@
 
 	var ecConfig = echarts.config;
 	distribute.on(ecConfig.EVENT.MAP_SELECTED, function(param) {
-		console.log('sellle')
 		var selected = param.selected;
 		var selectedProvince;
 		var name;
+		var province_option = you.clone(detailoption);// mui.clone(detailoption);
 		
-		for (var i = 0, l = detailoption.series[0].data.length; i < l; i++) {
-			name = detailoption.series[0].data[i].name;
-			detailoption.series[0].data[i].selected = selected[name];
+		for (var i = 0, l = province_option.series[0].data.length; i < l; i++) {
+			name = province_option.series[0].data[i].name;
+			province_option.series[0].data[i].selected = selected[name];
 			if (selected[name]) {
 				selectedProvince = name;
 			}
 		}
-		if (typeof selectedProvince == 'undefined') {
-			detailoption.series.splice(1);
-			detailoption.legend = null;
-//			detailoption.dataRange = null;
-			distribute.setOption(detailoption, true);
-			return;
-		}
-		detailoption.series[1] = {
-			name: '好友分布',
+		province_option.title.text = selectedProvince,
+//		if (typeof selectedProvince == 'undefined') {
+//			province_option.series.splice(1);
+//			province_option.legend = null;
+////			province_option.dataRange = null;
+//			distribute.setOption(province_option, true);
+//			return;
+//		}
+		province_option.series[0] = {
+			name: '',
 			type: 'map',
 			mapType: selectedProvince,
 			itemStyle: {
@@ -185,8 +199,9 @@
 			},
 			mapLocation: {
 				x: 'center',
-				y: '50%',
-				height: '30%'
+				y: '50',
+				width: '100%',
+				height: '100%'
 			},
 			data: [{
 					name: '仙桃市',
@@ -201,11 +216,7 @@
 
 			]
 		};
-//		detailoption.legend = {
-//			x: 'left',
-//			data: ['']
-//		};
-		detailoption.dataRange = {
+		province_option.dataRange = {
 			orient: 'horizontal',
 			show: false,
 			x: 'center',
@@ -215,6 +226,9 @@
 			text: ['大', '小'],
 			calculable : true
 		};
-		distribute.setOption(detailoption, true);
+		var province = echarts.init(document.getElementById('province'));
+		console.log(JSON.stringify(province_option))
+		province.setOption(province_option);
+		mui("#province").popover('toggle');
 	})
 })()
