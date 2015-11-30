@@ -3,142 +3,192 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>通讯录</title>
+		<title>提升</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style>
-			 .oa-contact-cell.mui-table .mui-table-cell {
+			.oa-contact-cell.mui-table .mui-table-cell {
 				padding: 11px 0;
 				vertical-align: middle;
 			}
+			
 			.oa-contact-cell {
 				position: relative;
 				padding: 0 15px;
 			}
-	
+			
 			.oa-contact-avatar {
 				width: 100%;
 			}
+			
 			.oa-contact-avatar img {
 				border-radius: 50%;
 			}
+			
 			.oa-contact-content {
 				width: 150px;
 			}
+			
 			.oa-contact-name {
 				margin-right: 20px;
 			}
-			.oa-contact-name, oa-contact-position {
+			
+			.oa-contact-name,
+			oa-contact-position {
 				float: left;
 			}
+			
 			.Bars {
-			  position: relative;
-			  width: 100%;
-        border: 1px solid #B1D632;
-        padding: 1px; 
-        margin-top: 5px;
-      } 
+				position: relative;
+				width: 120px;
+				border: 1px solid #B1D632;
+				padding: 1px;
+				margin-top: 5px;
+			}
+			
 			.Bars div {
-			  position: relative;
-        background:#090;
-        color: #333333;
-        height: 10px;
-        line-height: 10px;
-       } 
-       .mui-slider-cell h6 {
-       	 display: table;
-			   width: 100%;
-			   background: #ddd;
-			   margin: 0px;
-		     padding: 2px 15px;
-       }
-       .mui-table-view-cell {
-       	padding: 0px;
-       }
-       
-       .unselect {
-       	  background: url(images/uncheck.png);
-			    width: 48px;
-			    height: 48px;
-			    display: block;
-			    background-size: cover;
-			    float: right;
-       }
+				position: relative;
+				background: #090;
+				color: #333333;
+				height: 10px;
+				line-height: 10px;
+			}
+			
+			.mui-slider-cell h6 {
+				display: table;
+				width: 100%;
+				background: #ddd;
+				margin: 0px;
+				padding: 2px 15px;
+			}
+			
+			.mui-table-view-cell {
+				padding: 0px;
+			}
+			
+			.unselect {
+				background: url(images/uncheck.png);
+				width: 48px;
+				height: 48px;
+				display: block;
+				background-size: cover;
+				float: right;
+			}
+			
+			#text {
+				color: #1FCC7C;
+			}
 		</style>
 	</head>
 
 	<body>
-		<div class="mui-content mui-content-padded">
-			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
-				<li class="mui-table-view-cell">
-					<div class="mui-slider-cell">
-						<h6>
+		<div class="mui-content">
+			<div class="mui-card">
+				<ul id="text">
+					<li>
+						<p>从我有／评分里选择你想要完成的成就，添加到提升页面</p>
+					</li>
+					<li>
+						<p>选择心愿，设置完成期限、写下对自己的鼓励并设置关联的习惯，促进自己尽早实现</p>
+					</li>
+					<li>
+						<p>公开你的心愿，邀请好友监督或参与，心愿更大几率实现</p>
+
+					</li>
+				</ul>
+			</div>
+			<div class=" mui-content-padded">
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
+					<li class="mui-table-view-cell">
+						<div class="mui-slider-cell">
+							<h6>
 							<span class="mui-pull-left">许愿10天</span>
 							<span class="mui-pull-right">剩余1天</span>
 						</h6>
-						<div class="oa-contact-cell mui-table">
-							<div class="oa-contact-avatar mui-table-cell">
-								书虫
-								<p>
-									完成进度：
-								  <span>12/500</span>
-								</p>
-								<div class="Bars"> 
-							    <div style="width: 63%;"> 
-							       <span></span> 
-							    </div> 
-								</div> 
+							<div class="oa-contact-cell mui-table">
+								<div class="oa-contact-avatar mui-table-cell">
+									<p class="mui-pull-right">成就分值:10</p>
+									书虫
+									<p>读完以下书籍中的200本</p>
+									<p>
+										<h5 class="mui-pull-left">完成进度：</h5>
+										
+										<div class="Bars mui-pull-left">
+											<div style="width: 63%;" class="">
+												<span class=""></span>
+											</div>
+										</div>
+										<span class="mui-pull-left">12/500</span>
+									</p>
+								</div>
+								<!--<div class="oa-contact-content mui-table-cell">
+									<a class="unselect" data-name="书虫"></a>
+								</div>-->
 							</div>
-							<div class="oa-contact-content mui-table-cell">
-								<a class="unselect" data-name="书虫"></a>
-							</div>
+							<h5>关联习惯</h5>
+							<ol>
+								<li>
+									<p>
+										<span>每天读书1小时</span>
+										<div class="mui-switch mui-switch-mini mui-pull-left">
+											<div class="mui-switch-handle"></div>
+										</div>
+									</p>
+								</li>
+							</ol>
 						</div>
-					</div>
-				</li>
-				<li class="mui-table-view-divider"></li>
-				<li class="mui-table-view-cell">
-					<div class="mui-slider-cell">
-						<h6>
+					</li>
+					<li class="mui-table-view-divider"></li>
+					<li class="mui-table-view-cell">
+						<div class="mui-slider-cell">
+							<h6>
 							<span class="mui-pull-left">许愿10天</span>
 							<span class="mui-pull-right">剩余1天</span>
 						</h6>
-						<div class="oa-contact-cell mui-table">
-							<div class="oa-contact-avatar mui-table-cell">
-								钢琴十级
-								<p>
-									完成进度：
-								  <span>12/500</span>
-								</p>
-								<div class="Bars"> 
-							    <div style="width: 63%;"> 
-							       <span></span> 
-							    </div> 
-								</div> 
-							</div>
-							<div class="oa-contact-content mui-table-cell">
-								<a class="unselect" data-name="钢琴十级"></a>
+							<div class="oa-contact-cell mui-table">
+								<div class="oa-contact-avatar mui-table-cell">
+									钢琴十级
+									<p>
+										完成进度：
+										<span>12/500</span>
+									</p>
+									<div class="Bars">
+										<div style="width: 63%;">
+											<span></span>
+										</div>
+									</div>
+								</div>
+								<div class="oa-contact-content mui-table-cell">
+									<a class="unselect" data-name="钢琴十级"></a>
+								</div>
 							</div>
 						</div>
-					</div>
-				</li>
-			</ul>
+					</li>
+				</ul>
+
+			</div>
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
-			swipeBack:true //启用右滑关闭功能
+			swipeBack: true //启用右滑关闭功能
 		});
-		mui("#list").on("tap", "a", function(){
-			you.loadWebUrl("wish/wish_detail.html", {title: this.dataset.name, target: "wish/wish_detail.html", aniShow: 'slide-in-right'});
+		mui("#list").on("tap", "a", function() {
+			you.loadWebUrl("wish/wish_detail.html", {
+				title: this.dataset.name,
+				target: "wish/wish_detail.html",
+				aniShow: 'slide-in-right'
+			});
 		});
-		
+
 		function showMenu() {
 			console.log(3333)
 		}
 	</script>
+
 </html>
