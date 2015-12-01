@@ -199,9 +199,7 @@
 			},
 			mapLocation: {
 				x: 'center',
-				y: '50',
-				width: '100%',
-				height: '100%'
+				y: 'center'
 			},
 			data: [{
 					name: '仙桃市',
@@ -220,15 +218,14 @@
 			orient: 'horizontal',
 			show: false,
 			x: 'center',
-			y: '60%',
+			y: 'center',
 			min: 0,
 			max: 1000,
 			text: ['大', '小'],
 			calculable : true
 		};
 		var province = echarts.init(document.getElementById('province'));
-		console.log(JSON.stringify(province_option))
 		province.setOption(province_option);
-		mui("#province").popover('toggle');
+		mui("#distribute_map").popover('toggle');
 	})
 })()

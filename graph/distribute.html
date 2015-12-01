@@ -20,12 +20,24 @@
 	    #map {
 	    		height: 400px;
 	    }
-	    #province {
+	    #distribute_map {
 	    		top: 100px;
 		    left: 50%;
 		    margin-left: -140px;
 		    height: 400px;
 		    background: #fff !important;
+		    width: 280px;
+	    }
+	    
+	    #province {
+	    		height: 280px;
+	    		width: 280px;
+	    }
+	    #close {
+	    	 position: absolute;
+	    	 right: -12px;
+	    	 top: -12px;
+	    	 width: 24px;
 	    }
 	   
 		</style>
@@ -48,14 +60,21 @@
 				</ul>
 			</div>
 		</div>
-		<div id="province" class="mui-popover">
-			<div id="map"></div>
+		<div id="distribute_map" class="mui-popover">
+			<div id="province">
+			</div>
+			<img src="../images/close.png" id="close"/>
 		</div>
 		
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/circle/distribute_graph.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			document.getElementById("close").addEventListener("tap", function() {
+				mui("#distribute_map").popover('toggle');
+			})
+		</script>
 	</body>
 
 </html>
