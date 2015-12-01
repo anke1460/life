@@ -81,6 +81,23 @@
 			#text {
 				color: #1FCC7C;
 			}
+			
+			#custom_list {
+				padding: 0px 10px;
+				margin-bottom: 10px;
+			}
+			
+			#custom_list li {
+				position: relative;
+				padding: 10px 0px;
+				margin: 0px;
+			}
+			
+			#custom_list .mui-switch {
+				position: absolute;
+				top: 10px;
+				right: 20px;
+			}
 		</style>
 	</head>
 
@@ -115,7 +132,7 @@
 									<p>读完以下书籍中的200本</p>
 									<p>
 										<h5 class="mui-pull-left">完成进度：</h5>
-										
+
 										<div class="Bars mui-pull-left">
 											<div style="width: 63%;" class="">
 												<span class=""></span>
@@ -124,19 +141,24 @@
 										<span class="mui-pull-left">12/500</span>
 									</p>
 								</div>
-								<!--<div class="oa-contact-content mui-table-cell">
-									<a class="unselect" data-name="书虫"></a>
-								</div>-->
 							</div>
 							<h5>关联习惯</h5>
-							<ol>
+							<ol id="custom_list">
 								<li>
-									<p>
-										<span>每天读书1小时</span>
-										<div class="mui-switch mui-switch-mini mui-pull-left">
-											<div class="mui-switch-handle"></div>
-										</div>
-									</p>
+									<div class="">
+										每天读书1小时
+									</div>
+									<div class="mui-switch mui-switch-mini mui-pull-right">
+										<div class="mui-switch-handle"></div>
+									</div>
+								</li>
+								<li>
+									<div class="">
+										每天走路1小时
+									</div>
+									<div class="mui-switch mui-switch-mini mui-pull-right">
+										<div class="mui-switch-handle"></div>
+									</div>
 								</li>
 							</ol>
 						</div>
@@ -150,21 +172,32 @@
 						</h6>
 							<div class="oa-contact-cell mui-table">
 								<div class="oa-contact-avatar mui-table-cell">
-									钢琴十级
+									<p class="mui-pull-right">成就分值:10</p>
+									书虫
+									<p>读完以下书籍中的200本</p>
 									<p>
-										完成进度：
-										<span>12/500</span>
-									</p>
-									<div class="Bars">
-										<div style="width: 63%;">
-											<span></span>
+										<h5 class="mui-pull-left">完成进度：</h5>
+
+										<div class="Bars mui-pull-left">
+											<div style="width: 63%;" class="">
+												<span class=""></span>
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="oa-contact-content mui-table-cell">
-									<a class="unselect" data-name="钢琴十级"></a>
+										<span class="mui-pull-left">12/500</span>
+									</p>
 								</div>
 							</div>
+							<h5>关联习惯</h5>
+							<ol id="custom_list">
+								<li>
+									<div class="">
+										每天读书1小时
+									</div>
+									<div class="mui-switch mui-switch-mini mui-pull-right">
+										<div class="mui-switch-handle"></div>
+									</div>
+								</li>
+							</ol>
 						</div>
 					</li>
 				</ul>

@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/style.css" />
 		<style>
 	    #distribute{
-	   	 	height: 600px;
+	   	 	height: 350px;
 	   	 	width: 100%;
 	    }
 	    .mui-content {
@@ -27,6 +27,7 @@
 		    height: 400px;
 		    background: #fff !important;
 	    }
+	   
 		</style>
 	</head>
 
@@ -38,11 +39,19 @@
 		
 		<div class="mui-content">
 			<div id="distribute"></div>
+			<div class="mui-card" id="explain_panel">
+				<h4>数据解读</h4>
+				<ul>
+					<li><p>你拥有100个好友，超过70%的用户</p></li>
+					<li><p>你的好友分布在全国21个省级行政区的覆盖率80%国土面积</p></li>
+					<li><p>你的好友分布最多的3个城市北京、上海、广州</p></li>
+				</ul>
+			</div>
 		</div>
 		<div id="province" class="mui-popover">
 			<div id="map"></div>
-			
 		</div>
+		
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>

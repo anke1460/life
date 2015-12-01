@@ -30,9 +30,9 @@
 			mapType: 'china',
 			mapLocation: {
 				x: 'center',
-				y: '20',
+				y: 'center',
 				width: '100%',
-				height: '50%'
+				height: '100%'
 			},
 			selectedMode: 'single',
 		  itemStyle:{

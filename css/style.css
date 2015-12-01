@@ -37,3 +37,12 @@ a {
 html, body, .mui-content {
 	background-color: #fafafa;
 }
+
+ #explain_panel {
+  padding: 10px;
+  border-radius: 0px;
+}
+#explain_panel ul {
+	color: #1FCC7C;
+	padding: 0px 20px;
+}
