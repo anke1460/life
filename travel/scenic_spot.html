@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>景点</title>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style type="text/css">
+			#slider {
+				height: 150px;
+			}
+			
+			#back {
+				position: absolute;
+				left: 10px;
+				color: #fff;
+				z-index: 2;
+				top: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+		<div id="spot">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#"><img src="../images/muwu.jpg"></a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#"><img src="../images/yuantiao.jpg"></a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<h4>安徽黄山</h4>
+		</div>
+
+		<script type="text/javascript">
+			mui.init();
+			document.getElementById("back").addEventListener("tap", function() {
+				console.log('back')
+				mui.back();
+			})
+		</script>
+	</body>
+
+</html>
