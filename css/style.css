@@ -1,48 +1,74 @@
-.ui-page-login, body {
+.ui-page-login,
+body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
 }
-.mui-content{
+
+.mui-content {
 	height: 100%;
 }
 
 .mui-btn-grey {
 	color: #fff;
-  border: 1px solid #ccc;
-  background-color: #ccc;
+	border: 1px solid #ccc;
+	background-color: #ccc;
 }
 
 .mui-btn-default {
 	color: #fff;
 	border: 1px solid #1FCC7C;
-  background-color: #1FCC7C;
+	background-color: #1FCC7C;
 }
 
 a {
-  color: #ccc;
+	color: #ccc;
 }
 
 .header {
 	color: #fff;
 	border: 1px solid #1FCC7C;
-  background-color: #1FCC7C;
+	background-color: #1FCC7C;
 }
 
-.header .mui-title, .header .mui-btn {
+.header .mui-title,
+.header .mui-btn {
 	color: #fff;
 }
 
-html, body, .mui-content {
+html,
+body,
+.mui-content {
 	background-color: #fafafa;
 }
 
- #explain_panel {
-  padding: 10px;
-  border-radius: 0px;
+#explain_panel {
+	padding: 10px;
+	border-radius: 0px;
 }
+
 #explain_panel ul {
 	color: #1FCC7C;
 	padding: 0px 20px;
+}
+
+.Bars {
+	position: relative;
+	width: 100px;
+	border: 1px solid #B1D632;
+	padding: 1px;
+	margin-top: 5px;
+}
+
+.Bars div {
+	position: relative;
+	background: #090;
+	color: #333333;
+	height: 10px;
+	line-height: 10px;
+}
+
+.clear {
+	clear: both;
 }

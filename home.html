@@ -42,6 +42,9 @@
 		    margin: 0 auto;
 		    margin-top: 15px;
 		  }
+		  #dimension {
+		  		color: #8f8f94;
+		  }
 		</style>
 	</head>
 
@@ -74,8 +77,9 @@
 				</div>
 			</div>
 			<div class="mui-card" style="margin-top: 15px;padding: 15px;">
-				<h5 class="mui-text-center">评分根据以下五个纬度综合评估而来</h5>
-				<!--<img id="pingfen" src="images/pingfen.jpeg"/>-->
+				<h5 class="mui-text-center">
+					<a id="dimension">分别点击以下纬度标注成就并更新分数</a>
+				</h5>
 				<div id="redar" style="position: relative;width: 280px;margin:0 auto;">
 					<div id="score">
 					</div>
@@ -220,7 +224,14 @@
 		
 		mui("#redar").on("tap", "a", function() {
 			you.loadWebUrl("travel/index.html", {title: this.innerText, target: "travel/index.html", aniShow: 'slide-in-right'});
-		})
+		});
+		
+		document.getElementById("dimension").addEventListener("tap", function(e) {
+			you.loadWebUrl("dimension.html", {
+				title: '评分维度',
+				target: "dimension.html"
+			});
+		});
 	</script>
 
 </html>

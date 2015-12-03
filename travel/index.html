@@ -27,13 +27,35 @@
 			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
 				background-color: #fff;
 			}
+			
 			#slider {
 				height: 150px;
+			}
+			
+			#list p {
+				font-size: 12px;
+			}
+			
+			.mui-table-view:after {
+				left: 15px;
+			}
+			
+			.tag {
+				position: absolute;
+				top: 5px;
+				right: 5px;
+				color: #888;
+				font-size: 14px;
 			}
 		</style>
 	</head>
 
 	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"></h1>
+		</header>
+
 		<div class="mui-content mui-row mui-fullscreen">
 			<div id="slider" class="mui-slider">
 				<div class="mui-slider-group mui-slider-loop">
@@ -51,19 +73,40 @@
 			</div>
 			<div class="mui-col-xs-4">
 				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
-					<a class="mui-control-item" href="#content1">自然景观</a>
-					<a class="mui-control-item" href="#content2">探索类景观</a>
-					<a class="mui-control-item" href="#content3">生物景观</a>
+					<a class="mui-control-item" href="#content1">探索世界</a>
+					<a class="mui-control-item" href="#content2">自然景观</a>
+					<a class="mui-control-item" href="#content3">城市风光</a>
 				</div>
 			</div>
-			<div id="segmentedControlContents" class="mui-col-xs-8" style="border-left: 1px solid #c8c7cc;">
+			<div id="segmentedControlContents" class="mui-col-xs-8" style="">
 				<div id="item1" class="mui-control-content mui-active">
 					<div id="content1" class="mui-control-content mui-active">
-						<ul class="mui-table-view">
+						<ul class="mui-table-view" id="list">
 							<li class="mui-table-view-cell">
-								<a class="mui-navigate-right">
-							  		八大奇迹
-							  	</a>
+								<a class="">
+									<img class="mui-media-object mui-pull-left" src="../images/user-photo.png" />
+									<div class="mui-media-body">
+										走遍中国
+										<p class="mui-ellipsis">
+											去过全国34个省级行政区
+										</p>
+										<p>1113333人完成</p>
+									</div>
+									<span class="tag">0/34</span>
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="">
+									<img class="mui-media-object mui-pull-left" src="../images/user-photo.png" />
+									<div class="mui-media-body">
+										玩转东南亚
+										<p class="mui-ellipsis">
+											去过东南亚所有国家
+										</p>
+										<p>1113333人完成</p>
+									</div>
+									<span class="tag">0/34</span>
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -86,6 +129,9 @@
 			mui.init({
 				swipeBack: true
 			});
+			mui.plusReady(function() {
+				mui(".mui-title")[0].innerText = plus.webview.currentWebview().title;
+			})
 			var controls = document.getElementById("segmentedControls");
 			var contents = document.getElementById("segmentedControlContents");
 			controls.querySelector('.mui-control-item').classList.add('mui-active');

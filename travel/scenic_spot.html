@@ -20,29 +20,63 @@
 				z-index: 2;
 				top: 5px;
 			}
+			
+			#spot {
+				position: relative;
+			}
+			
+			#address_desc {
+				position: absolute;
+				left: 5px;
+				bottom: 0px;
+				color: #fff;
+				font-size: 14px;
+			}
+			
+			#address_desc p {
+				color: #fff;
+				margin: 0px;
+			}
+			
+			#address {
+				font-size: 24px;
+				font-weight: bold;
+			}
 		</style>
 	</head>
 
 	<body>
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
-		<div id="spot">
-			<div id="slider" class="mui-slider">
-				<div class="mui-slider-group mui-slider-loop">
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<a href="#"><img src="../images/muwu.jpg"></a>
+		<div class="mui-content">
+			<div id="spot">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#"><img src="../images/muwu.jpg"></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="#"><img src="../images/yuantiao.jpg"></a>
+						</div>
 					</div>
-					<div class="mui-slider-item">
-						<a href="#"><img src="../images/yuantiao.jpg"></a>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
 					</div>
 				</div>
-				<div class="mui-slider-indicator">
-					<div class="mui-indicator mui-active"></div>
-					<div class="mui-indicator"></div>
+				<div id="address_desc">
+					<span id="address">安徽黄山</span>
+					<span id="">
+					成就分数： 10分
+				</span>
+					<p>An Hui Mount Huangshan</p>
 				</div>
 			</div>
-			<h4>安徽黄山</h4>
+			<div class="mui-content-padded">
+				<p>黄山位于安慰省南部黄山市境内，是安徽旅游的标志，系中国十大风景名胜中唯一的山岳风光。其奇松、奇石、云海、温泉四等独特景观</p>
+			</div>
 		</div>
-
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			mui.init();
 			document.getElementById("back").addEventListener("tap", function() {
