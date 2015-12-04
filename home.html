@@ -223,7 +223,11 @@
 		});
 		
 		mui("#redar").on("tap", "a", function() {
-			you.loadWebUrl("travel/index.html", {title: this.innerText, target: "travel/index.html", aniShow: 'slide-in-right'});
+			you.loadWebUrl("dimension.html", {
+				title: '评分维度',
+				target: "dimension.html"
+			});
+//			you.loadWebUrl("travel/index.html", {title: this.innerText, target: "travel/index.html", aniShow: 'slide-in-right'});
 		});
 		
 		document.getElementById("dimension").addEventListener("tap", function(e) {
