@@ -24,65 +24,51 @@
 				height: 300px;
 				width: 300px;
 			}
-			
-		  #user_setting {
-		    	display: inline-block;
-		  }
-		  
-		  #user_setting span {
-		  	  width: 80px;
-		    height: 80px;
-		    display: block;
-		    background: #ccc;
-		    border-radius: 50px;
-		    line-height: 80px;
-		    color: red;
-		    font-size: 40px;
-		    font-weight: bold;
-		    margin: 0 auto;
-		    margin-top: 15px;
-		  }
 		  #dimension {
 		  		color: #8f8f94;
+		  }
+		  
+		  #total_score {
+		  		position: absolute;
+				top: 130px;
+				left: 50%;
+				width: 50px;
+				text-align: center;
+				margin-left: -25px;
+				color: red;
+		  }		
+		  #avatar {
+		  		width: 80px;
+		  }
+		  
+		  .mui-table-view:before, .mui-table-view:after {
+		  	  background: none;
 		  }
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-			<div class="mui-card">
-				<div class="mui-text-center">
+			<ul class="mui-table-view">
+			<li class="mui-table-view-cell mui-media">
 					<a id="user_setting">
-						<span></span>
-						<!--<img src="images/user-photo.png" style="width: 80px;margin-top: 10px;">-->
+						<img src="images/user-photo.png" class="mui-media-object mui-pull-left" id="avatar"/>
+						<span id="user_name"></span>
+						<p class="mui-media-body">
+							<span>已实现: </span><span>20</span>
+							<span class="margin-left:10px;display:inline-block;">超过用户：</span><span>10</span>
+						</p>
 					</a>
-
-				</div>
-				<div class="mui-table-view mui-grid-view">
-					<div class="mui-col-xs-3  mui-table-view-cell">
-						<h6>已实现</h6>
-						<span id="finish_count">
-							0
-						</span>
-					</div>
-					<div class="mui-col-xs-6 mui-table-view-cell">
-						<h4 id="user_name"></h4>
-					</div>
-					<div class="mui-col-xs-3 mui-table-view-cell">
-						<h6>超过用户</h6>
-						<span id="over_count">
-							1
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card" style="margin-top: 15px;padding: 15px;">
+				</li>
+			</ul>
+			<div style="margin-top: 15px;padding: 15px;background: #fff;">
 				<h5 class="mui-text-center">
-					<a id="dimension">分别点击以下纬度标注成就并更新分数</a>
+					<a id="dimension">分别纬度标注成就并更新分数</a>
 				</h5>
 				<div id="redar" style="position: relative;width: 280px;margin:0 auto;">
 					<div id="score">
 					</div>
+					<div id="total_score">400</div>
 					<a href="travel/index.html" style="position: absolute;top:25px;left:125px;">爱好</a>
 					<a style="position: absolute;top:100px;left:20px;">社交</a>
 					<a style="position: absolute;top:210px;left:50px;">旅行</a>
@@ -90,8 +76,7 @@
 					<a style="position: absolute;top:100px;left:230px;">美食</a>
 				</div>
 			</div>
-			<div class="mui-card" style="margin-top: 15px;padding: 15px;">
-				<!--<h5 class="mui-text-center">近六月有友评分趋势</h5>-->
+			<div class="" style="margin-top: 15px;padding: 15px;background: #fff;">
 				<div id="score_trend"></div>
 			</div>
 		</div>
@@ -105,14 +90,22 @@
 		});
 		mui.plusReady(function() {
 			mui("#user_name")[0].innerText = you.getStore("name");
-			mui("#user_setting span")[0].innerText = you.getStore("name").slice(0,1);
+//			mui("#user_setting span")[0].innerText = you.getStore("name").slice(0,1);
 			var score = echarts.init(document.getElementById('score'));
 			var option = {
 				title: {
 					show: true
 				},
 				tooltip: {
-					trigger: 'axis'
+					trigger: 'axis',
+					showContent: false,
+					formatter: function() {
+						you.loadWebUrl("dimension.html", {
+							title: '评分维度',
+							target: "dimension.html"
+						});
+						return;
+					}
 				},
 				legend: {
 					show: false,
@@ -161,6 +154,7 @@
 				}]
 			};
 			score.setOption(option);
+			
 			var score_trend_option = {
 				title: {
 					show: false

@@ -8,38 +8,43 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css" />
 		<style>
-		  #avatar {
-		 	  height: 60px;
-		    line-height: 60px;
-		    display: block;
-		    background: #ccc;
-		    width: 60px;
-		    border-radius: 30px;
-		    text-align: center;
-		    color: red;
-		    font-size: 30px;
-		  }
-		  
-		  label {
-		  	  color: #8f8f94;
-		  }
-		  
-		  .mui-table-view-cell span {
-		 	 	color: #888;
-		  }
-		  
-		  #sign {
-		  	  position: absolute;
-		    left: 90px;
-		    right: 65px;
-		    top: 10px;
-		    display: block;
-		    text-align: right;
-		  }
+			#avatar {
+				height: 60px;
+				line-height: 60px;
+				display: block;
+				background: #ccc;
+				width: 60px;
+				border-radius: 30px;
+				text-align: center;
+				color: red;
+				font-size: 30px;
+			}
+			
+			label {
+				color: #444;
+			}
+			
+			.mui-table-view-cell span {
+				color: #888;
+			}
+			
+			#sign {
+				position: absolute;
+				left: 90px;
+				right: 65px;
+				top: 10px;
+				display: block;
+				text-align: right;
+			}
+			
+			.mui-table-view:before,
+			.mui-table-view:after {
+				background: none;
+			}
 		</style>
 	</head>
 
@@ -47,68 +52,70 @@
 		<div class="mui-content">
 			<ul class="mui-table-view mui-table-view-chevron">
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
+					<a class="mui-navigate-right" id="upload_avatar">
 						<label style="line-height: 60px;">头像</label>
 						<div id="avatar" class="mui-pull-right">
-						</div> 
+						</div>
 					</a>
 				</li>
-				<li class="mui-table-view-divider"></li>
+			</ul>
+			<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 15px;">
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" id="user_name">
-					  <label>昵称</label>
-					   <span class="mui-pull-right" id="name">
+						<label>昵称</label>
+						<span class="mui-pull-right" id="name">
 					   </span>
-				  </a>
+					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" id="sex_select">
-					  <label>性别</label>
-					   <span class="mui-pull-right" id="sex">
+						<label>性别</label>
+						<span class="mui-pull-right" id="sex">
 					   	未填写
 					   </span>
-				  </a>
+					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" id="age_select">
-					  <label>出生日期</label>
-					   <span class="mui-pull-right" id="age">
+						<label>出生日期</label>
+						<span class="mui-pull-right" id="age">
 					   	未填写
 					   </span>
-				  </a>
+					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" id="my_sign">
-					  <label>我的签名</label>
-					   <span class="mui-pull-right mui-ellipsis" id="sign">
+						<label>我的签名</label>
+						<span class="mui-pull-right mui-ellipsis" id="sign">
 					   	未填写
 					   </span>
-				  </a>
+					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right">
-					  <label>我的头衔</label>
-					   <span class="mui-pull-right mui-ellipsis" id="rank">
+						<label>我的头衔</label>
+						<span class="mui-pull-right mui-ellipsis" id="rank">
 					   未填写
 					   </span>
-				  </a>
+					</a>
 				</li>
-				<li class="mui-table-view-divider"></li>
+			</ul>
+			<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 15px;">
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" id="hometown_select">
-					  <label>家乡</label>
-					   <span class="mui-pull-right" id="hometown">
+						<label>家乡</label>
+						<span class="mui-pull-right" id="hometown">
 					   	未填写
 					   </span>
-				  </a>
+					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" id="place_select">
-					  <label>常住地</label>
-					   <span class="mui-pull-right" id="place">
+						<label>常住地</label>
+						<span class="mui-pull-right" id="place">
 					   	未填写
 					   </span>
-				  </a>
+					</a>
 				</li>
 			</ul>
 		</div>
@@ -118,16 +125,15 @@
 	<script src="../js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/city_data.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/user/photo.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
-			swipeBack:true //启用右滑关闭功能
+			swipeBack: true //启用右滑关闭功能
 		});
-		
 		mui.plusReady(function() {
 			you.dom("avatar").innerText = you.getStore("name").slice(0, 1);
 			you.dom("name").innerText = you.getStore("name");
 		});
-		
 		you.dom("user_name").addEventListener("tap", function() {
 			mui.openWindow({
 				url: 'user_name.html',
@@ -137,26 +143,35 @@
 				}
 			});
 		});
-		
 		you.dom("sex_select").addEventListener("tap", function() {
-			var actionbuttons=[{title:"男"}, {title:"女"}];
-			var actionstyle={title:"选择性别",buttons:actionbuttons};
+			var actionbuttons = [{
+				title: "男"
+			}, {
+				title: "女"
+			}];
+			var actionstyle = {
+				title: "选择性别",
+				buttons: actionbuttons
+			};
 			plus.nativeUI.actionSheet(actionstyle, function(e) {
-				you.dom("sex").innerText = {1:"男", 2: "女"}[e.index];
+				you.dom("sex").innerText = {
+					1: "男",
+					2: "女"
+				}[e.index];
 			});
 		});
-		
 		you.dom("age_select").addEventListener("tap", function() {
 			var d = new Date();
-			d.setFullYear(1949,0,1);
+			d.setFullYear(1949, 0, 1);
 			plus.nativeUI.pickDate(function(e) {
-				var birder = e.date;
-				you.dom("age").innerText = birder.getFullYear()+"-"+(birder.getMonth()+1)+"-"+birder.getDate();
-			},
-			mui.noop,
-			{minDate: d, maxDate: new Date()});
+					var birder = e.date;
+					you.dom("age").innerText = birder.getFullYear() + "-" + (birder.getMonth() + 1) + "-" + birder.getDate();
+				},
+				mui.noop, {
+					minDate: d,
+					maxDate: new Date()
+				});
 		});
-		
 		you.dom("my_sign").addEventListener("tap", function() {
 			mui.openWindow({
 				url: 'sign.html',
@@ -166,11 +181,9 @@
 				}
 			});
 		});
-		
 		window.addEventListener("set_sign", function(e) {
 			you.dom("sign").innerText = e.detail.name;
 		});
-		
 		you.dom("rank").addEventListener("tap", function() {
 			mui.openWindow({
 				url: 'rank.html',
@@ -180,7 +193,6 @@
 				}
 			});
 		});
-		
 		mui.ready(function() {
 			var hometown_pop = new mui.PopPicker({
 				layer: 2
@@ -193,7 +205,6 @@
 					hometown.innerText = items[1].text ? (items[0].text + items[1].text) : '未填写';
 				});
 			}, false);
-			
 			var place_pop = new mui.PopPicker({
 				layer: 2
 			});
@@ -206,6 +217,12 @@
 				});
 			}, false);
 		});
-	  
+		
+		document.getElementById("upload_avatar").addEventListener("tap", function() {
+			console.log(233)
+			you.popActionSheet("上传头像", {}, function(result) {
+			});
+		})
 	</script>
+
 </html>
