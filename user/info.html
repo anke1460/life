@@ -222,6 +222,10 @@
 			console.log(233)
 			you.popActionSheet("上传头像", {}, function(result) {
 			});
+		});
+		
+		window.addEventListener("set_value", function(e) {
+			document.getElementById(e.detail.id).innerText = e.detail.name;
 		})
 	</script>
 

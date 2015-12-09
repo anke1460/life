@@ -43,7 +43,7 @@
 			if (e.index == 1) {
 				plus.gallery.pick(
 					function(e) {
-						$.authenGet("/upload_token", params, function(result) {
+						$.authenGet("/users/avatar_token", params, function(result) {
 				      plus.storage.setItem("cloud_token", result.uptoken);
 						  you.processPhoto(e, callback);
 						});
@@ -56,8 +56,8 @@
 				var cmr = plus.camera.getCamera();
 				cmr.captureImage(function(path) {
 					plus.io.resolveLocalFileSystemURL(path, function(entry) {
-						$.authenGet("/upload_token", params, function(result) {
-							plus.storage.setItem("cloud_token", result.uptoken);
+						$.authenGet("/users/avatar_token", params, function(result) {
+							plus.storage.setItem("cloud_token", result.token);
 							you.processPhoto(entry.toLocalURL(), callback);
 						});
 					});
@@ -80,16 +80,18 @@
 				var temp_url = "_downloads/" + file_name;
 				plus.io.resolveLocalFileSystemURL(temp_url, function(entry) {
 					var local_url = entry.toLocalURL();
-					giant.loading("上传中...");
+					you.loading("上传中...");
 					var task = plus.uploader.createUpload('http://upload.qiniu.com', {
 							method: "POST"
 						},
 						function(t, status) {
-							giant.endLoding();
+							you.endLoding();
 							if (t.state == 4 && status == "201") {
 								callback(t);
 							} else {
-								giant.alert("上传失败")
+								console.log(JSON.stringify(t))
+								console.log(status)
+								you.alert("上传失败")
 							}
 						});
 					task.addFile(local_url, {

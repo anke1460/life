@@ -6,24 +6,23 @@
     <title></title>
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <style type="text/css">
+	    .mui-table-view:after, .mui-table-view:before  {
+	    		height: 0px;
+	    	}
+    </style>
 </head>
 <body>
   <header class="mui-bar mui-bar-nav header">
   	  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-  	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right" id="save_btn">
-			保存
-			<span class="mui-icon mui-icon-right-nav"></span>
-	  </button>
   		<h1 class="mui-title">昵称</h1>
   </header>
   <div class="mui-content">
   	  <div class="mui-table-view">
-	  	  	<form class="mui-input-group">
 		  		<div class="mui-input-row">
 					<label>昵称</label>
 					<input type="text" placeholder="" id="name" value="">
 				</div>
-			</form>
   	  </div>
   	  <div class="mui-content-padded">
   	  		<h5>设置后，其他人将看到您的昵称</h5>
@@ -34,6 +33,15 @@
 	 <script type="text/javascript" charset="utf-8">
       	mui.init();
       	mui.plusReady(function() {
+      		var old_back = mui.back;
+      		mui.back = function() {
+      			mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
+      				name: document.getElementById("name").value,
+      				id: 'name'
+      			});
+      			old_back();
+      		}
+      		
       		you.dom("name").value = you.getStore("name");
       	})
     </script>
