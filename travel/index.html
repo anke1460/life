@@ -12,6 +12,12 @@
 			.mui-row.mui-fullscreen>[class*="mui-col-"] {
 				height: 100%;
 			}
+			#segmentedControls a {
+				color: #000;
+			}
+			#segmentedControls .mui-active {
+				color: #989898;
+			}
 			
 			.mui-col-xs-3,
 			.mui-control-content {
@@ -47,6 +53,12 @@
 				color: #888;
 				font-size: 14px;
 			}
+			button {
+				margin: 10px 2px;
+			}
+			.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after {
+				top: auto;
+			}
 		</style>
 	</head>
 
@@ -76,6 +88,8 @@
 					<a class="mui-control-item" href="#content1">探索世界</a>
 					<a class="mui-control-item" href="#content2">自然景观</a>
 					<a class="mui-control-item" href="#content3">城市风光</a>
+					<a class="mui-control-item" href="#content3">遗址遗迹</a>
+					<a class="mui-control-item" href="#content3">生物景观</a>
 				</div>
 			</div>
 			<div id="segmentedControlContents" class="mui-col-xs-9" style="">
@@ -84,7 +98,7 @@
 						<ul class="mui-table-view" id="list">
 							<li class="mui-table-view-cell">
 								<a class="">
-									<img class="mui-media-object mui-pull-left" src="../images/user-photo.png" />
+									<img class="mui-media-object mui-pull-left" src="../images/1.png" />
 									<div class="mui-media-body">
 										走遍中国
 										<p class="mui-ellipsis">
@@ -97,7 +111,7 @@
 							</li>
 							<li class="mui-table-view-cell">
 								<a class="">
-									<img class="mui-media-object mui-pull-left" src="../images/user-photo.png" />
+									<img class="mui-media-object mui-pull-left" src="../images/1.png" />
 									<div class="mui-media-body">
 										玩转东南亚
 										<p class="mui-ellipsis">
@@ -112,7 +126,31 @@
 					</div>
 					<div id="content2" class="mui-control-content">
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">2432</li>
+							<li class="mui-table-view-cell mui-collapse">
+								<a class="mui-navigate-right">
+									<img class="mui-media-object mui-pull-left" src="../images/1.png" />
+									<div class="mui-media-body">
+										中国十大风景名胜
+										<p class="">
+											去过1985年中国旅游报评选出十大风景名胜
+										</p>
+										<p>1113333人完成</p>
+									</div>
+									<span class="tag">0/34</span>
+								</a>
+							 <div class="mui-collapse-content">
+							 	<button type="button" class="mui-btn">万里长城</button>
+							 	<button type="button" class="mui-btn">安徽黄山</button>
+							 	<button type="button" class="mui-btn">桂林山水</button>
+							 	<button type="button" class="mui-btn">长江三峡</button>
+							 	<button type="button" class="mui-btn">杭州西湖</button>
+							 	<button type="button" class="mui-btn">日月潭</button>
+							 	<button type="button" class="mui-btn">北京故宫</button>
+							 	<button type="button" class="mui-btn">承德避暑山庄</button>
+							 	<button type="button" class="mui-btn">苏州园林</button>
+							 	<button type="button" class="mui-btn">秦岭兵马俑</button>
+							 </div>
+							</li>
 						</ul>
 					</div>
 					<div id="content3" class="mui-control-content">
@@ -136,7 +174,7 @@
 			var contents = document.getElementById("segmentedControlContents");
 			controls.querySelector('.mui-control-item').classList.add('mui-active');
 			contents.querySelector('.mui-control-content').classList.add('mui-active');
-			mui("#segmentedControlContents").on("tap", "a", function() {
+			mui("#list").on("tap", "a", function() {
 				mui.openWindow({
 					url: 'scenic_spot.html',
 					id: 'scenic_spot'
