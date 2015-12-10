@@ -66,6 +66,8 @@
 				if (e.detail.custom_text) {
 					mui("#custom_text")[0].innerText = e.detail.custom_text;
 					mui("#custom_btn")[0].style.display = "";
+				} else {
+					mui("#custom_btn")[0].style.display = "none";
 				}
 				
 				if(mui.os.android && aniShow && parseFloat(mui.os.version) >= 4.4) {

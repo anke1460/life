@@ -23,7 +23,7 @@
 			<h1 class="mui-title">我的签名</h1>
 		</header>
 		<div class="mui-content" id="app">
-			<div class="mui-input-row" style="margin-top:15px;">
+			<div class="mui-input-row" style="margin:15px;">
 				<p id="text_tip">最多输入<span>{{size}}字符</span></p>
 				<textarea name="" v-model="content" rows="10" id="content" maxlength="150" @keyup="input"></textarea>
 			</div>
@@ -45,7 +45,7 @@
 						}
 					}
 				}
-			})
+			});
 			mui.init();
 			mui.plusReady(function() {
 				var old_back = mui.back;
@@ -57,12 +57,6 @@
 					old_back();
 				}
 			});
-			//    	you.dom("save_btn").addEventListener("tap", function() {
-			//    		mui.fire(plus.webview.getWebviewById("template").children()[0], "set_sign", {
-			//    			name: you.dom("content").value
-			//    		});
-			//    		you.current_page.close();
-			//    	})
 		</script>
 	</body>
 

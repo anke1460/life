@@ -15,84 +15,96 @@
 				width: 280px;
 				display: block;
 			}
+			
 			#score {
 				width: 280px;
 				height: 280px;
 				margin: 0 auto;
 			}
+			
 			#score_trend {
 				height: 300px;
 				width: 300px;
 			}
-		  #dimension {
-		  		color: #8f8f94;
-		  }
-		  
-		  #total_score {
-		  		position: absolute;
+			
+			#dimension {
+				color: #8f8f94;
+			}
+			
+			#total_score {
+				position: absolute;
 				top: 130px;
 				left: 50%;
 				width: 50px;
 				text-align: center;
 				margin-left: -25px;
 				color: red;
-		  }		
-		  #avatar {
-		  		width: 80px;
-		  }
-		  
-		  .mui-table-view:before, .mui-table-view:after {
-		  	  background: none;
-		  }
-		  
-		  #panel {
-		  	  font-size: 14px;
-		  	  background: #fff;
-		  	  border-top: 1px solid #CCCCCC;
-		  	  color: #989898;
-		  	  padding: 5px;
-		  }
+			}
+			
+			#avatar {
+				width: 80px;
+			}
+			
+			.mui-table-view:before,
+			.mui-table-view:after {
+				background: none;
+			}
+			
+			#panel {
+				font-size: 14px;
+				background: #fff;
+				border-top: 1px solid #CCCCCC;
+				color: #989898;
+				padding: 5px;
+			}
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-			<ul class="mui-table-view" style="padding: 5px;">
-				<li class="mui-table-view-cell mui-media mui-table-view-chevron">
-					<a id="user_setting" class="mui-navigate-right">
-						<img src="images/user-photo.png" class="mui-media-object mui-pull-left" id="avatar" />
-						<div class="mui-media-body">
-							<span id="user_name"></span>
-							<p style="margin-top: 5px;">
-								有友号:
-								<span>youyou</span>
-							</p>
+			<div class="mui-content-padded">
+				<ul class="mui-table-view" style="padding: 5px;">
+					<li class="mui-table-view-cell mui-media mui-table-view-chevron">
+						<a id="user_setting" class="mui-navigate-right">
+							<img src="images/user-photo.png" class="mui-media-object mui-pull-left" id="avatar" />
+							<div class="mui-media-body">
+								<span id="user_name"></span>
+								<p style="margin-top: 5px;">
+									有友号:
+									<span>youyou</span>
+								</p>
 
-						</div>
-					</a>
-				</li>
-			</ul>
-			<div class="mui-table" id="panel">
-				<div class="mui-table-cell mui-text-center" style="border-right: 1px solid #ccc;">超过<span>80%</span>好友</div>
-				<div class="mui-table-cell mui-text-center">超过<span>80%</span>用户</div>
-			</div>
-			<div style="margin-top: 15px;padding: 15px;background: #fff;">
-				<h5 class="mui-text-center">
-					<a id="dimension">分别纬度标注成就并更新分数</a>
-				</h5>
-				<div id="redar" style="position: relative;width: 280px;margin:0 auto;">
-					<div id="score">
-					</div>
-					<div id="total_score">400</div>
-					<a href="travel/index.html" style="position: absolute;top:25px;left:125px;">爱好</a>
-					<a style="position: absolute;top:100px;left:20px;">社交</a>
-					<a style="position: absolute;top:210px;left:50px;">旅行</a>
-					<a style="position: absolute;top:210px;left:200px;">技能</a>
-					<a style="position: absolute;top:100px;left:230px;">美食</a>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<div class="mui-table" id="panel">
+					<div class="mui-table-cell mui-text-center" style="border-right: 1px solid #ccc;">超过<span>80%</span>好友</div>
+					<div class="mui-table-cell mui-text-center">超过<span>80%</span>用户</div>
 				</div>
 			</div>
-			<div class="" style="margin-top: 15px;padding: 15px;background: #fff;">
-				<div id="score_trend"></div>
+
+			<div class="mui-content-padded">
+				<div style="margin-top: 15px;padding: 15px;background: #fff;">
+					<h5 class="mui-text-center">
+					<a id="dimension">分别纬度标注成就并更新分数</a>
+				</h5>
+					<div id="redar" style="position: relative;width: 280px;margin:0 auto;">
+						<div id="score">
+						</div>
+						<div id="total_score">400</div>
+						<a href="travel/index.html" style="position: absolute;top:25px;left:125px;">爱好</a>
+						<a style="position: absolute;top:100px;left:20px;">社交</a>
+						<a style="position: absolute;top:210px;left:50px;">旅行</a>
+						<a style="position: absolute;top:210px;left:200px;">技能</a>
+						<a style="position: absolute;top:100px;left:230px;">美食</a>
+					</div>
+				</div>
+			</div>
+			<div class="mui-content-padded">
+				<div style="background: #fff;">
+					<div id="score_trend"></div>
+				</div>
 			</div>
 		</div>
 	</body>
