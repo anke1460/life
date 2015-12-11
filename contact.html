@@ -198,7 +198,7 @@
 			swipeBack: true //启用右滑关闭功能
 		});
 		mui("#list").on("tap", "a", function() {
-			you.loadWebUrl("wish/wish_detail.html", {
+			you.loadWebUrl("wish/wish_detail.html", "template", {
 				title: this.dataset.name,
 				target: "wish/wish_detail.html",
 				aniShow: 'slide-in-right'

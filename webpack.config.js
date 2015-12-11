@@ -3,7 +3,9 @@ var vue = require('vue-loader'),
 	ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	entry: {
-		"sign":	['./src/pages/user/sign.js']
+		"sign":	['./src/pages/user/sign.js'],
+		"user_trend": ["./src/pages/travel/trend.js"],
+		"trend_detail": ["./src/pages/travel/trend_detail.js"]
 		},
 	output: {
 		path: './build',

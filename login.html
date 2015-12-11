@@ -192,17 +192,18 @@
 						}, 1000);
 						return false;
 					};
-					initTemplate();
+					initTemplate("template");
+					initTemplate("other_template");
 				});
-				var initTemplate = function() {
+				var initTemplate = function(id) {
 					var headerWebview = mui.preload({
 						url: 'template.html',
-						id: 'template'
+						id: id
 					});
 					//预加载共用子webview
 					var subWebview = mui.preload({
 						url: "" ,
-						id: "deafault_main_sub",
+						id: id + "_sub",
 						styles: {
 							top: '44px',
 							bottom: '0px',

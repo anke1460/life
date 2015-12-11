@@ -459,9 +459,9 @@
 		return document.getElementById(id);
 	}
 	
-	$.loadWebUrl = function(url, options) {
+	$.loadWebUrl = function(url, id, options) {
 		var href = url;
-  	  third_search_web = plus.webview.getWebviewById("template");
+  	  third_search_web = plus.webview.getWebviewById(id);
     children_view = third_search_web.children()[0];
     aniShow = mui.os.ios ? 'pop-in' : 'slide-in-right';
     mui.fire(third_search_web,'updateHeader', options);

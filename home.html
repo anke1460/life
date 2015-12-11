@@ -127,7 +127,7 @@
 					trigger: 'axis',
 					showContent: false,
 					formatter: function() {
-						you.loadWebUrl("dimension.html", {
+						you.loadWebUrl("dimension.html", "template", {
 							title: '评分维度',
 							target: "dimension.html"
 						});
@@ -246,14 +246,14 @@
 			}
 		});
 		mui("#redar").on("tap", "a", function() {
-			you.loadWebUrl("dimension.html", {
+			you.loadWebUrl("dimension.html", "template", {
 				title: '评分维度',
 				target: "dimension.html"
 			});
 			//			you.loadWebUrl("travel/index.html", {title: this.innerText, target: "travel/index.html", aniShow: 'slide-in-right'});
 		});
 		document.getElementById("dimension").addEventListener("tap", function(e) {
-			you.loadWebUrl("dimension.html", {
+			you.loadWebUrl("dimension.html", "template", {
 				title: '评分维度',
 				target: "dimension.html"
 			});
