@@ -24,17 +24,19 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav header">
+			<a id="chat" class="mui-icon mui-icon-chat mui-pull-left" style="display: none;"></a>
 			<h1 id="title" class="mui-title">我有</h1>
 			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
+			<a id="contact" class="mui-icon mui-icon-contact mui-pull-right" style="margin-right: 10px;display:none"></a>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">我有</span>
 			</a>
-			<a class="mui-tab-item" href="contact.html">
+			<a class="mui-tab-item" href="growth.html">
 				<span class="mui-icon mui-icon-email"></span>
-				<span class="mui-tab-label">提升</span>
+				<span class="mui-tab-label">成长</span>
 			</a>
 			<a class="mui-tab-item" href="circle.html">
 				<span class="mui-icon mui-icon-contact"></span>
@@ -49,7 +51,7 @@
 		<script type="text/javascript" charset="utf-8">
 			var activeTab = null;
 			mui.init();
-			var subpages = ['home.html', 'contact.html', 'circle.html', 'setting.html'];
+			var subpages = ['home.html', 'growth.html', 'circle.html', 'setting.html'];
 			var subpage_style = {
 				top: '45px',
 				bottom: '51px'
@@ -82,7 +84,13 @@
 					return;
 				}
 				document.getElementById("menu").style.display = "none";
-				if (targetTab == 'contact.html') {
+				document.getElementById("chat").style.display = "none";
+				document.getElementById("contact").style.display = "none";
+				if (targetTab == 'growth.html') {
+					document.getElementById("menu").style.display = "";
+				} else if (targetTab == 'circle.html') {
+					document.getElementById("chat").style.display = "";
+					document.getElementById("contact").style.display = "";
 					document.getElementById("menu").style.display = "";
 				}
 				//更换标题
@@ -116,6 +124,12 @@
 			
 			document.getElementById("menu").addEventListener("tap", function() {
 				plus.webview.getWebviewById(activeTab).evalJS("showMenu()");
+			});
+			document.getElementById("chat").addEventListener("tap", function() {
+				plus.webview.getWebviewById(activeTab).evalJS("showMessage()");
+			});
+			document.getElementById("contact").addEventListener("tap", function() {
+				plus.webview.getWebviewById(activeTab).evalJS("showContact()");
 			});
 		</script>
 	</body>

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>提升</title>
+		<title>成长</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -48,7 +48,8 @@
 				width: 100%;
 				background: #ddd;
 				margin: 0px;
-				padding: 2px 15px;
+				padding: 6px 15px;
+				font-size: 16px;
 			}
 			
 			.mui-table-view-cell {
@@ -89,23 +90,9 @@
 
 	<body>
 		<div class="mui-content">
-			<div class="mui-card">
-				<ul id="text">
-					<li>
-						<p>从我有／评分里选择你想要完成的成就，添加到提升页面</p>
-					</li>
-					<li>
-						<p>选择心愿，设置完成期限、写下对自己的鼓励并设置关联的习惯，促进自己尽早实现</p>
-					</li>
-					<li>
-						<p>公开你的心愿，邀请好友监督或参与，心愿更大几率实现</p>
-
-					</li>
-				</ul>
-			</div>
 			<div class=" mui-content-padded">
 				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell wish" data-name="书虫">
 						<div class="mui-slider-cell">
 							<h6>
 							<span class="mui-pull-left">许愿10天</span>
@@ -197,7 +184,7 @@
 		mui.init({
 			swipeBack: true //启用右滑关闭功能
 		});
-		mui("#list").on("tap", "a", function() {
+		mui("#list").on("tap", ".wish", function() {
 			you.loadWebUrl("wish/wish_detail.html", "template", {
 				title: this.dataset.name,
 				target: "wish/wish_detail.html",
@@ -206,8 +193,12 @@
 		});
 
 		function showMenu() {
-			console.log(3333)
+			you.loadWebUrl("dimension.html", "template", {
+				title: '评分维度',
+				target: "dimension.html"
+			});
 		}
+		
 	</script>
 
 </html>

@@ -1,4 +1,6 @@
 (function($) {
+	$.web_base = "http://youyou.127.0.0.1.xip.io";
+  $.app_base = $.web_base + "/api/v1";
 	$.guid = function() {
 	  function s4() {
 	    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -129,8 +131,6 @@
 		
 	}
 	
-	$.web_base = "http://youyou.127.0.0.1.xip.io";
-  $.app_base = $.web_base + "/api/v1";
   $.httpRequest = function(url, type, is_token, data, success, failure) {
 		if (is_token) {
 			data['token'] = plus.storage.getItem("token");

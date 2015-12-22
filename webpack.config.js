@@ -3,9 +3,9 @@ var vue = require('vue-loader'),
 	ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	entry: {
-		"sign":	['./src/pages/user/sign.js'],
 		"user_trend": ["./src/pages/travel/trend.js"],
-		"trend_detail": ["./src/pages/travel/trend_detail.js"]
+		"trend_detail": ["./src/pages/travel/trend_detail.js"],
+		"user_info": ["./src/pages/user/info.js"]
 		},
 	output: {
 		path: './build',
@@ -17,6 +17,11 @@ module.exports = {
 				loader: 'vue'
 			}
 		]
+	},
+	vue: {
+		loaders: {
+			html: 'vue-html?-removeRedundantAttributes'
+		}
 	}
 }
 

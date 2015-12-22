@@ -83,6 +83,18 @@
 					id: this.getAttribute("href")
 				});
 			});
+			function showMessage() {
+				mui.openWindow({
+					url: 'message.html',
+					id: 'message'
+				})
+			}
+			function showContact() {
+				mui.openWindow({
+					url: 'address_book.html',
+					id: 'address_book'
+				})
+			}
 		</script>
 	</body>
 
