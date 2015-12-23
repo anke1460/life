@@ -40,6 +40,7 @@
 			var self = this;
 			self.el = self.el || {};
 			self.el.search = self.box.querySelector(classSelector('indexed-list-search'));
+			self.el.systemPanel = self.box.querySelector(classSelector('sys-panel'));
 			self.el.searchInput = self.box.querySelector(classSelector('indexed-list-search-input'));
 			self.el.searchClear = self.box.querySelector(classSelector('indexed-list-search') + ' ' + classSelector('icon-clear'));
 			self.el.bar = self.box.querySelector(classSelector('indexed-list-bar'));
@@ -51,13 +52,13 @@
 		},
 		caleLayout: function() {
 			var self = this;
-			var withoutSearchHeight = (self.box.offsetHeight - self.el.search.offsetHeight) + 'px';
-			self.el.bar.style.height = withoutSearchHeight;
+			var withoutSearchHeight = (self.box.offsetHeight - self.el.search.offsetHeight - self.el.systemPanel.offsetHeight) + 'px';
+			self.el.bar.style.height = self.el.barItems.length * 18 + 'px';
 			self.el.inner.style.height = withoutSearchHeight;
-			var barItemHeight = ((self.el.bar.offsetHeight - 40) / self.el.barItems.length) + 'px';
+			var barItemHeight = ((self.el.bar.offsetHeight - 40) / self.el.barItems.length - self.el.systemPanel.offsetHeight) + 'px';
 			self.el.barItems.forEach(function(item) {
-				item.style.height = barItemHeight;
-				item.style.lineHeight = barItemHeight;
+				item.style.height = '18px';
+				item.style.lineHeight = '18px';
 			});
 		},
 		scrollTo: function(group) {

@@ -5,7 +5,9 @@ module.exports = {
 	entry: {
 		"user_trend": ["./src/pages/travel/trend.js"],
 		"trend_detail": ["./src/pages/travel/trend_detail.js"],
-		"user_info": ["./src/pages/user/info.js"]
+		"user_info": ["./src/pages/user/info.js"],
+		"address_book": ["./src/pages/address_book.js"],
+		"pk": ["./src/pages/pk.js"]
 		},
 	output: {
 		path: './build',

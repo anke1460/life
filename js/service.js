@@ -1,5 +1,5 @@
 (function($) {
-	$.web_base = "http://youyou.127.0.0.1.xip.io";
+	$.web_base = "http://youyou.192.168.3.3.xip.io";
   $.app_base = $.web_base + "/api/v1";
 	$.guid = function() {
 	  function s4() {
