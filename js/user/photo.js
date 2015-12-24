@@ -44,7 +44,7 @@
 				plus.gallery.pick(
 					function(e) {
 						$.authenGet("/users/avatar_token", params, function(result) {
-				      plus.storage.setItem("cloud_token", result.uptoken);
+				      plus.storage.setItem("cloud_token", result.token);
 						  you.processPhoto(e, callback);
 						});
 					},

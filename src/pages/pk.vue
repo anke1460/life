@@ -6,24 +6,25 @@
 <template>
 	<div class="mui-content">
 		<div class="pk">
-			<div class="mui-col-xs-5 list">
-				<div>
+			<div class="list" style="width: 40%;">
+				<p>
 				 平局	
-				</div>
+				</p>
 				<img :src="own.logo"/>
 			</div>
-			<div class="mui-col-xs-1 list">
-				<div>
+			<div class="list" style="width: 20%;">
+				<div class="vs">
 				 PK	
 				</div>
 			 </div>
-			<div class="mui-col-xs-5 list">
-				<div>
+			<div class="list" style="width: 40%;">
+				<p>
 				 平局	
-				</div>
+				</p>
 				<img :src="opposite.logo"/>
 			</div>
 		</div>
+		
 	</div>
 </template>
 <script>
@@ -46,11 +47,21 @@
 <style lang="sass">
 	.pk {
 		margin-top: 20px;
+		overflow: hidden;
 		.list {
-			display: inline-block;
+			float: left;
 			text-align: center;
 			color: #1FCC7C;
 			font-size: 40px;
 		}
+		p {
+			height: 30px;
+			font-size: 20px;
+			line-height: 30px;
+		}
+	}
+	.vs {
+		height: 108px;
+		line-height: 108px;
 	}
 </style>
