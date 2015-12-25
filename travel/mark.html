@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>标记</title>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	</head>
+	<style type="text/css">
+		.bottom {
+			background: #F3F3F3;
+			position: fixed;
+			bottom: 0px;
+			padding: 10px;
+			width: 100%;
+			text-align: center;
+		}
+	</style>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-content-padded mui-text-center">
+				<p style="margin-top: 150px;">添加你关于以下成就的记录</p>
+				<span>文字</span>
+				<span>相册</span>
+				<span>拍照</span>
+			</div>
+			<div class="bottom">关闭</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui(".bottom")[0].addEventListener("tap", function() {
+				you.current_page.close();
+			})
+		</script>
+	</body>
+</html>

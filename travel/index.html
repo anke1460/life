@@ -176,8 +176,11 @@
 			contents.querySelector('.mui-control-content').classList.add('mui-active');
 			mui("#list").on("tap", "a", function() {
 				mui.openWindow({
-					url: 'scenic_spot.html',
-					id: 'scenic_spot'
+					url: 'map_mark.html',
+					id: 'map_mark',
+					extras: {
+						title: '走遍中国'
+					}
 				})
 			});
 			
