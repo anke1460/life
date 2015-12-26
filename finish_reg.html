@@ -76,8 +76,11 @@
 							you.loading();
 							if (result.success) {
 								you.endLoding();
-								you.getStore("name", accountBox.value.trim());
-								$.openWindow({
+								you.setStore("name", accountBox.value.trim());
+								you.setStore("token", result.authen_token);
+							  you.setStore('logo', result.logo);
+								mui.openWindow({
+									url: 'main.html',
 									id: 'main',
 									show: {
 										aniShow: 'pop-in'

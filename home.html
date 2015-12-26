@@ -66,7 +66,7 @@
 				<ul class="mui-table-view" style="padding: 5px;">
 					<li class="mui-table-view-cell mui-media mui-table-view-chevron">
 						<a id="user_setting" class="mui-navigate-right">
-							<img src="images/user-photo.png" class="mui-media-object mui-pull-left" id="avatar" />
+							<img class="mui-media-object mui-pull-left" id="avatar" />
 							<div class="mui-media-body">
 								<span id="user_name"></span>
 								<p style="margin-top: 5px;">
@@ -117,6 +117,7 @@
 		});
 		mui.plusReady(function() {
 			mui("#user_name")[0].innerText = you.getStore("name");
+			mui("#avatar")[0].src = you.getStore("logo");
 			//			mui("#user_setting span")[0].innerText = you.getStore("name").slice(0,1);
 			var score = echarts.init(document.getElementById('score'));
 			var option = {

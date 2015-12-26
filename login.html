@@ -139,6 +139,7 @@
 							console.log(JSON.stringify(result))
 							plus.storage.setItem("token", result.authen_token);
 							plus.storage.setItem("name", result.name);
+							plus.storage.setItem('logo', result.logo);
 							toMain();
 						}, function(res) {
 							you.alert("手机或密码错误");
