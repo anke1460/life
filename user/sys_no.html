@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <style type="text/css">
+	    .mui-table-view:after, .mui-table-view:before  {
+	    		height: 0px;
+	    	}
+    </style>
+</head>
+<body>
+  <header class="mui-bar mui-bar-nav header">
+	  	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+  		<h1 class="mui-title">绑定有友号</h1>
+  		<button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right" id="save">
+			保存
+		</button>
+  </header>
+  <div class="mui-content">
+  	  <div class="mui-table-view">
+	  		<div class="mui-input-row">
+				<label>有友号</label>
+				<input type="text" placeholder="" value="" id="name">
+			</div>
+  	  </div>
+  	  <div class="mui-content-padded">
+  	  		<h5>设置后，其他人将看到您的有友号</h5>
+  	  </div>
+  </div>
+   <script src="../js/mui.min.js"></script>
+   <script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+	 <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	mui.plusReady(function() {
+//    		var old_back = mui.back;
+//    		mui.back = function() {
+//    			mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
+//    				name: document.getElementById("name").value,
+//    				id: 'sys_no'
+//    			});
+//    			old_back();
+//    		}
+      	});
+      	document.getElementById("save").addEventListener("tap", function() {
+      		you.authenPut("/users/info", {type: 'sys_no', value: document.getElementById("name").value}, function(result) {
+      			console.log(JSON.stringify(result))
+      			mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
+      				name: document.getElementById("name").value,
+      				id: 'sys_no'
+      			});
+      		})
+      	});
+    </script>
+</body>
+</html>

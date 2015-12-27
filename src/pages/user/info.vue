@@ -3,49 +3,55 @@
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" id="upload_avatar">
 				<label style="line-height: 60px;">头像</label>
-				<div id="avatar" class="mui-pull-right" @tap="uploadLogo">
-				</div>
+				<img class="mui-pull-right avatar" :src="user_info.logo" @tap="uploadLogo"/>
 			</a>
 		</li>
 	</ul>
 	<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 15px;">
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" id="user_name" @tap="changeName">
+			<a class="mui-navigate-right" @tap="changeName">
 				<label>昵称</label>
-				<span class="mui-pull-right" id="name">
-					   </span>
+				<span class="mui-pull-right">{{user_info.name}}</span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" id="sex_select" @tap="selectSex">
+			<a class="mui-navigate-right" @tap="selectSex">
 				<label>性别</label>
-				<span class="mui-pull-right" id="sex">
-					   	{{user_info.age || '未填写'}}
-					   </span>
+				<span class="mui-pull-right">
+			   	{{sex_name || '未填写'}}
+				</span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" id="age_select" @tap="selectAge">
+			<a class="mui-navigate-right" @tap="selectAge">
 				<label>出生日期</label>
-				<span class="mui-pull-right" id="age">
-					   	{{user_info.birth || '未填写'}}
-					   </span>
+				<span class="mui-pull-right">
+			   	{{user_info.birth_on || '未填写'}}
+			   </span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" id="my_sign" @tap="changeSign">
+			<a class="mui-navigate-right" @tap="showSysNo">
+				<label>有友号</label>
+				<span class="mui-pull-right">
+			   	{{user_info.sys_no || '绑定有友号'}}
+			   </span>
+			</a>
+		</li>
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right" @tap="changeSign">
 				<label>我的签名</label>
-				<span class="mui-pull-right mui-ellipsis" id="sign">
-					   	{{user_info.sign || '未填写'}}
-					   </span>
+				<span class="mui-pull-right mui-ellipsis">
+			   	{{user_info.sign || '未填写'}}
+			   </span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right">
 				<label>我的头衔</label>
-				<span class="mui-pull-right mui-ellipsis" id="rank" @tap="rank">
-					   {{user_info.rank || '未填写'}}
-					   </span>
+				<span class="mui-pull-right mui-ellipsis" @tap="showRank">
+			   {{rank || '未填写'}}
+			   </span>
 			</a>
 		</li>
 	</ul>
@@ -53,17 +59,17 @@
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" id="hometown_select">
 				<label>家乡</label>
-				<span class="mui-pull-right" id="hometown">
-					   	{{user_info.hometown || '未填写'}}
-					   </span>
+				<span class="mui-pull-right">
+			   	{{home_town || '未填写'}}
+			   </span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" id="place_select">
 				<label>常住地</label>
-				<span class="mui-pull-right" id="place">
-					   	{{user_info.address || '未填写'}}
-					   </span>
+				<span class="mui-pull-right">
+			   	{{address || '未填写'}}
+			   </span>
 			</a>
 		</li>
 	</ul>
@@ -75,32 +81,45 @@
 		data: {
 			user_info: {
 				name: '',
-				age: '',
-				age_id: '',
-				birth: '',
+				sex: '',
+				birth_on: '',
 				sign: '',
-				rank: '',
-				hometown: '',
-				address: ''
-			}
+				rank_id: '',
+				sys_no: '',
+				home_town_id: '',
+				residence_id: '',
+				logo: ''
+			},
+			sex_name: '',
+			rank: '',
+			home_town: '',
+			address: ''
 		},
 		ready: function() {
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
 			mui.plusReady(function() {
-				you.dom("avatar").innerText = you.getStore("name").slice(0, 1);
-				you.dom("name").innerText = you.getStore("name");
-			});
+				you.loading();
+				you.authenGet("/users/info", {}, function(result) {
+					console.log(JSON.stringify(result))
+					this.user_info = result;
+					this.sex_name = {
+						1: "男",
+						2: "女"
+					}[this.user_info.sex];
+					you.endLoding();
+				}.bind(this));
+			}.bind(this));
 			var hometown_pop = new mui.PopPicker({
 				layer: 2
 			});
 			hometown_pop.setData(cityData);
 			var hometown_select = document.getElementById('hometown_select');
-			var hometown = document.getElementById('hometown');
 			hometown_select.addEventListener('tap', function(event) {
 				hometown_pop.show(function(items) {
-					this.user_info.hometown = items[0].text + items[1].text;
+					this.home_town = items[0].text + items[1].text;
+					this.home_town_id = items[1].value;
 				}.bind(this));
 			}.bind(this), false);
 			var place_pop = new mui.PopPicker({
@@ -108,10 +127,10 @@
 			});
 			place_pop.setData(cityData);
 			var place_select = document.getElementById('place_select');
-			var place = document.getElementById('place');
 			place_select.addEventListener('tap', function(event) {
 				place_pop.show(function(items) {
-					this.user_info.address = items[0].text + items[1].text;
+					this.residence_id = items[1].value;
+					this.address = items[0].text + items[1].text;
 				}.bind(this));
 			}.bind(this), false);
 			window.addEventListener("set_value", function(e) {
@@ -137,30 +156,38 @@
 					buttons: actionbuttons
 				};
 				plus.nativeUI.actionSheet(actionstyle, function(e) {
-					this.user_info.age_id = e.index;
-					this.user_info.age = {
-						1: "男",
-						2: "女"
-					}[e.index];
+					this.updateValue({value: e.index, type: 'sex'}, function(result) {
+						this.user_info.sex = e.index;
+						this.sex_name = {
+							1: "男",
+							2: "女"
+						}[e.index];
+					}.bind(this));
 				}.bind(this));
 			},
 			selectAge: function() {
 				var d = new Date();
 				d.setFullYear(1949, 0, 1);
 				plus.nativeUI.pickDate(function(e) {
-						var birder = e.date;
-						you.dom("age").innerText = birder.getFullYear() + "-" + (birder.getMonth() + 1) + "-" + birder.getDate();
-					},
-					mui.noop, {
-						minDate: d,
-						maxDate: new Date()
-					});
+					var birder = e.date;
+					var data = birder.getFullYear() + "-" + (birder.getMonth() + 1) + "-" + birder.getDate();
+					this.updateValue({value: data, type: 'birth_on'}, function(result) {
+						this.user_info.birth_on = data;
+					}.bind(this));
+				}.bind(this),
+				mui.noop, {
+					minDate: d,
+					maxDate: new Date()
+				});
 			},
 			changeSign: function() {
 				this.openWindow("sign.html", "sign.html");
 			},
-			rank: function() {
+			showRank: function() {
 				this.openWindow('rank.html', 'rank');
+			},
+			showSysNo: function() {
+				this.openWindow('sys_no.html', 'sys_no');
 			},
 			openWindow: function(url, id) {
 				mui.openWindow({
@@ -170,7 +197,26 @@
 						aniShow: 'pop-in'
 					}
 				});
+			},
+			updateValue: function(data, callback) {
+				you.authenPut("/users/info", data, function(result) {
+					callback(result);
+				}.bind(this));
 			}
 		}
 	}
 </script>
+
+<style lang="sass">
+	.avatar {
+		height: 60px;
+		line-height: 60px;
+		display: block;
+		background: #ccc;
+		width: 60px;
+		border-radius: 30px;
+		text-align: center;
+		color: red;
+		font-size: 30px;
+	}
+</style>
