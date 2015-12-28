@@ -36,22 +36,15 @@
 	 <script type="text/javascript" charset="utf-8">
       	mui.init();
       	mui.plusReady(function() {
-//    		var old_back = mui.back;
-//    		mui.back = function() {
-//    			mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
-//    				name: document.getElementById("name").value,
-//    				id: 'sys_no'
-//    			});
-//    			old_back();
-//    		}
-      	});
+      		document.getElementById("name").value = you.current_page.value;
+      	})
       	document.getElementById("save").addEventListener("tap", function() {
       		you.authenPut("/users/info", {type: 'sys_no', value: document.getElementById("name").value}, function(result) {
-      			console.log(JSON.stringify(result))
       			mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
       				name: document.getElementById("name").value,
       				id: 'sys_no'
       			});
+      			you.current_page.close();
       		})
       	});
     </script>

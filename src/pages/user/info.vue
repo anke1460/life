@@ -41,15 +41,15 @@
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" @tap="changeSign">
 				<label>我的签名</label>
-				<span class="mui-pull-right mui-ellipsis">
+				<span class="mui-pull-right mui-ellipsis" style="max-width: 60%;">
 			   	{{user_info.sign || '未填写'}}
 			   </span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right">
+			<a class="mui-navigate-right" @tap="showRank">
 				<label>我的头衔</label>
-				<span class="mui-pull-right mui-ellipsis" @tap="showRank">
+				<span class="mui-pull-right mui-ellipsis">
 			   {{rank || '未填写'}}
 			   </span>
 			</a>
@@ -102,7 +102,6 @@
 			mui.plusReady(function() {
 				you.loading();
 				you.authenGet("/users/info", {}, function(result) {
-					console.log(JSON.stringify(result))
 					this.user_info = result;
 					this.sex_name = {
 						1: "男",
@@ -142,8 +141,7 @@
 				this.openWindow("user_name.html", "user_name");
 			},
 			uploadLogo: function() {
-				you.popActionSheet("上传头像", {}, function(result) {
-				});
+				you.popActionSheet("上传头像", {}, noop());
 			},
 			selectSex: function() {
 				var actionbuttons = [{
@@ -181,21 +179,22 @@
 				});
 			},
 			changeSign: function() {
-				this.openWindow("sign.html", "sign.html");
+				this.openWindow("sign.html", "sign.html", {value: this.user_info.sign});
 			},
 			showRank: function() {
 				this.openWindow('rank.html', 'rank');
 			},
 			showSysNo: function() {
-				this.openWindow('sys_no.html', 'sys_no');
+				this.openWindow('sys_no.html', 'sys_no', {value: this.user_info.sys_no});
 			},
-			openWindow: function(url, id) {
+			openWindow: function(url, id, extras) {
 				mui.openWindow({
 					url: url,
 					id: id,
 					styles: {
 						aniShow: 'pop-in'
-					}
+					},
+					extras: extras
 				});
 			},
 			updateValue: function(data, callback) {

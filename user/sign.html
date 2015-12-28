@@ -14,50 +14,14 @@
 				bottom: 15px;
 				z-index: 1;
 			}
+			
 		</style>
 	</head>
-
 	<body>
-		<header class="mui-bar mui-bar-nav header">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">我的签名</h1>
-		</header>
-		<div class="mui-content" id="app">
-			<div class="mui-input-row" style="margin:15px;">
-				<p id="text_tip">最多输入<span>{{size}}字符</span></p>
-				<textarea name="" v-model="content" rows="10" id="content" maxlength="150" @keyup="input"></textarea>
-			</div>
-		</div>
+		<div id="app"></div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" charset="utf-8">
-			new Vue({
-				el: '#app',
-				data: {
-					content: "",
-					size: 150
-				},
-				methods: {
-					input: function() {
-						if (this.size > 1) {
-							this.size = 150 - this.content.length;
-						}
-					}
-				}
-			});
-			mui.init();
-			mui.plusReady(function() {
-				var old_back = mui.back;
-				mui.back = function() {
-					mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
-						name: document.getElementById("content").value,
-						id: 'sign'
-					});
-					old_back();
-				}
-			});
-		</script>
+		<script src="./../build/user_sign.min.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>
