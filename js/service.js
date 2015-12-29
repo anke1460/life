@@ -476,6 +476,23 @@
 			third_search_web.show('slide-in-right', 150);
 		}
 	}
+	
+	$.getCity = function(city) {
+		var name = "";
+		var city = city.toString();
+		mui.each(cityData, function(i, d) {
+		  if (d.value == city.slice(0,-3) + "000") {
+		   mui.each(d.children, function(i1,d1) {
+		     if (d1.value == city) {
+		      name = d.text + d1.text;
+		      return false;
+		     }
+		   });
+		   return false;
+		  }
+		});
+		return name;
+	}
 			
 })(window.you = {});
 

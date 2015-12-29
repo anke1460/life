@@ -103,6 +103,8 @@
 				you.loading();
 				you.authenGet("/users/info", {}, function(result) {
 					this.user_info = result;
+					this.home_town = you.getCity(this.user_info.home_town_id);
+					this.address = you.getCity(this.user_info.residence_id	);
 					this.sex_name = {
 						1: "男",
 						2: "女"
@@ -117,8 +119,10 @@
 			var hometown_select = document.getElementById('hometown_select');
 			hometown_select.addEventListener('tap', function(event) {
 				hometown_pop.show(function(items) {
-					this.home_town = items[0].text + items[1].text;
-					this.home_town_id = items[1].value;
+					this.updateValue({value: items[1].value, type: 'home_town_id'}, function(result) {
+						this.home_town = items[0].text + items[1].text;
+						this.home_town_id = items[1].value;
+					}.bind(this));
 				}.bind(this));
 			}.bind(this), false);
 			var place_pop = new mui.PopPicker({
@@ -128,8 +132,10 @@
 			var place_select = document.getElementById('place_select');
 			place_select.addEventListener('tap', function(event) {
 				place_pop.show(function(items) {
-					this.residence_id = items[1].value;
-					this.address = items[0].text + items[1].text;
+					this.updateValue({value: items[1].value, type: 'residence_id'}, function(result) {
+						this.residence_id = items[1].value;
+						this.address = items[0].text + items[1].text;
+					}.bind(this));
 				}.bind(this));
 			}.bind(this), false);
 			window.addEventListener("set_value", function(e) {
@@ -141,7 +147,7 @@
 				this.openWindow("user_name.html", "user_name");
 			},
 			uploadLogo: function() {
-				you.popActionSheet("上传头像", {}, noop());
+				you.popActionSheet("上传头像", {}, mui.noop);
 			},
 			selectSex: function() {
 				var actionbuttons = [{
