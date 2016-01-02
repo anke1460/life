@@ -8,6 +8,7 @@
 
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
 		<style type="text/css">
 			#slider {
 				height: 150px;
@@ -78,88 +79,17 @@
 	</head>
 
 	<body>
-		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
-		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<div id="spot">
-					<div id="slider" class="mui-slider">
-						<div class="mui-slider-group mui-slider-loop">
-							<div class="mui-slider-item mui-slider-item-duplicate">
-								<a href="#"><img src="../images/muwu.jpg"></a>
-							</div>
-							<div class="mui-slider-item">
-								<a href="#"><img src="../images/yuantiao.jpg"></a>
-							</div>
-						</div>
-						<div class="mui-slider-indicator">
-							<div class="mui-indicator mui-active"></div>
-							<div class="mui-indicator"></div>
-						</div>
-					</div>
-					<div id="address_desc">
-						<span id="address">安徽黄山</span>
-						<span id="">成就分数： 10分</span>
-						<p>An Hui Mount Huangshan</p>
-					</div>
-				</div>
-				<div class="mui-content-padded">
-					<p>黄山位于安慰省南部黄山市境内，是安徽旅游的标志，系中国十大风景名胜中唯一的山岳风光。其奇松、奇石、云海、温泉四等独特景观</p>
-				</div>
-				<ul class="mui-table-view mui-table-view-chevron" id="data_statistics">
-					<li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#">有友数据---<span style="color: #8F8F94;font-size: 14px;">来自好友的评价信息</span></a>
-						<ul class="mui-table-view mui-table-view-chevron">
-							<li class="mui-table-view-cell" style="padding: 0px;">
-								<table style="width: 100%;">
-									<thead>
-										<td>来源</td>
-										<td>体验</td>
-										<td>耗时</td>
-										<td>花费</td>
-										<td>时间</td>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<img src="../images/user-photo.png" class="u-avatar" />
-												<span class="u-name mui-ellipsis">有友平均</span></td>
-											<td>4.7</td>
-											<td>3.5天</td>
-											<td>1400</td>
-											<td>2天</td>
-										</tr>
-										<tr>
-											<td>
-												<img src="../images/user-photo.png" class="u-avatar" />
-												<span class="u-name mui-ellipsis">angala baby</span></td>
-											<td>4.7</td>
-											<td>3.25天</td>
-											<td>144400</td>
-											<td>200天</td>
-										</tr>
-									</tbody>
-								</table>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell">
-						<span class="mui-pull-left">成就完成情况</span>
-						<span class="mui-pull-right">未完成0分</span>
-					</li>
-				</ul>
-				<div id="trend"></div>
-		</div>
-		</div>
+		<div id="app"></div>
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="http://localhost:8080/user_trend.min.js"></script>
 		<script type="text/javascript">
 		
-			document.getElementById("back").addEventListener("tap", function() {
-				console.log('back')
-				mui.back();
-			})
+//			document.getElementById("back").addEventListener("tap", function() {
+//				console.log('back')
+//				mui.back();
+//			})
 		</script>
 	</body>
 
