@@ -10,7 +10,8 @@ module.exports = {
 		"user_info":						["./src/pages/user/info.js"],
 		"user_sign":						["./src/pages/user/sign.js"],
 		"address_book": 				["./src/pages/address_book.js"],
-		"pk":									["./src/pages/pk.js"]
+		"pk":									["./src/pages/pk.js"],
+		"growth":							["./src/pages/growth.js"]
 		},
 	output: {
 		path: './build',

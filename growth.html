@@ -41,8 +41,6 @@
 				float: left;
 			}
 			
-			
-			
 			.mui-slider-cell h6 {
 				display: table;
 				width: 100%;
@@ -52,11 +50,11 @@
 				font-size: 16px;
 			}
 			
-			.mui-table-view-cell {
+			/*.mui-table-view-cell {
 				padding: 0px;
-			}
+			}*/
 			
-			.unselect {
+			/*.unselect {
 				background: url(images/uncheck.png);
 				width: 48px;
 				height: 48px;
@@ -67,20 +65,20 @@
 			
 			#text {
 				color: #1FCC7C;
-			}
+			}*/
 			
-			#custom_list {
+			.custom_list {
 				padding: 0px 10px;
 				margin-bottom: 10px;
 			}
 			
-			#custom_list li {
+			.custom_list li {
 				position: relative;
 				padding: 10px 0px;
 				margin: 0px;
 			}
 			
-			#custom_list .mui-switch {
+			.custom_list .mui-switch {
 				position: absolute;
 				top: 10px;
 				right: 20px;
@@ -89,109 +87,20 @@
 	</head>
 
 	<body>
-		<div class="mui-content">
-			<div class=" mui-content-padded">
-				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
-					<li class="mui-table-view-cell wish" data-name="书虫">
-						<div class="mui-slider-cell">
-							<h6>
-							<span class="mui-pull-left">许愿10天</span>
-							<span class="mui-pull-right">剩余1天</span>
-						</h6>
-							<div class="oa-contact-cell mui-table">
-								<div class="oa-contact-avatar mui-table-cell">
-									<p class="mui-pull-right">成就分值:10</p>
-									书虫
-									<p>读完以下书籍中的200本</p>
-									<p>
-										<h5 class="mui-pull-left">完成进度：</h5>
-
-										<div class="Bars mui-pull-left">
-											<div style="width: 63%;" class="">
-												<span class=""></span>
-											</div>
-										</div>
-										<span class="mui-pull-left">12/500</span>
-									</p>
-								</div>
-							</div>
-							<h5>关联习惯</h5>
-							<ol id="custom_list">
-								<li>
-									<div class="">
-										每天读书1小时
-									</div>
-									<div class="mui-switch mui-switch-mini mui-pull-right">
-										<div class="mui-switch-handle"></div>
-									</div>
-								</li>
-								<li>
-									<div class="">
-										每天走路1小时
-									</div>
-									<div class="mui-switch mui-switch-mini mui-pull-right">
-										<div class="mui-switch-handle"></div>
-									</div>
-								</li>
-							</ol>
-						</div>
-					</li>
-					<li class="mui-table-view-divider"></li>
-					<li class="mui-table-view-cell">
-						<div class="mui-slider-cell">
-							<h6>
-							<span class="mui-pull-left">许愿10天</span>
-							<span class="mui-pull-right">剩余1天</span>
-						</h6>
-							<div class="oa-contact-cell mui-table">
-								<div class="oa-contact-avatar mui-table-cell">
-									<p class="mui-pull-right">成就分值:10</p>
-									书虫
-									<p>读完以下书籍中的200本</p>
-									<p>
-										<h5 class="mui-pull-left">完成进度：</h5>
-
-										<div class="Bars mui-pull-left">
-											<div style="width: 63%;" class="">
-												<span class=""></span>
-											</div>
-										</div>
-										<span class="mui-pull-left">12/500</span>
-									</p>
-								</div>
-							</div>
-							<h5>关联习惯</h5>
-							<ol id="custom_list">
-								<li>
-									<div class="">
-										每天读书1小时
-									</div>
-									<div class="mui-switch mui-switch-mini mui-pull-right">
-										<div class="mui-switch-handle"></div>
-									</div>
-								</li>
-							</ol>
-						</div>
-					</li>
-				</ul>
-
-			</div>
-		</div>
+	  <div id="app"></div>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://localhost:8080/growth.min.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-		mui.init({
-			swipeBack: true //启用右滑关闭功能
-		});
-		mui("#list").on("tap", ".wish", function() {
-			you.loadWebUrl("wish/wish_detail.html", "template", {
-				title: this.dataset.name,
-				target: "wish/wish_detail.html",
-				aniShow: 'slide-in-right'
-			});
-		});
-
+//		mui("#list").on("tap", ".wish", function() {
+//			you.loadWebUrl("wish/wish_detail.html", "template", {
+//				title: this.dataset.name,
+//				target: "wish/wish_detail.html",
+//				aniShow: 'slide-in-right'
+//			});
+//		});
+//
 		function showMenu() {
 			you.loadWebUrl("dimension.html", "template", {
 				title: '评分维度',
