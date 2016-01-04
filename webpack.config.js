@@ -11,7 +11,8 @@ module.exports = {
 		"user_sign":						["./src/pages/user/sign.js"],
 		"address_book": 				["./src/pages/address_book.js"],
 		"pk":									["./src/pages/pk.js"],
-		"growth":							["./src/pages/growth.js"]
+		"growth":							["./src/pages/growth.js"],
+		"wish_detail":					["./src/pages/wish/detail.js"]
 		},
 	output: {
 		path: './build',

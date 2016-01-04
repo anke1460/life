@@ -9,24 +9,26 @@
 			<ul class="mui-table-view">
 				<template v-for="item in items">
 					<li class="mui-table-view-divider" v-show="$index != 0"></li>
-					<li class="mui-table-view-cell wish" @click="go(item, $event)">
+					<li class="mui-table-view-cell wish">
 						<div class="mui-slider-cell">
-							<h6>
-							<span class="mui-pull-left">许愿 {{item.wish_day}} 天</span>
-							<span class="mui-pull-right">剩余 {{item.residue_day}} 天</span>
-						</h6>
-							<div class="oa-contact-cell mui-table">
-								<div class="oa-contact-avatar mui-table-cell">
-									<p class="mui-pull-right">成就分值: {{item.score}}</p>
-									{{item.name}}
-									<p> {{item.description}}</p>
-									<p>
-										<h5 class="mui-pull-left">完成进度：</h5>
-										<div class="progress-bar orange shine">
-											<span :style="{width:finished[$index] + '%'}"></span>
-										</div>
-										<span class="finished-text">{{finished[$index]}} %</span>
-									</p>
+							<div class="wish_content" @click="go(item, $event)">
+								<h6>
+									<span class="mui-pull-left">许愿 {{item.wish_day}} 天</span>
+									<span class="mui-pull-right">剩余 {{item.residue_day}} 天</span>
+								</h6>
+								<div class="oa-contact-cell mui-table">
+									<div class="oa-contact-avatar mui-table-cell">
+										<p class="mui-pull-right">成就分值: {{item.score}}</p>
+										{{item.name}}
+										<p> {{item.description}}</p>
+										<p>
+											<h5 class="mui-pull-left">完成进度：</h5>
+											<div class="progress-bar orange shine">
+												<span :style="{width:finished[$index] + '%'}"></span>
+											</div>
+											<span class="finished-text">{{finished[$index]}} %</span>
+										</p>
+									</div>
 								</div>
 							</div>
 							<h5>关联习惯</h5>
@@ -85,6 +87,23 @@
 			});
 			mui.plusReady(function() {
 				you.loading();
+				this.load();
+			}.bind(this))
+		},
+		methods: {
+			go: function(item, e) {
+				if (!e.target.classList.contains("mui-switch-handle")) {
+				  var wish_id = item.id;
+					plus.storage.setItem("wish_id", wish_id.toString());
+					you.loadWebUrl("wish/wish_detail.html", "template", {
+						title: item.name,
+						target: "wish/wish_detail.html",
+						aniShow: 'slide-in-right'
+					});
+				}
+			},
+			load: function() {
+				console.log('loadding')
 				you.authenGet("/wishes", {}, function(result) {
 					console.log(JSON.stringify(result))
 					this.items = result.wishes;
@@ -93,17 +112,6 @@
 						mui('.mui-content .mui-switch')['switch']();
 					}, 200)
 				}.bind(this));
-			}.bind(this))
-		},
-		methods: {
-			go: function(item, e) {
-				if (! [e.target.classList[0]].includes("mui-switch-handle")) {
-					you.loadWebUrl("wish/wish_detail.html", "template", {
-						title: item.name,
-						target: "wish/wish_detail.html",
-						aniShow: 'slide-in-right'
-					});
-				}
 			}
 		}
 	}
