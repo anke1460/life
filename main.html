@@ -19,6 +19,54 @@
 				color: #fff;
 				font-weight: bold;
 			}
+			.ihave {
+				background-image: url(images/woyou.png);
+			}
+			.mui-active .ihave {
+				background-image: url(images/woyou_active.png);
+			}
+			
+			.growth {
+				background-image: url(images/growth.png);
+			}
+			
+			.mui-active .growth {
+				background-image: url(images/growth_active.png);
+			}
+			
+			.friends {
+				background-image: url(images/friends.png);
+			}
+			
+			.mui-active .friends {
+				background-image: url(images/friends_active.png);
+			}
+			
+			.find {
+				background-image: url(images/find.png);
+			}
+			
+			.mui-active .find {
+				background-image: url(images/find_active.png);
+			}
+			
+			.mui-bar-tab {
+				height: 60px;
+				background: #fff;
+			}
+			
+			.mui-bar-tab .mui-icon {
+				width: 24px;
+				height: 24px;
+				background-size: 100%;
+			}
+			.mui-bar-tab .mui-tab-item.mui-active .mui-icon~.mui-tab-label  {
+				color: #1FCC7C;
+			}
+			.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label {
+				font-size: 14px;
+				color: #999;
+			}
 		</style>
 	</head>
 
@@ -31,19 +79,19 @@
 		</header>
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
-				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-icon ihave"></span>
 				<span class="mui-tab-label">我有</span>
 			</a>
 			<a class="mui-tab-item" href="growth.html">
-				<span class="mui-icon mui-icon-email"></span>
+				<span class="mui-icon growth"></span>
 				<span class="mui-tab-label">成长</span>
 			</a>
 			<a class="mui-tab-item" href="circle.html">
-				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-icon friends"></span>
 				<span class="mui-tab-label">我友</span>
 			</a>
 			<a class="mui-tab-item" href="setting.html">
-				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-icon find"></span>
 				<span class="mui-tab-label">发现</span>
 			</a>
 		</nav>
@@ -53,8 +101,8 @@
 			mui.init();
 			var subpages = ['home.html', 'growth.html', 'circle.html', 'setting.html'];
 			var subpage_style = {
-				top: '45px',
-				bottom: '51px'
+				top: '44px',
+				bottom: '61px'
 			};
 			
 			var aniShow = {};
