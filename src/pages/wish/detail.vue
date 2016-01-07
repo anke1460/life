@@ -31,38 +31,41 @@
 			关联并坚持一个好习惯，让目标更容易实现
 			<a id="add_habit" href="#pop_custom" class="">+</a>
 		</div>
-		<div class="mui-content-padded">
-			<h5>习惯1: 每天看书1小时</h5>
-		</div>
-		<div id="calendar">
+		<div v-for="habit in wish.habits">
+			<div class="mui-content-padded">
+				<h5>习惯{{$index}}: {{habit.name}}</h5>
+			</div>
+			<div id="calendar{{$index}}">
 
-		</div>
-		<ul class="mui-table-view">
-			<li class="mui-table-view-cell">
-				<span id="">
+			</div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<span id="">
 						坚持
 					</span>
-				<span class="mui-pull-right">
+					<span class="mui-pull-right">
 						<strong style="color: #1FCC7C;">1</strong> 天
 					</span>
-			</li>
-			<li class="mui-table-view-cell">
-				<span id="">
+				</li>
+				<li class="mui-table-view-cell">
+					<span id="">
 						出勤率
 					</span>
-				<span class="mui-pull-right">
+					<span class="mui-pull-right">
 						<strong style="color: #1FCC7C;">20</strong> %
 					</span>
-			</li>
-			<li class="mui-table-view-cell">
-				<span id="">
+				</li>
+				<li class="mui-table-view-cell">
+					<span id="">
 						最高连续出勤率
 					</span>
-				<span class="mui-pull-right">
+					<span class="mui-pull-right">
 						<strong style="color: #1FCC7C;">10</strong> 天
 					</span>
-			</li>
-		</ul>
+				</li>
+			</ul>
+		</div>
+
 	</div>
 	<div id="pop_custom" class="mui-popover">
 		<h4 class="pop-title">关联习惯</h4>
@@ -81,7 +84,7 @@
 			</div>
 			<div class="mui-input-row">
 				<label>检查方式</label>
-				<button class="btn" id="self_btn">自主打卡</button>
+				<button class="btn mui-btn-default" id="self_btn">自主打卡</button>
 				<button class="btn" id="friend_btn">好友监督</button>
 			</div>
 		</form>
@@ -96,6 +99,7 @@
 		data: function() {
 			return {
 				wish: '',
+				habits: '',
 				name: '',
 				max_position: 1,
 				position: 1
@@ -104,35 +108,45 @@
 		ready: function() {
 			mui.init();
 			mui.ready(function() {
-				var yesterday = mui.DateUtil.addDate(mui.DateUtil.getToday(), -1);
-				var MC = mui("#calendar").MCalendar({
-					date: yesterday
-				});
 				mui("#pop_custom").on("tap", ".btn", function(e) {
 					e.stopPropagation()
 				});
-			});
+			}.bind(this));
 			mui.plusReady(function() {
 				you.loading();
 				you.authenGet("/wishes/" + plus.storage.getItem("wish_id"), {}, function(result) {
-					this.wish = result;
+					console.log(JSON.stringify(result))
+					this.wish = result.wish;
 					you.endLoding();
+					var i = 0;
+					console.log(this.wish.habits.length)
+					for (i; i < this.wish.habits.length; i++) {
+						console.log(mui("#calendar" + i))
+						var yesterday = mui.DateUtil.addDate(mui.DateUtil.getToday(), -1);
+						var MC = mui("#calendar" + i).MCalendar({
+							date: yesterday
+						});
+					}
 				}.bind(this));
 			}.bind(this))
 		},
 		methods: {
 			save: function() {
-				you.authenPost("/wishes/" + plus.storage.getItem("wish_id") + "/habit", {
-					name: this.name,
-					position: this.position
-				}, function(result) {
-					console.log(JSON.stringify(result))
-					console.log(this.name, this.max_position)
-					this.max_position += 1;
-					mui(".mui-numbox").numbox().setOption('max', this.max_position);
-					mui(".mui-numbox .mui-btn-numbox-plus")[0].removeAttribute("disabled");
-					mui("#pop_custom").popover();
-				}.bind(this))
+				if (this.name.trim() != "") {
+					you.authenPost("/wishes/" + plus.storage.getItem("wish_id") + "/habit", {
+						name: this.name,
+						position: this.position
+					}, function(result) {
+						console.log(JSON.stringify(result))
+						console.log(this.name, this.max_position)
+						this.max_position += 1;
+						mui(".mui-numbox").numbox().setOption('max', this.max_position);
+						mui(".mui-numbox .mui-btn-numbox-plus")[0].removeAttribute("disabled");
+						mui("#pop_custom").popover('toggle');
+					}.bind(this));
+				} else {
+					you.alert("请输入习惯名称");
+				}
 			}
 		}
 	}

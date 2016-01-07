@@ -33,9 +33,9 @@
 							</div>
 							<h5>关联习惯</h5>
 							<ul class="mui-table-view">
-								<li class="mui-table-view-cell">
+								<li class="mui-table-view-cell" v-for="habit in item.habits">
 									<span class="">
-									每天读书1小时
+									{{habit.name}}
 								</span>
 									<div class="mui-switch mui-switch-mini">
 										<div class="mui-switch-handle"></div>
