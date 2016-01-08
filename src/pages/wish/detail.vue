@@ -4,92 +4,91 @@
 	描述：心愿详情页面
 -->
 <template>
-	<div class="mui-content">
-		<div class="mui-content-padded">
-			<p>
-				<span id="" style="font-size: 18px;">
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content-padded">
+				<p>
+					<span id="" style="font-size: 18px;">
 					{{wish.description}}
 				</span>
-				<span style="float: right;">剩余：
+					<span style="float: right;">剩余：
 					<strong>{{wish.residue_day}}</strong>
 				</span>
-			</p>
-			<p>
-				许愿时间：
-				<span id="">
+				</p>
+				<p>
+					许愿时间：
+					<span id="">
 					 {{wish.created_at}}
 				</span>
-			</p>
-			<!--<p>
-					自我鼓励：
 				</p>
-				<p>1.每天读一会，目标更容易实现</p>
-				<p>2.加油！</p>-->
-		</div>
-
-		<div id="habit">
-			关联并坚持一个好习惯，让目标更容易实现
-			<a id="add_habit" href="#pop_custom" class="">+</a>
-		</div>
-		<div v-for="habit in wish.habits">
-			<div class="mui-content-padded">
-				<h5>习惯{{$index}}: {{habit.name}}</h5>
 			</div>
-			<div id="calendar{{$index}}">
 
+			<div id="habit">
+				关联并坚持一个好习惯，让目标更容易实现
+				<a id="add_habit" href="#pop_custom" class="">+</a>
 			</div>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<span id="">
+			<div id="calendar0">
+			</div>
+			<div v-for="habit in wish.habits">
+				<div class="mui-content-padded">
+					<h5>习惯{{$index}}: {{habit.name}}</h5>
+				</div>
+				<div id="calendar{{$index}}">
+
+				</div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<span id="">
 						坚持
 					</span>
-					<span class="mui-pull-right">
+						<span class="mui-pull-right">
 						<strong style="color: #1FCC7C;">1</strong> 天
 					</span>
-				</li>
-				<li class="mui-table-view-cell">
-					<span id="">
+					</li>
+					<li class="mui-table-view-cell">
+						<span id="">
 						出勤率
 					</span>
-					<span class="mui-pull-right">
+						<span class="mui-pull-right">
 						<strong style="color: #1FCC7C;">20</strong> %
 					</span>
-				</li>
-				<li class="mui-table-view-cell">
-					<span id="">
+					</li>
+					<li class="mui-table-view-cell">
+						<span id="">
 						最高连续出勤率
 					</span>
-					<span class="mui-pull-right">
+						<span class="mui-pull-right">
 						<strong style="color: #1FCC7C;">10</strong> 天
 					</span>
-				</li>
-			</ul>
-		</div>
+					</li>
+				</ul>
+			</div>
 
-	</div>
-	<div id="pop_custom" class="mui-popover">
-		<h4 class="pop-title">关联习惯</h4>
-		<form class="mui-input-group">
-			<div class="mui-input-row">
-				<label>名称</label>
-				<input type="text" placeholder="习惯名称" v-model="name">
-			</div>
-			<div class="mui-input-row">
-				<label>显示顺序</label>
-				<div class="mui-numbox" data-numbox-max="{{max_position}}" data-numbox-min="1">
-					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					<input class="mui-input-numbox" type="number" value="1" v-model="position" />
-					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+		</div>
+		<div id="pop_custom" class="mui-popover">
+			<h4 class="pop-title">关联习惯</h4>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>名称</label>
+					<input type="text" placeholder="习惯名称" v-model="name">
 				</div>
+				<div class="mui-input-row">
+					<label>显示顺序</label>
+					<div class="mui-numbox" data-numbox-max="{{max_position}}" data-numbox-min="1">
+						<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+						<input class="mui-input-numbox" type="number" value="1" v-model="position" />
+						<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+					</div>
+				</div>
+				<div class="mui-input-row">
+					<label>检查方式</label>
+					<button class="btn mui-btn-default" id="self_btn">自主打卡</button>
+					<button class="btn" id="friend_btn">好友监督</button>
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button class="mui-btn mui-btn-block mui-btn-default" style="padding: 10px;" @tap="save">生成</button>
 			</div>
-			<div class="mui-input-row">
-				<label>检查方式</label>
-				<button class="btn mui-btn-default" id="self_btn">自主打卡</button>
-				<button class="btn" id="friend_btn">好友监督</button>
-			</div>
-		</form>
-		<div class="mui-content-padded">
-			<button class="mui-btn mui-btn-block mui-btn-default" style="padding: 10px;" @tap="save">生成</button>
 		</div>
 	</div>
 </template>
@@ -117,16 +116,29 @@
 				you.authenGet("/wishes/" + plus.storage.getItem("wish_id"), {}, function(result) {
 					console.log(JSON.stringify(result))
 					this.wish = result.wish;
-					you.endLoding();
-					var i = 0;
-					console.log(this.wish.habits.length)
-					for (i; i < this.wish.habits.length; i++) {
-						console.log(mui("#calendar" + i))
-						var yesterday = mui.DateUtil.addDate(mui.DateUtil.getToday(), -1);
-						var MC = mui("#calendar" + i).MCalendar({
-							date: yesterday
-						});
-					}
+					setTimeout(function() {
+						var i = 0;
+						console.log(this.wish.habits.length)
+						for (i; i < this.wish.habits.length; i++) {
+							var now = new Date(),
+								year = now.getFullYear(),
+								month = now.getMonth();
+							$("#calendar" + i).mobiscroll().calendar({
+								theme: 'mobiscroll',
+								display: 'inline',
+								layout: 'liquid',
+								markedText: true,
+								marked: [{
+									d: new Date('2016-01-01'),
+									icon: 'home'
+								}, {
+									d: new Date(new Date().setDate(9)),
+									icon: 'home'
+								}, ]
+							});
+							you.endLoding();
+						}
+					}.bind(this), 10);
 				}.bind(this));
 			}.bind(this))
 		},
@@ -204,5 +216,20 @@
 		left: 50% !important;
 		margin-top: -110px;
 		margin-left: -140px;
+	}
+	
+	.mbsc-ic.mbsc-ic-home {
+		display: inline-block;
+		font-family: Muiicons;
+		font-size: 24px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1;
+		text-decoration: none;
+		-webkit-font-smoothing: antialiased;
+		&:before {
+			content: "\e501";
+			font-family: Muiicons;
+		}
 	}
 </style>
