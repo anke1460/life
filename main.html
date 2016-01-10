@@ -73,14 +73,17 @@
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<a id="chat" class="mui-icon mui-icon-chat mui-pull-left" style="display: none;"></a>
-			<h1 id="title" class="mui-title">我有</h1>
+			<h1 id="title" class="mui-title" style="display: none;">我有</h1>
+			<div class="mui-input-row mui-search" style="color: #000000;" id="search">
+				<input type="search" class="mui-input-clear" placeholder="" style="background: #fff;">
+			</div>
 			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
 			<a id="contact" class="mui-icon mui-icon-contact mui-pull-right" style="margin-right: 10px;display:none"></a>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="dashbord.html">
 				<span class="mui-icon ihave"></span>
-				<span class="mui-tab-label">我有</span>
+				<span class="mui-tab-label">首页</span>
 			</a>
 			<a class="mui-tab-item" href="growth.html">
 				<span class="mui-icon growth"></span>
@@ -99,7 +102,7 @@
 		<script type="text/javascript" charset="utf-8">
 			var activeTab = null;
 			mui.init();
-			var subpages = ['home.html', 'growth.html', 'circle.html', 'setting.html'];
+			var subpages = ['dashbord.html', 'growth.html', 'circle.html', 'setting.html'];
 			var subpage_style = {
 				top: '44px',
 				bottom: '61px'
@@ -134,6 +137,13 @@
 				document.getElementById("menu").style.display = "none";
 				document.getElementById("chat").style.display = "none";
 				document.getElementById("contact").style.display = "none";
+			  	if (targetTab == 'dashbord.html') { 
+			  		document.getElementById("title").style.display = "none";
+			  		document.getElementById("search").style.display = "";
+			  	} else {
+			  		document.getElementById("title").style.display = "";
+			  		document.getElementById("search").style.display = "none";
+			  	}
 				if (targetTab == 'growth.html') {
 					document.getElementById("menu").style.display = "";
 				} else if (targetTab == 'circle.html') {

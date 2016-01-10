@@ -12,7 +12,8 @@ module.exports = {
 		"address_book": 				["./src/pages/address_book.js"],
 		"pk":									["./src/pages/pk.js"],
 		"growth":							["./src/pages/growth.js"],
-		"wish_detail":					["./src/pages/wish/detail.js"]
+		"wish_detail":					["./src/pages/wish/detail.js"],
+		"dashboard":           ["./src/pages/dashboard.js"]
 		},
 	output: {
 		path: './build',
