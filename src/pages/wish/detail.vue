@@ -134,7 +134,7 @@
 								}, {
 									d: new Date(new Date().setDate(9)),
 									icon: 'home'
-								}, ]
+								}]
 							});
 							you.endLoding();
 						}

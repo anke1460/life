@@ -4,69 +4,114 @@
 	描述：首页
 -->
 <template>
-	<div class="mui-content">
-		<div class="mui-slider">
-			<div class="mui-slider-group">
-				<div class="mui-slider-item">
-					<ul class="mui-table-view mui-grid-view mui-grid-9">
-						<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel">
-							<a href="#">
-								<img :src="item.img" class="img" />
-								<div class="mui-media-body">{{item.name}}</div>
-							</a>
-						</li>
-					</ul>
-					<div id="travel">
-						<img :src="'images/title.png'" />
+	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-slider">
+				<div class="mui-slider-group">
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel">
+								<a href="#">
+									<img :src="item.img" class="img" />
+									<div class="mui-media-body">{{item.name}}</div>
+								</a>
+							</li>
+						</ul>
+						<div id="travel">
+							<img :src="'images/title.png'" />
+						</div>
+					</div>
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in food">
+								<a href="#">
+									<img :src="item.img" class="img" />
+									<div class="mui-media-body">{{item.name}}</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social">
+								<a href="#">
+									<img :src="item.img" class="img" />
+									<div class="mui-media-body">{{item.name}}</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in hobby">
+								<a href="#">
+									<img :src="item.img" class="img" />
+									<div class="mui-media-body">{{item.name}}</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
+								<a href="#">
+									<img :src="item.img" class="img" />
+									<div class="mui-media-body">{{item.name}}</div>
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
-				<div class="mui-slider-item">
-					<ul class="mui-table-view mui-grid-view mui-grid-9">
-						<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in food">
-							<a href="#">
-								<img :src="item.img" class="img" />
-								<div class="mui-media-body">{{item.name}}</div>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="mui-slider-item">
-					<ul class="mui-table-view mui-grid-view mui-grid-9">
-						<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social">
-							<a href="#">
-								<img :src="item.img" class="img" />
-								<div class="mui-media-body">{{item.name}}</div>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="mui-slider-item">
-					<ul class="mui-table-view mui-grid-view mui-grid-9">
-						<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in hobby">
-							<a href="#">
-								<img :src="item.img" class="img" />
-								<div class="mui-media-body">{{item.name}}</div>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="mui-slider-item">
-					<ul class="mui-table-view mui-grid-view mui-grid-9">
-						<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
-							<a href="#">
-								<img :src="item.img" class="img" />
-								<div class="mui-media-body">{{item.name}}</div>
-							</a>
-						</li>
-					</ul>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
 				</div>
 			</div>
-			<div class="mui-slider-indicator">
-				<div class="mui-indicator mui-active"></div>
-				<div class="mui-indicator"></div>
-				<div class="mui-indicator"></div>
-				<div class="mui-indicator"></div>
-				<div class="mui-indicator"></div>
+			<div id="advert-wraper">
+				<img :src="'images/advert.png'" />
+			</div>
+			<div id="three_module">
+				<div class="mui-col-xs-4 mui-pull-left">
+					<img :src="'images/rank.png'" />
+				</div>
+				<div class="mui-col-xs-4 mui-pull-left">
+					<img :src="'images/vs.png'" />
+				</div>
+				<div class="mui-col-xs-4 mui-pull-left">
+					<img :src="'images/find_friend.png'" />
+				</div>
+			</div>
+			<div id="infos">
+				<div id="baner">
+					<a class="active">推荐</a>
+					<a>最新</a>
+					<a>朋友</a>
+					<a>我</a>
+				</div>
+				<div id="all" class="">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media" v-for="item in trends">
+							<img class="mui-media-object mui-pull-left" :src="item.avatar">
+							<div class="mui-media-body" style="margin: 0px;">
+								<span class="user-name">
+									{{item.name}}
+								</span>
+								<div class="info-content">{{item.content}}</div>
+								<p>
+									<img :src="img.img" width="100px" v-for="img in item.imgs" class="thumb-img" />
+								</p>
+								<span class="time">1分钟前</span>
+								<div class="mui-pull-right">
+									<span class="mui-icon mui-icon-checkmarkempty"></span>
+									<span class="mui-icon mui-icon-chatboxes" @tap="detail"></span>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -81,31 +126,92 @@
 				hobby: [],
 				social: [],
 				skill: [],
-				food: []
+				food: [],
+				trends: []
 			}
 		},
 		ready: function() {
-			mui.init();
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					up: {
+						contentrefresh: "上拉加载动态",
+						contentnomore: '',
+						callback: function() {
+							console.log("3333")
+							this.trends = this.trends.concat({
+								avatar: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg',
+								name: '刘德华',
+								content: '五岳归来不看山，黄山归来不看岳，绝对的经典，一年四个样',
+								imgs: [{
+									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
+								}, {
+									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
+								}]
+							});
+							mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+						}.bind(this)
+					}
+				}
+			});
 			mui.plusReady(function() {
 				you.authenGet("/classifies", {}, function(result) {
 					console.log(JSON.stringify(result))
 						//					this.items = result.classifies;
 					mui.each(result.classifies, function(i, d) {
 						this[d.alias].push(d);
-						this[d.alias].push
+						this[d.alias].splice(9, this[d.alias].length - 9);
+						this[d.alias].push({
+							name: '更多',
+							img: './images/1.png'
+						});
 					}.bind(this));
-					this.travel.push({
-						name: '更多',
-						img: './images/1.png'
-					})
 				}.bind(this))
 			}.bind(this));
 		}
 	}
 </script>
 <style lang="sass">
+	html,
+	body,
+	.mui-content {
+		height: 100%;
+		background: #fff;
+	}
+	
 	.mui-slider-indicator .mui-active.mui-indicator {
 		background: #1FCC7C;
+	}
+	
+	#advert-wraper img {
+		width: 100%;
+	}
+	
+	.thumb-img img {
+		margin-right: 5px;
+	}
+	
+	#three_module {
+		overflow: hidden;
+		div {
+			text-align: center;
+		}
+		img {
+			max-width: 100px;
+		}
+	}
+	
+	#baner {
+		margin-top: 10px;
+		border-top: 1px solid #F3F3F3;
+		border-bottom: 1px solid #F3F3F3;
+		padding: 10px;
+		a {
+			margin: 0 10px;
+			&.active {
+				color: #1FCC7C;
+			}
+		}
 	}
 	
 	#travel {
@@ -121,7 +227,7 @@
 	}
 	
 	.mui-slider .mui-slider-group {
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 	}
 	
 	.mui-slider .mui-slider-group .mui-slider-item img {
@@ -130,11 +236,40 @@
 		height: 50px;
 	}
 	
+	.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+		color: #999;
+		font-size: 12px;
+		margin-top: 0px;
+	}
+	
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+		padding-bottom: 0px;
+	}
+	
 	.mui-grid-view.mui-grid-9 {
 		background: #fff;
 		.mui-table-view-cell {
 			padding: 0px;
 			border: none;
 		}
+	}
+	
+	.mui-slider-indicator .mui-indicator {
+		box-shadow: none;
+	}
+	
+	.info-content {
+		color: #333;
+		font-size: 14px
+	}
+	
+	.user-name {
+		color: #1FCC7C;
+		font-size: 14px;
+	}
+	
+	.time {
+		color: #ccc;
+		font-size: 12px;
 	}
 </style>
