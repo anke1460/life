@@ -101,12 +101,12 @@
 								</span>
 								<div class="info-content">{{item.content}}</div>
 								<p>
-									<img :src="img.img" width="100px" v-for="img in item.imgs" class="thumb-img" />
+									<img :src="img.img" v-for="img in item.imgs" class="thumb-img" />
 								</p>
 								<span class="time">1分钟前</span>
 								<div class="mui-pull-right">
 									<span class="mui-icon mui-icon-checkmarkempty"></span>
-									<span class="mui-icon mui-icon-chatboxes" @tap="detail"></span>
+									<span class="mui-icon mui-icon-chatboxes" @tap="comment"></span>
 								</div>
 							</div>
 						</li>
@@ -138,7 +138,6 @@
 						contentrefresh: "上拉加载动态",
 						contentnomore: '',
 						callback: function() {
-							console.log("3333")
 							this.trends = this.trends.concat({
 								avatar: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg',
 								name: '刘德华',
@@ -157,7 +156,6 @@
 			mui.plusReady(function() {
 				you.authenGet("/classifies", {}, function(result) {
 					console.log(JSON.stringify(result))
-						//					this.items = result.classifies;
 					mui.each(result.classifies, function(i, d) {
 						this[d.alias].push(d);
 						this[d.alias].splice(9, this[d.alias].length - 9);
@@ -168,6 +166,14 @@
 					}.bind(this));
 				}.bind(this))
 			}.bind(this));
+		},
+		methods: {
+			comment: function() {
+				you.loadWebUrl("comment.html", "template", {
+					title: '',
+					target: 'comment.html'
+				});
+			}
 		}
 	}
 </script>
@@ -271,5 +277,10 @@
 	.time {
 		color: #ccc;
 		font-size: 12px;
+	}
+	
+	img.thumb-img {
+		margin-right: 5px;
+		width: 100px;
 	}
 </style>
