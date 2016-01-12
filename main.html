@@ -71,6 +71,18 @@
 				box-shadow: none;
 				-webkit-box-shadow: none;
 			}
+			.search-wraper {
+				margin: 0px 60px;
+				position: relative;
+				left: 0px;
+   			right: 60px;
+			}
+			
+			.logo {
+				 position: absolute;
+			   font-size: 24px;
+			   line-height: 44px;
+			}
 		</style>
 	</head>
 
@@ -79,7 +91,10 @@
 			<a id="chat" class="mui-icon mui-icon-chat mui-pull-left" style="display: none;"></a>
 			<h1 id="title" class="mui-title" style="display: none;">我有</h1>
 			<div class="mui-input-row mui-search" style="color: #000000;" id="search">
-				<input type="search" class="mui-input-clear" placeholder="" style="background: #fff;">
+				<a class="logo">有友</a>
+				<div class="search-wraper">
+					<input type="search" class="mui-input-clear" placeholder="" style="background: #fff;">
+				</div>
 			</div>
 			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
 			<a id="contact" class="mui-icon mui-icon-contact mui-pull-right" style="margin-right: 10px;display:none"></a>
