@@ -10,7 +10,7 @@
 				<div class="mui-slider-group">
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel" @tap="goAttainment(item)">
 								<a href="#">
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
@@ -23,7 +23,7 @@
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in food">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in food" @tap="goAttainment(item)">
 								<a href="#">
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
@@ -172,6 +172,16 @@
 				you.loadWebUrl("comment.html", "template", {
 					title: '',
 					target: 'comment.html'
+				});
+			},
+			goAttainment: function(item) {
+				mui.openWindow({
+					url: "attainment/list.html",
+					id: "attainment_list",
+					extras: {
+						classify: item.id,
+						title: item.name
+					}
 				});
 			}
 		}

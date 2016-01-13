@@ -13,7 +13,8 @@ module.exports = {
 		"pk":									["./src/pages/pk.js"],
 		"growth":							["./src/pages/growth.js"],
 		"wish_detail":					["./src/pages/wish/detail.js"],
-		"dashboard":           ["./src/pages/dashboard.js"]
+		"dashboard":           ["./src/pages/dashboard.js"],
+		"attainment_list":     ["./src/pages/attainment/list.js"]
 		},
 	output: {
 		path: './build',
