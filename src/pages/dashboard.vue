@@ -158,12 +158,15 @@
 					console.log(JSON.stringify(result))
 					mui.each(result.classifies, function(i, d) {
 						this[d.alias].push(d);
-						this[d.alias].splice(9, this[d.alias].length - 9);
-						this[d.alias].push({
+					}.bind(this));
+					mui.each(["travel", "food", "hobby", "social", "skill"], function(i, d) {
+						this[d].splice(9, this[d].length - 9);
+						this[d].push({
 							name: '更多',
 							img: './images/1.png'
 						});
-					}.bind(this));
+						console.log(1111,JSON.stringify(this[d]));
+					}.bind(this))
 				}.bind(this))
 			}.bind(this));
 		},

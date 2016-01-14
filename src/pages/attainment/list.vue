@@ -5,8 +5,8 @@
 -->
 <template>
 	<header class="mui-bar mui-bar-nav header">
-	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-	    <h1 class="mui-title">{{title}}</h1>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">{{title}}</h1>
 	</header>
 	<div class="mui-content">
 		<div class="mui-slider">
@@ -22,36 +22,125 @@
 		<div class="description">
 			{{classify.description}}
 		</div>
+		<div class="title-bar">
+			评分规则
+		</div>
+		<div class="tip">
+			<div class="mui-col-xs-3 mui-pull-left">
+				<p>自我标记</p>
+				<span>50%</span>
+			</div>
+			<div class="mui-col-xs-3 mui-pull-left">
+				<p>图片认证</p>
+				<span>30%</span>
+			</div>
+			<div class="mui-col-xs-3 mui-pull-left">
+				<p>好友确认</p>
+				<span>20%</span>
+			</div>
+			<div class="mui-col-xs-3 mui-pull-left">
+				<p class="no-open">定位认证</p>
+				<span>尚未开通</span>
+			</div>
+		</div>
+		<div class="title-bar">
+			包含成就
+		</div>
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell" v-for="detail_classify in detail_classifies" @tap="goMap(detail_classify)">
+				<a>
+					<img class="mui-media-object mui-pull-left" :src="detail_classify.img_url" />
+					<div class="mui-media-body">
+						{{detail_classify.name}}
+						<p class="mui-ellipsis">
+							{{detail_classify.description}}
+						</p>
+						<p>{{detail_classify.attainments_count}}人完成</p>
+					</div>
+					<span class="tag">0/{{detail_classify.nodes_count}}</span>
+				</a>
+			</li>
+		</ul>
 	</div>
 
 </template>
 <script>
-  module.exports = {
-  	  el: "#app",
-  	  data: function() {
-  	  	  return {
-  	  	  	  images: [],
-  	  	  	  title: '',
-  	  	  	  classify: ''
-  	  	  }
-  	  },
-  	  ready: function() {
-  	  	  var self = this;
-  	  	  mui.init();
-  	  	  mui.plusReady(function() {
-  	  	  	  self.title = you.current_page.title;
-  	  	  	  you.authenGet("/classifies/"+ you.current_page.classify, {}, function(result) {
-  	  	  	  	 console.log(JSON.stringify(result));
-  	  	  	  	 self.images = result.imgs;
-  	  	  	  	 self.classify = result.classify;
-  	  	  	  })
-  	  	  })
-  	  },
-  	  methods: {
-  	  	
-  	  }
-  }
+	module.exports = {
+		el: "#app",
+		data: function() {
+			return {
+				images: [],
+				title: '',
+				classify: '',
+				detail_classifies: []
+			}
+		},
+		ready: function() {
+			var self = this;
+			mui.init();
+			mui.plusReady(function() {
+				self.title = you.current_page.title;
+				you.loading();
+				you.authenGet("/classifies/" + you.current_page.classify, {}, function(result) {
+					console.log(JSON.stringify(result));
+					self.images = result.imgs;
+					self.classify = result.classify;
+					self.detail_classifies = result.detail_classifies;
+					you.endLoding();
+				})
+			})
+		},
+		methods: {}
+	}
 </script>
-<style>
-
+<style lang="sass">
+	.mui-slider {
+		height: 120px;
+		img {
+			background-size: cover;
+		}
+	}
+	
+	.tag {
+		position: absolute;
+		top: 5px;
+		right: 10px;
+		color: #888;
+		font-size: 14px;
+	}
+	
+	.description {
+		margin: 10px;
+		font-size: 14px;
+		color: #444;
+		height: 80px;
+		overflow: hidden;
+	}
+	
+	.title-bar {
+		text-align: center;
+		height: 30px;
+		font-size: 12px;
+		line-height: 30px;
+		color: #333;
+		border-top: 1px solid #CCCCCC;
+		border-bottom: 1px solid #CCCCCC;
+	}
+	
+	.tip {
+		text-align: center;
+		margin: 10px 0px;
+		overflow: hidden;
+		p {
+			color: #1FCC7C;
+			margin: 0px;
+			&.no-open {
+				color: #333;
+			}
+		}
+		span {
+			color: #333;
+			font-size: 14px;
+		}
+	}
 </style>
