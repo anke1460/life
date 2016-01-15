@@ -8,59 +8,61 @@
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title">{{title}}</h1>
 	</header>
-	<div class="mui-content">
-		<div class="mui-slider">
-			<div class="mui-slider-group">
-				<div class="mui-slider-item" v-for="image in images">
-					<img :src="image.image_url" class="img" />
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-slider">
+				<div class="mui-slider-group">
+					<div class="mui-slider-item" v-for="image in images">
+						<img :src="image.image_url" class="img" />
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator" v-for="image in images" :class="{'mui-active': $index == 0}"></div>
 				</div>
 			</div>
-			<div class="mui-slider-indicator">
-				<div class="mui-indicator" v-for="image in images" :class="{'mui-active': $index == 0}"></div>
+			<div class="description">
+				{{classify.description}}
 			</div>
-		</div>
-		<div class="description">
-			{{classify.description}}
-		</div>
-		<div class="title-bar">
-			评分规则
-		</div>
-		<div class="tip">
-			<div class="mui-col-xs-3 mui-pull-left">
-				<p>自我标记</p>
-				<span>50%</span>
+			<div class="title-bar">
+				评分规则
 			</div>
-			<div class="mui-col-xs-3 mui-pull-left">
-				<p>图片认证</p>
-				<span>30%</span>
+			<div class="tip">
+				<div class="mui-col-xs-3 mui-pull-left">
+					<p>自我标记</p>
+					<span>50%</span>
+				</div>
+				<div class="mui-col-xs-3 mui-pull-left">
+					<p>图片认证</p>
+					<span>30%</span>
+				</div>
+				<div class="mui-col-xs-3 mui-pull-left">
+					<p>好友确认</p>
+					<span>20%</span>
+				</div>
+				<div class="mui-col-xs-3 mui-pull-left">
+					<p class="no-open">定位认证</p>
+					<span>尚未开通</span>
+				</div>
 			</div>
-			<div class="mui-col-xs-3 mui-pull-left">
-				<p>好友确认</p>
-				<span>20%</span>
+			<div class="title-bar">
+				包含成就
 			</div>
-			<div class="mui-col-xs-3 mui-pull-left">
-				<p class="no-open">定位认证</p>
-				<span>尚未开通</span>
-			</div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" v-for="detail_classify in detail_classifies" @tap="goDetail(detail_classify)">
+					<a>
+						<img class="mui-media-object mui-pull-left" :src="detail_classify.img_url" />
+						<div class="mui-media-body">
+							{{detail_classify.name}}
+							<p class="mui-ellipsis">
+								{{detail_classify.description}}
+							</p>
+							<p>{{detail_classify.attainments_count}}人完成</p>
+						</div>
+						<span class="tag">0/{{detail_classify.nodes_count}}</span>
+					</a>
+				</li>
+			</ul>
 		</div>
-		<div class="title-bar">
-			包含成就
-		</div>
-		<ul class="mui-table-view">
-			<li class="mui-table-view-cell" v-for="detail_classify in detail_classifies" @tap="goMap(detail_classify)">
-				<a>
-					<img class="mui-media-object mui-pull-left" :src="detail_classify.img_url" />
-					<div class="mui-media-body">
-						{{detail_classify.name}}
-						<p class="mui-ellipsis">
-							{{detail_classify.description}}
-						</p>
-						<p>{{detail_classify.attainments_count}}人完成</p>
-					</div>
-					<span class="tag">0/{{detail_classify.nodes_count}}</span>
-				</a>
-			</li>
-		</ul>
 	</div>
 
 </template>
@@ -90,7 +92,17 @@
 				})
 			})
 		},
-		methods: {}
+		methods: {
+			goDetail: function(detail_classify) {
+				mui.openWindow({
+					url: 'detail.html',
+					id: 'attainment_detail',
+					extras: {
+						detail_classify_id: detail_classify.id
+					}
+				})
+			}
+		}
 	}
 </script>
 <style lang="sass">

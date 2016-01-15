@@ -14,7 +14,8 @@ module.exports = {
 		"growth":							["./src/pages/growth.js"],
 		"wish_detail":					["./src/pages/wish/detail.js"],
 		"dashboard":           ["./src/pages/dashboard.js"],
-		"attainment_list":     ["./src/pages/attainment/list.js"]
+		"attainment_list":     ["./src/pages/attainment/list.js"],
+		"attainment_detail":   ["./src/pages/attainment/detail.js"]
 		},
 	output: {
 		path: './build',
