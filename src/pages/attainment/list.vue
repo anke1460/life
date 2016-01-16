@@ -98,7 +98,8 @@
 					url: 'detail.html',
 					id: 'attainment_detail',
 					extras: {
-						detail_classify_id: detail_classify.id
+						detail_classify_id: detail_classify.id,
+						detail_classify_name: detail_classify.name
 					}
 				})
 			}
