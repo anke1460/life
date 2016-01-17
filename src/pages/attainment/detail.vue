@@ -39,7 +39,7 @@
 					<span id="change_view" @tap="change">点击切换文字</span>
 				</p>
 				<div v-show="isText" class="city-wraper">
-					<span class="city-name" v-for="item in city" @tap="mark($index)" v-bind:class="{'selected': item.selected}">{{item.name}}</span>
+					<span class="city-name" v-for="item in city" @tap="mark(item)" v-bind:class="{'selected': item.selected}">{{item.name}}</span>
 				</div>
 				<div v-show="!isText">
 					<div id="map"></div>
@@ -76,6 +76,14 @@
 			</div>
 		</div>
 	</div>
+	<div id="popover" class="mui-popover">
+	  <h4 class="mui-text-center">成就操作</h4>
+	  	<p class="mui-text-center">选择{{city_name}}的完成时间</p>
+	  	<input id="selecte_date" type="hidden"/>
+	  	<button class="mui-btn mui-btn-block">仅确认时间</button>
+	  	<button class="mui-btn mui-btn-block">添加图文记录</button>
+	  	<button class="mui-btn mui-btn-block">取消确认成就</button>
+	</div>
 </template>
 <script>
 	module.exports = {
@@ -87,6 +95,7 @@
 				isText: false,
 				echart: '',
 				trends: [],
+				city_name: '',
 				current_index: 1,
 				city: [{
 					name: '北京',
@@ -201,6 +210,7 @@
 				pullRefresh: {
 					container: "#refreshContainer",
 					up: {
+						auto: true,
 						contentrefresh: "上拉加载动态",
 						contentnomore: '',
 						callback: function() {
@@ -241,9 +251,14 @@
 		methods: {
 			addWish: function() {
 				console.log("addd");
+				
 			},
 			change: function() {
 				this.isText = !this.isText;
+			},
+			mark: function(item) {
+				this.city_name = item.name;
+				mui('.mui-popover').popover('toggle');
 			},
 			showMap: function() {
 				this.options = {
@@ -339,6 +354,22 @@
 		}
 	}
 	
+	#popover {
+		width: 280px;
+		height: 340;
+		top: 50%;
+		margin-top: -170px;
+		left: 50%;
+		margin-left: -140px;
+		padding: 15px;
+	}
+	
+	.mui-btn {
+		padding: 5px;
+		background: #1FCC7C;
+		color: #fff;
+	}
+	
 	.city-wraper {
 		overflow: hidden;
 		padding: 10px;
@@ -372,6 +403,10 @@
 	
 	#map {
 		height: 220px;
+	}
+	
+	#selecte_date {
+		height: 50px;
 	}
 	
 	img.thumb-img {

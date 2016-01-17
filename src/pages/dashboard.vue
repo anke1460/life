@@ -135,6 +135,7 @@
 				pullRefresh: {
 					container: "#refreshContainer",
 					up: {
+						auto: true,
 						contentrefresh: "上拉加载动态",
 						contentnomore: '',
 						callback: function() {
