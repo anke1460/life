@@ -79,8 +79,8 @@
 	<div id="popover" class="mui-popover">
 	  <h4 class="mui-text-center">成就操作</h4>
 	  	<p class="mui-text-center">选择{{city_name}}的完成时间</p>
-	  	<input id="selecte_date" type="hidden"/>
-	  	<button class="mui-btn mui-btn-block">仅确认时间</button>
+	  	<input id="selecte_date" type="hidden" v-model="haved_at"/>
+	  	<button class="mui-btn mui-btn-block" @tap="markHaved">仅确认时间</button>
 	  	<button class="mui-btn mui-btn-block">添加图文记录</button>
 	  	<button class="mui-btn mui-btn-block">取消确认成就</button>
 	</div>
@@ -93,115 +93,13 @@
 				nodes: [],
 				title: '',
 				isText: false,
+				haved_at: new Date(),
 				echart: '',
 				trends: [],
 				city_name: '',
 				current_index: 1,
-				city: [{
-					name: '北京',
-					selected: false
-				}, {
-					name: '天津',
-					selected: false
-				}, {
-					name: '上海',
-					selected: false
-				}, {
-					name: '重庆',
-					selected: false
-				}, {
-					name: '河北',
-					selected: false
-				}, {
-					name: '河南',
-					selected: false,
-					value: 20
-				}, {
-					name: '云南',
-					selected: false
-				}, {
-					name: '辽宁',
-					selected: false
-				}, {
-					name: '黑龙江',
-					selected: false
-				}, {
-					name: '湖南',
-					selected: false
-				}, {
-					name: '安徽',
-					selected: false
-				}, {
-					name: '山东',
-					selected: false
-				}, {
-					name: '新疆',
-					selected: false
-				}, {
-					name: '江苏',
-					selected: false
-				}, {
-					name: '浙江',
-					selected: false
-				}, {
-					name: '江西',
-					selected: false
-				}, {
-					name: '湖北',
-					selected: false,
-					value: 400
-				}, {
-					name: '广西',
-					selected: false
-				}, {
-					name: '甘肃',
-					selected: false
-				}, {
-					name: '山西',
-					selected: false
-				}, {
-					name: '内蒙古',
-					selected: false
-				}, {
-					name: '陕西',
-					selected: false
-				}, {
-					name: '吉林',
-					selected: false
-				}, {
-					name: '福建',
-					selected: false
-				}, {
-					name: '贵州',
-					selected: false
-				}, {
-					name: '广东',
-					selected: false
-				}, {
-					name: '青海',
-					selected: false
-				}, {
-					name: '西藏',
-					selected: false
-				}, {
-					name: '四川',
-					selected: false
-				}, {
-					name: '宁夏',
-					selected: false
-				}, {
-					name: '海南',
-					selected: false
-				}, {
-					name: '台湾',
-					selected: false
-				}, {
-					name: '香港',
-					selected: false
-				}, {
-					name: '澳门',
-					selected: false
-				}]
+				city: [],
+				node_id: ''
 			}
 		},
 		ready: function() {
@@ -238,6 +136,13 @@
 				you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
 					console.log(JSON.stringify(result))
 					self.nodes = result.nodes;
+					mui.each(result.nodes, function(i, d) {
+						self.city.push({
+							name: d.name,
+							id: d.id,
+							selected: d.selected
+						});
+					})
 					setTimeout(function() {
 						mui('.mui-slider').slider();
 					}, 100);
@@ -249,6 +154,11 @@
 			this.showMap();
 		},
 		methods: {
+			markHaved: function() {
+				console.log(document.getElementById("selecte_date").value)
+				console.log(you.current_page.detail_classify_id);
+				console.log(this.node_id);
+			},
 			addWish: function() {
 				console.log("addd");
 				
@@ -258,6 +168,7 @@
 			},
 			mark: function(item) {
 				this.city_name = item.name;
+				this.node_id = item.id;
 				mui('.mui-popover').popover('toggle');
 			},
 			showMap: function() {
@@ -294,7 +205,7 @@
 					}]
 				};
 				this.echart.setOption(this.options);
-				this.options.series[0].data[5].selected = true
+//				this.options.series[0].data[5].selected = true
 				this.echart.setOption(this.options, true);
 			}
 		}
