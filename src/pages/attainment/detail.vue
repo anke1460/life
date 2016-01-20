@@ -38,10 +38,10 @@
 					<strong>包含一下成就点</strong>
 					<span id="change_view" @tap="change">点击切换文字</span>
 				</p>
-				<div v-show="isText" class="city-wraper">
+				<div v-show="is_text" class="city-wraper">
 					<span class="city-name" v-for="item in city" @tap="mark(item)" v-bind:class="{'selected': item.selected}">{{item.name}}</span>
 				</div>
-				<div v-show="!isText">
+				<div v-show="!is_text">
 					<div id="map"></div>
 				</div>
 				
@@ -77,12 +77,14 @@
 		</div>
 	</div>
 	<div id="popover" class="mui-popover">
-	  <h4 class="mui-text-center">成就操作</h4>
-	  	<p class="mui-text-center">选择{{city_name}}的完成时间</p>
-	  	<input id="selecte_date" type="hidden" v-model="haved_at"/>
-	  	<button class="mui-btn mui-btn-block" @tap="markHaved">仅确认时间</button>
-	  	<button class="mui-btn mui-btn-block">添加图文记录</button>
-	  	<button class="mui-btn mui-btn-block">取消确认成就</button>
+		<h4 class="pop-title">成就操作<span id="close" @tap="close"></span></h4>
+		<div class="content">
+		  	<p class="mui-text-center">选择<strong>{{city_name}}</strong>的完成时间</p>
+		  	<input id="selecte_date" type="hidden" v-model="haved_at"/>
+		  	<button class="mui-btn mui-btn-block" @tap="markHaved" v-show="!is_selected">仅确认时间</button>
+		  	<button class="mui-btn mui-btn-block">添加图文记录</button>
+		  	<button class="mui-btn mui-btn-block" v-show="is_selected" @tap="cancelMark">取消</button>
+	  	</div>
 	</div>
 </template>
 <script>
@@ -92,14 +94,25 @@
 			return {
 				nodes: [],
 				title: '',
-				isText: false,
-				haved_at: new Date(),
+				is_selected: false,
+				is_text: false,
+				haved_at: new Date().Format("yyyy-MM-dd"),
 				echart: '',
 				trends: [],
 				city_name: '',
 				current_index: 1,
-				city: [],
-				node_id: ''
+				current_item: '',
+				city: []
+			}
+		},
+		watch: {
+			is_selected: function(v) {
+				console.log("444",v)
+				if (v) {
+					mui(".mbsc-mobiscroll")[0].style.display = "none";
+				} else {
+					mui(".mbsc-mobiscroll")[0].style.display = "";
+				}
 			}
 		},
 		ready: function() {
@@ -132,7 +145,6 @@
 			this.echart = echarts.init(document.getElementById('map'));
 			mui.plusReady(function() {
 				self.title = you.current_page.detail_classify_name;
-				console.log(JSON.stringify(you.current_page));
 				you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
 					console.log(JSON.stringify(result))
 					self.nodes = result.nodes;
@@ -146,29 +158,60 @@
 					setTimeout(function() {
 						mui('.mui-slider').slider();
 					}, 100);
+					self.showMap();
 				});
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;
 			});
-			this.showMap();
+			
 		},
 		methods: {
 			markHaved: function() {
-				console.log(document.getElementById("selecte_date").value)
-				console.log(you.current_page.detail_classify_id);
-				console.log(this.node_id);
+				var self = this;
+				you.loading();
+				you.authenPost("/nodes/" + this.current_item.id + "/mark", {
+					haved_at: document.getElementById("selecte_date").value,
+					detail_classify_id: you.current_page.detail_classify_id
+				},
+				function(result) {
+					self.current_item.selected = true;
+					mui('.mui-popover').popover('toggle');
+					you.endLoding();
+				}, function(xhr) {
+					mui.toast(JSON.parse(xhr.responseText).error);
+					mui('.mui-popover').popover('toggle');
+				});
+			},
+			
+			cancelMark: function() {
+				var self = this;
+				you.loading();
+				you.authenDelete("/nodes/" + this.current_item.id + "/mark", {}, function() {
+					self.current_item.selected = false;
+					mui('.mui-popover').popover('toggle');
+					you.endLoding();
+				}, function(xhr) {
+					mui.toast(JSON.parse(xhr.responseText).error);
+					mui('.mui-popover').popover('toggle');
+				});
 			},
 			addWish: function() {
 				console.log("addd");
 				
 			},
 			change: function() {
-				this.isText = !this.isText;
+				this.is_text = !this.is_text;
+				this.showMap();
 			},
 			mark: function(item) {
 				this.city_name = item.name;
-				this.node_id = item.id;
+				this.current_item = item;
+				this.is_selected = item.selected;
+				console.log(this.is_selected)
+				mui('.mui-popover').popover('toggle');
+			},
+			close: function() {
 				mui('.mui-popover').popover('toggle');
 			},
 			showMap: function() {
@@ -272,7 +315,21 @@
 		margin-top: -170px;
 		left: 50%;
 		margin-left: -140px;
-		padding: 15px;
+		.content {
+			padding: 15px;
+		}
+		.pop-title {
+			margin: 0px;
+	    height: 40px;
+	    line-height: 40px;
+	    background: #1FCC7C;
+	    color: #fff;
+	    text-align: center;
+		}
+		strong {
+			color: #1FCC7C;
+		}
+		
 	}
 	
 	.mui-btn {
@@ -323,5 +380,12 @@
 	img.thumb-img {
 		margin-right: 5px;
 		width: 100px;
+	}
+	
+	#close {
+		position: absolute;
+    right: 0px;
+    width: 40px;
+    height: 40px;
 	}
 </style>

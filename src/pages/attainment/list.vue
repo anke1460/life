@@ -58,7 +58,7 @@
 							</p>
 							<p>{{detail_classify.attainments_count}}人完成</p>
 						</div>
-						<span class="tag">0/{{detail_classify.nodes_count}}</span>
+						<span class="tag">{{detail_classify.marks_count}}/{{detail_classify.nodes_count}}</span>
 					</a>
 				</li>
 			</ul>
