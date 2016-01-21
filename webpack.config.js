@@ -3,19 +3,20 @@ var vue = require('vue-loader'),
 	ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	entry: {
-		"user_trend": 					["./src/pages/travel/trend.js"],
-		"trend_detail": 				["./src/pages/travel/trend_detail.js"],
-		"travel_index": 				["./src/pages/travel/index.js"],
-		"map_mark":						["./src/pages/travel/map_mark.js"],
-		"user_info":						["./src/pages/user/info.js"],
-		"user_sign":						["./src/pages/user/sign.js"],
-		"address_book": 				["./src/pages/address_book.js"],
-		"pk":									["./src/pages/pk.js"],
-		"growth":							["./src/pages/growth.js"],
-		"wish_detail":					["./src/pages/wish/detail.js"],
-		"dashboard":           ["./src/pages/dashboard.js"],
-		"attainment_list":     ["./src/pages/attainment/list.js"],
-		"attainment_detail":   ["./src/pages/attainment/detail.js"]
+		"user_trend": 				   	["./src/pages/travel/trend.js"],
+		"trend_detail": 				  ["./src/pages/travel/trend_detail.js"],
+		"travel_index": 				  ["./src/pages/travel/index.js"],
+		"map_mark":						  ["./src/pages/travel/map_mark.js"],
+		"user_info":					   	["./src/pages/user/info.js"],
+		"user_sign":						  ["./src/pages/user/sign.js"],
+		"address_book": 			   	["./src/pages/address_book.js"],
+		"pk":									  ["./src/pages/pk.js"],
+		"growth":							  ["./src/pages/growth.js"],
+		"wish_detail":				    	["./src/pages/wish/detail.js"],
+		"dashboard":             ["./src/pages/dashboard.js"],
+		"attainment_list":       ["./src/pages/attainment/list.js"],
+		"attainment_detail":     ["./src/pages/attainment/detail.js"],
+		"attainment_mark_photo": ["./src/pages/attainment/mark_photo.js"]
 		},
 	output: {
 		path: './build',

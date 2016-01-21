@@ -156,7 +156,6 @@
 			});
 			mui.plusReady(function() {
 				you.authenGet("/classifies", {}, function(result) {
-					console.log(JSON.stringify(result))
 					mui.each(result.classifies, function(i, d) {
 						this[d.alias].push(d);
 					}.bind(this));

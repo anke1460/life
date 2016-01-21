@@ -82,7 +82,7 @@
 		  	<p class="mui-text-center">选择<strong>{{city_name}}</strong>的完成时间</p>
 		  	<input id="selecte_date" type="hidden" v-model="haved_at"/>
 		  	<button class="mui-btn mui-btn-block" @tap="markHaved" v-show="!is_selected">仅确认时间</button>
-		  	<button class="mui-btn mui-btn-block">添加图文记录</button>
+		  	<button class="mui-btn mui-btn-block" @tap="addPhoto">{{ is_selected ? '继续添加图文记录' : '添加图文记录'}}</button>
 		  	<button class="mui-btn mui-btn-block" v-show="is_selected" @tap="cancelMark">取消</button>
 	  	</div>
 	</div>
@@ -107,7 +107,6 @@
 		},
 		watch: {
 			is_selected: function(v) {
-				console.log("444",v)
 				if (v) {
 					mui(".mbsc-mobiscroll")[0].style.display = "none";
 				} else {
@@ -145,28 +144,49 @@
 			this.echart = echarts.init(document.getElementById('map'));
 			mui.plusReady(function() {
 				self.title = you.current_page.detail_classify_name;
-				you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
-					console.log(JSON.stringify(result))
+			  self.loadData();
+			});
+			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+				self.current_index = event.detail.slideNumber + 1;
+			});
+		 window.addEventListener("reloadData", function() {
+		 	 self.loadData();
+		 })
+			
+		},
+		methods: {
+			
+			loadData: function() {
+				var self = this;
+					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
 					self.nodes = result.nodes;
+					var city = [];
 					mui.each(result.nodes, function(i, d) {
-						self.city.push({
+						city.push({
 							name: d.name,
 							id: d.id,
 							selected: d.selected
 						});
 					})
+					self.city = city;
 					setTimeout(function() {
 						mui('.mui-slider').slider();
 					}, 100);
 					self.showMap();
 				});
-			});
-			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
-				self.current_index = event.detail.slideNumber + 1;
-			});
-			
-		},
-		methods: {
+			},
+			addPhoto: function() {
+				mui('.mui-popover').popover('toggle');
+				mui.openWindow({
+					url: 'mark_photo.html',
+					id: 'mark_photo',
+					extras: {
+						node_id: this.current_item.id,
+						title: this.current_item.name,
+						detail_classify_id: you.current_page.detail_classify_id
+					}
+				})
+			},
 			markHaved: function() {
 				var self = this;
 				you.loading();
@@ -178,6 +198,7 @@
 					self.current_item.selected = true;
 					mui('.mui-popover').popover('toggle');
 					you.endLoding();
+					mui.fire(you.webview("attainment_list"), "reloadData");
 				}, function(xhr) {
 					mui.toast(JSON.parse(xhr.responseText).error);
 					mui('.mui-popover').popover('toggle');
@@ -190,6 +211,7 @@
 				you.authenDelete("/nodes/" + this.current_item.id + "/mark", {}, function() {
 					self.current_item.selected = false;
 					mui('.mui-popover').popover('toggle');
+					mui.fire(you.webview("attainment_list"), "reloadData");
 					you.endLoding();
 				}, function(xhr) {
 					mui.toast(JSON.parse(xhr.responseText).error);
@@ -208,7 +230,6 @@
 				this.city_name = item.name;
 				this.current_item = item;
 				this.is_selected = item.selected;
-				console.log(this.is_selected)
 				mui('.mui-popover').popover('toggle');
 			},
 			close: function() {

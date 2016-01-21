@@ -43,6 +43,7 @@
 					<p class="no-open">定位认证</p>
 					<span>尚未开通</span>
 				</div>
+				<h5>完成组合内所有组合点+20%</h5>
 			</div>
 			<div class="title-bar">
 				包含成就
@@ -83,16 +84,25 @@
 			mui.plusReady(function() {
 				self.title = you.current_page.title;
 				you.loading();
+				self.loadData();
+			});
+			window.addEventListener("reloadData", function(e) {
+				self.loadData();
+			})
+		},
+		methods: {
+			loadData: function() {
+				var self = this;
 				you.authenGet("/classifies/" + you.current_page.classify, {}, function(result) {
-					console.log(JSON.stringify(result));
 					self.images = result.imgs;
 					self.classify = result.classify;
 					self.detail_classifies = result.detail_classifies;
 					you.endLoding();
-				})
-			})
-		},
-		methods: {
+					setTimeout(function() {
+						mui('.mui-slider').slider();
+					}, 100);
+				});
+			},
 			goDetail: function(detail_classify) {
 				mui.openWindow({
 					url: 'detail.html',
