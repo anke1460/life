@@ -38,20 +38,17 @@
   	  },
   	  methods: {
   	  	  send: function() {
-  	  	  	  console.log(JSON.stringify(this.image_ids));
   	  	  	  you.authenPost("/nodes/" + you.current_page.node_id + "/photo_mark", {
   	  	  	  	  image_ids: this.image_ids, 
   	  	  	  	  content: this.content,
   	  	  	  	  detail_classify_id: you.current_page.detail_classify_id
   	  	  	  }, function(result) {
-  	  	  	  	  console.log(JSON.stringify(result));
   	  	  	  	  mui.fire(you.webview("attainment_list"), "reloadData");
   	  	  	  	  mui.fire(you.webview("attainment_detail"), "reloadData");
   	  	  	  	  you.current_page.close();
   	  	  	  })
   	  	  },
   	  		selectImage: function() {
-  	  			console.log("sssdd");
 				plus.nativeUI.actionSheet({
 						title: "上传照片",
 						cancel: "取消",
@@ -99,9 +96,10 @@
 				you.authenGet(
 					"/photos/upload_token",
 					{
+						type: 'Story'
 					},
 					function(result) {
-						plus.storage.setItem("cloud_token", result.uptoken);
+						plus.storage.setItem("cloud_token", result.token);
 						call();
 					});
 			},
@@ -120,6 +118,7 @@
 						var temp_url = "_downloads/" + file_name;
 						plus.io.resolveLocalFileSystemURL(temp_url, function(entry) {
 							var local_url = entry.toLocalURL();
+							self.images.push({url:local_url});
 							self.uploadPhoto(local_url, file_name);
 						});
 					},
@@ -130,20 +129,22 @@
 			uploadPhoto: function(file, filename) { //上传图片
 				var self = this;
 				this.loading = true;
+				console.log('begin upload');
 				var task = plus.uploader.createUpload(
 					'http://upload.qiniu.com',
 					{
 						method: "POST"
 					}, 
 					function(t, status) {
+						console.log(JSON.parse(t.responseText));
 						you.endLoding();
 						if (t.state == 4 && status == "201") {
 							var result = JSON.parse(t.responseText);
 						  self.image_ids.push(result.id);
-							self.images.push({
+							self.images[self.images.length - 1] = {
 								id: result.id,
-								url: result.photo_url
-							});
+								url: result.url
+							};
 						} else {
 							you.totast("图片处理失败");
 						}
@@ -169,6 +170,7 @@
     height: 70px;
     display: inline-block;
     background-size: 100%;
+    margin-right: 5px;
   }
  
 </style>

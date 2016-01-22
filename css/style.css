@@ -76,3 +76,25 @@ body,
 header .mui-icon {
 	color: #fff;
 }
+
+
+/*动态信息*/
+.info-content {
+	color: #333;
+	font-size: 14px;
+	padding: 10px 0px;
+}
+
+.time {
+	color: #ccc;
+	font-size: 12px;
+}
+.user-name {
+	color: #1FCC7C;
+	font-size: 14px;
+}
+
+img.thumb-img {
+	margin-right: 5px;
+	width: 100px;
+	}

@@ -1,6 +1,6 @@
 (function($) {
-	$.web_base = "http://youyou.127.0.0.1.xip.io";
-	//	$.web_base = "http://www.youyou.help";
+//	$.web_base = "http://youyou.127.0.0.1.xip.io";
+		$.web_base = "http://www.youyou.help";
 	$.app_base = $.web_base + "/api/v1";
 	$.guid = function() {
 		function s4() {
@@ -495,6 +495,45 @@
 			}
 		});
 		return name;
+	}
+	
+	$.begin_of_day = function() {
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
+		}
+		var day = date.getDate();
+		return new Date(year + "-" + month + "-" + day).getTime() / 1000;
+	}
+	$.timeAgo = function(times) {
+		var secs = times - $.begin_of_day();
+		var date = new Date(times * 1000);
+		if (secs > 720) {
+			return "下午" + (date.getHours() %12) + ":" + date.getMinutes();
+		}
+		if (secs > 0) {
+			return "上午" + (date.getHours() %12) + ":" + date.getMinutes();
+		}
+		if (-secs < 3600 * 24) {
+			return "昨天";
+		}
+		if (-secs < 3600 * 24 * 2) {
+			return "前天";
+		}
+		if (-secs < 3600 * 24 * 7) {
+			return "星期" + ["日", "一", "二", "三", "四", "五", "六"][date.getDay()];
+		}
+		var month = date.getMonth() + 1;
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
+		}
+		var strDate = date.getDate();
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		return date.getFullYear() + "-" + month + "-" + strDate;
 	}
 
 	Date.prototype.Format = function(fmt) { //author: meizz 

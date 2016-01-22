@@ -14,12 +14,12 @@
 							<a href="#">
 								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node.imgs[0] +')'}" />
 							</a>
-							<div class="description-bar">
-								<strong>{{node.name}}</strong>
-								<span>成就分数：{{node.score}}</span>
-								<p>{{node.name_en}}</p>
-							</div>
 						</div>
+					</div>
+					<div class="description-bar">
+						<strong>{{current_node.name}}</strong>
+						<span>成就分数：{{current_node.score}}</span>
+						<p>{{current_node.name_en}}</p>
 					</div>
 					<span class="num">{{current_index}}/{{nodes.length}}</span>
 				</div>
@@ -61,9 +61,9 @@
 								</span>
 									<div class="info-content">{{item.content}}</div>
 									<p>
-										<img :src="img.img" v-for="img in item.imgs" class="thumb-img" />
+										<img :src="img.thumb" v-for="img in item.photos" class="thumb-img" />
 									</p>
-									<span class="time">1分钟前</span>
+									<span class="time">{{item.created_at | time}}</span>
 									<div class="mui-pull-right">
 										<span class="mui-icon mui-icon-checkmarkempty"></span>
 										<span class="mui-icon mui-icon-chatboxes" @tap="comment"></span>
@@ -102,7 +102,8 @@
 				city_name: '',
 				current_index: 1,
 				current_item: '',
-				city: []
+				city: [],
+				current_node: ''
 			}
 		},
 		watch: {
@@ -123,21 +124,7 @@
 						auto: true,
 						contentrefresh: "上拉加载动态",
 						contentnomore: '',
-						callback: function() {
-							this.trends = this.trends.concat({
-								avatar: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg',
-								name: '刘德华',
-								content: '五岳归来不看山，黄山归来不看岳，绝对的经典，一年四个样',
-								imgs: [{
-									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-								}, {
-									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-								}, {
-									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-								}]
-							});
-							mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
-						}.bind(this)
+						callback: self.loadMsg
 					}
 				}
 			});
@@ -148,14 +135,32 @@
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;
+				self.current_node = self.nodes[event.detail.slideNumber];
 			});
 		 window.addEventListener("reloadData", function() {
 		 	 self.loadData();
+		 	 self.trends = [];
+		 	 self.page = 1;
+		 	 self.loadMsg();
 		 })
 			
 		},
 		methods: {
-			
+			loadMsg: function() {
+				var self = this;
+				mui.plusReady(function() {
+					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/trend", {} ,function(result) {
+						console.log(JSON.stringify(result));
+						self.trends = self.trends.concat(result.stories);
+						if (self.page * self.per_page > result.total_count) {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+						} else {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
+						}
+						self.page = self.page + 1;
+					})
+				})
+			},
 			loadData: function() {
 				var self = this;
 					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
@@ -251,7 +256,6 @@
 							y: '20',
 							width: '100%'
 						},
-						//					selectedMode: 'single',
 						hoverable: false,
 						itemStyle: {
 							normal: {
@@ -269,8 +273,10 @@
 					}]
 				};
 				this.echart.setOption(this.options);
-//				this.options.series[0].data[5].selected = true
 				this.echart.setOption(this.options, true);
+			},
+			comment: function() {
+				console.log('comment')
 			}
 		}
 	}

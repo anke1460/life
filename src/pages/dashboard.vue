@@ -276,24 +276,5 @@
 	.mui-slider-indicator .mui-indicator {
 		box-shadow: none;
 	}
-	
-	.info-content {
-		color: #333;
-		font-size: 14px
-	}
-	
-	.user-name {
-		color: #1FCC7C;
-		font-size: 14px;
-	}
-	
-	.time {
-		color: #ccc;
-		font-size: 12px;
-	}
-	
-	img.thumb-img {
-		margin-right: 5px;
-		width: 100px;
-	}
+
 </style>

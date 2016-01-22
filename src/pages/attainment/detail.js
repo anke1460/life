@@ -1,6 +1,10 @@
 var Vue = require("vue");
+Vue.filter('time', function (value) {
+   return you.timeAgo(new Date(value.replace(/-/g, "/")));
+})
 var detail = require("./detail.vue");
 var app = new Vue(detail);
+
 $(function () {
     $('#selecte_date').mobiscroll().date({
         theme: 'mobiscroll',
