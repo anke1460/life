@@ -1,4 +1,8 @@
 <template>
+	<header class="mui-bar mui-bar-nav header">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title"></h1>
+	</header>
 	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<ul class="mui-table-view">
@@ -27,15 +31,12 @@
 				</li>
 			</ul>
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media" @tap="comment(item)">
-					<img class="mui-media-object mui-pull-left" :src="item.avatar">
-					<span class="time">1分钟前</span>
+				<li class="mui-table-view-cell mui-media" @tap="comment(item)" v-for="comment in comments">
+					<img class="mui-media-object mui-pull-left" :src="comment.user_logo">
+					<span class="time">{{comment.created_at | time}}</span>
 					<div class="mui-media-body reply-content">
-						{{item.name}}
-						<div>回复 <strong>leaf</strong> {{item.content}}</div>
-						<!--<div class="reply">
-							<span class="arrow"></span> 你有好的看法
-						</div>-->
+						{{comment.user_name}}
+						<div>回复 <strong>leaf</strong> {{comment.content}}</div>
 					</div>
 				</li>
 			</ul>
@@ -54,25 +55,43 @@
 		data: function() {
 			return {
 				content: "",
-				item: {
-					avatar: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg',
-					name: '刘德华',
-					content: '五岳归来不看山，黄山归来不看岳，绝对的经典，一年四个样',
-					imgs: [{
-						img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-					}, {
-						img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-					}]
-				}
+				item: '',
+				comments: ''
 			}
 		},
 		ready: function() {
-			mui.init();
+			var self = this;
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					up: {
+						auto: true,
+						contentrefresh: "上拉加载动态",
+						contentnomore: '',
+						callback: self.loadMsg
+					}
+				}
+			});
 			mui.plusReady(function() {
-				
-			})
+				this.item = you.current_page.item;
+			}.bind(this))
 		},
 		methods: {
+			loadMsg: function() {
+				var self = this;
+				mui.plusReady(function() {
+					you.authenGet("/stories/" + you.current_page.item.id + "/comment", {} ,function(result) {
+						console.log(JSON.stringify(result));
+						self.comments = self.comments.concat(result.comments);
+						if (self.page * self.per_page > result.total_count) {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+						} else {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
+						}
+						self.page = self.page + 1;
+					})
+				})
+			},
 			comment: function(item) {
 				this.content =  "@" + item.name + "：";
 			},

@@ -86,10 +86,9 @@
 			</div>
 			<div id="infos">
 				<div id="baner">
-					<a class="active">推荐</a>
-					<a>最新</a>
-					<a>朋友</a>
-					<a>我</a>
+					<a @tap="load('default')" :class="{'active':current_active == 'default'}">推荐</a>
+					<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
+					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
 				</div>
 				<div id="all" class="">
 					<ul class="mui-table-view">
@@ -103,10 +102,10 @@
 								<p>
 									<img :src="img.img" v-for="img in item.imgs" class="thumb-img" />
 								</p>
-								<span class="time">1分钟前</span>
+								<span class="time">{{item.created_at || time}}</span>
 								<div class="mui-pull-right">
 									<span class="mui-icon mui-icon-checkmarkempty"></span>
-									<span class="mui-icon mui-icon-chatboxes" @tap="comment"></span>
+									<span class="mui-icon mui-icon-chatboxes" @tap="comment(item)"></span>
 								</div>
 							</div>
 						</li>
@@ -127,30 +126,22 @@
 				social: [],
 				skill: [],
 				food: [],
-				trends: []
+				trends: [],
+				page: 1,
+				per_page: 20,
+				current_active: 'default'
 			}
 		},
 		ready: function() {
+			var self = this;
 			mui.init({
 				pullRefresh: {
 					container: "#refreshContainer",
 					up: {
 						auto: true,
 						contentrefresh: "上拉加载动态",
-						contentnomore: '',
-						callback: function() {
-							this.trends = this.trends.concat({
-								avatar: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg',
-								name: '刘德华',
-								content: '五岳归来不看山，黄山归来不看岳，绝对的经典，一年四个样',
-								imgs: [{
-									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-								}, {
-									img: 'http://dcloudio.github.io/mui/assets/img/cbd.jpg'
-								}]
-							});
-							mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
-						}.bind(this)
+						contentnomore: '已加载完',
+						callback: self.loadMsg
 					}
 				}
 			});
@@ -171,11 +162,36 @@
 			}.bind(this));
 		},
 		methods: {
-			comment: function() {
-				you.loadWebUrl("comment.html", "template", {
-					title: '',
-					target: 'comment.html'
-				});
+			load: function(type) {
+				this.page = 1;
+				this.trends = [];
+				this.loadMsg(type);
+				this.current_active = type;
+			},
+			loadMsg: function(type) {
+				var self = this;
+				var type = type || 'default';
+				mui.plusReady(function() {
+					you.authenGet("/stories", {type: type} ,function(result) {
+						console.log(JSON.stringify(result));
+						self.trends = self.trends.concat(result.stories);
+						if (self.page * self.per_page > result.total_count) {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+						} else {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
+						}
+						self.page = self.page + 1;
+					})
+				})
+			},
+			comment: function(item) {
+				mui.openWindow({
+					url: 'comment.html',
+					id: 'comment',
+					extras: {
+						item: item
+					}
+				})
 			},
 			goAttainment: function(item) {
 				mui.openWindow({
