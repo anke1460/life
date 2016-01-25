@@ -16,7 +16,8 @@ module.exports = {
 		"dashboard":             ["./src/pages/dashboard.js"],
 		"attainment_list":       ["./src/pages/attainment/list.js"],
 		"attainment_detail":     ["./src/pages/attainment/detail.js"],
-		"attainment_mark_photo": ["./src/pages/attainment/mark_photo.js"]
+		"attainment_mark_photo": ["./src/pages/attainment/mark_photo.js"],
+		"add_user":							["./src/pages/user/add.js"]
 		},
 	output: {
 		path: './build',

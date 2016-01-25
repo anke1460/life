@@ -31,12 +31,20 @@
 				</li>
 			</ul>
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media" @tap="comment(item)" v-for="comment in comments">
+				<li class="mui-table-view-cell mui-media" @tap="reply(item)" v-for="comment in comments">
 					<img class="mui-media-object mui-pull-left" :src="comment.user_logo">
 					<span class="time">{{comment.created_at | time}}</span>
 					<div class="mui-media-body reply-content">
 						{{comment.user_name}}
-						<div>回复 <strong>leaf</strong> {{comment.content}}</div>
+						<div>
+							<template v-if="comment.replay.length > 0">
+								回复 
+								<strong>
+									{{comment.reply.length > 0 ? comment.reply[1] : ''}}
+								</strong> 
+							</template>
+							
+							{{comment.content}}</div>
 					</div>
 				</li>
 			</ul>
@@ -56,7 +64,7 @@
 			return {
 				content: "",
 				item: '',
-				comments: ''
+				comments: []
 			}
 		},
 		ready: function() {
@@ -92,11 +100,23 @@
 					})
 				})
 			},
-			comment: function(item) {
-				this.content =  "@" + item.name + "：";
+			reply: function(item) {
+				if (item.user_id != plus.storage.getItem("uid")) {
+					this.content =  "@" + item.name + "：";
+				} else {
+					console.log(11111);
+				}
+				
 			},
 			send: function() {
-				this.content = "";
+				console.log(223344);
+				var self = this;
+				you.authenPost("/stories/" + you.current_page.item.id + "/comment", {content: this.content}, function(result) {
+					console.log(1113);
+					console.log(JSON.stringify(result));
+					self.comments.splice(0,0,result);
+					self.content = "";
+				})
 			}
 		}
 	}

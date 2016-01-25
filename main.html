@@ -102,20 +102,20 @@
 				<span class="mui-icon growth"></span>
 				<span class="mui-tab-label">成长</span>
 			</a>
-			<a class="mui-tab-item" href="circle.html">
+			<a class="mui-tab-item" href="message.html">
 				<span class="mui-icon friends"></span>
-				<span class="mui-tab-label">我友</span>
+				<span class="mui-tab-label">互动</span>
 			</a>
 			<a class="mui-tab-item" href="setting.html">
 				<span class="mui-icon find"></span>
-				<span class="mui-tab-label">发现</span>
+				<span class="mui-tab-label">我</span>
 			</a>
 		</nav>
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			var activeTab = null;
 			mui.init();
-			var subpages = ['dashbord.html', 'growth.html', 'circle.html', 'setting.html'];
+			var subpages = ['dashbord.html', 'growth.html', 'message.html', 'setting.html'];
 			var subpage_style = {
 				top: '44px',
 				bottom: '61px'
@@ -159,8 +159,8 @@
 			  	}
 				if (targetTab == 'growth.html') {
 					document.getElementById("menu").style.display = "";
-				} else if (targetTab == 'circle.html') {
-					document.getElementById("chat").style.display = "";
+				} else if (targetTab == 'message.html') {
+					document.getElementById("chat").style.display = "none";
 					document.getElementById("contact").style.display = "";
 					document.getElementById("menu").style.display = "";
 				}
