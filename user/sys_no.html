@@ -44,6 +44,8 @@
       				name: document.getElementById("name").value,
       				id: 'sys_no'
       			});
+      			you.setStore("sys_no",  document.getElementById("name").value);
+      			mui.fire(plus.webview.getWebviewById("setting.html"), 'reload');
       			you.current_page.close();
       		})
       	});

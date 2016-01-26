@@ -15,6 +15,9 @@
 <body>
   <header class="mui-bar mui-bar-nav header">
   	  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+  	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right" id="save">
+			保存
+		</button>
   		<h1 class="mui-title">昵称</h1>
   </header>
   <div class="mui-content">
@@ -33,17 +36,20 @@
 	 <script type="text/javascript" charset="utf-8">
       	mui.init();
       	mui.plusReady(function() {
-      		var old_back = mui.back;
-      		mui.back = function() {
+      		you.dom("name").value = you.getStore("name");
+      	})
+      	document.getElementById("save").addEventListener("tap", function() {
+      		you.authenPut("/users/info", {type: 'name', value: document.getElementById("name").value}, function(result) {
       			mui.fire(plus.webview.getWebviewById("template").children()[0], "set_value", {
       				name: document.getElementById("name").value,
       				id: 'name'
       			});
-      			old_back();
-      		}
-      		
-      		you.dom("name").value = you.getStore("name");
-      	})
+      			
+      			you.setStore("name",  document.getElementById("name").value);
+      			mui.fire(plus.webview.getWebviewById("setting.html"), 'reload');
+      			you.current_page.close();
+      		})
+      	});
     </script>
 </body>
 </html>

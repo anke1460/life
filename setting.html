@@ -10,39 +10,56 @@
 
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
-			
+		<style>
+			.mui-content>.mui-table-view:first-child {
+				margin: 0px;
+			}
+		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
+			<ul class="mui-table-view" style="padding: 5px;">
+					<li class="mui-table-view-cell mui-media mui-table-view-chevron">
+						<a id="user_setting" class="mui-navigate-right">
+							<img class="mui-media-object mui-pull-left" id="avatar" />
+							<div class="mui-media-body">
+								<span id="user_name"></span>
+								<p style="margin-top: 5px;">
+									有友号:
+									<span id="sys_no"></span>
+								</p>
+
+							</div>
+						</a>
+					</li>
+				</ul>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right">
-						成就圈
+						评分总览
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right">
-						排行版
+						勋章墙
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right">
-						比一比
+						我的自定义成就
 					</a>
 				</li>
 			</ul>
 			<ul class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a id="about" class="mui-navigate-right">
-						关于有友
+					<a id="advice" class="mui-navigate-right">
+						给评测模版提建议
 					</a>
 				</li>
-			</ul>
-			<ul class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a style="text-align: center;color: #FF3B30;" id="logout">
-						退出登录
+					<a id="set" class="mui-navigate-right">
+						设置
 					</a>
 				</li>
 			</ul>
@@ -54,16 +71,42 @@
 		mui.init({
 			swipeBack:true
 		});
-		document.getElementById("logout").addEventListener('tap',function () {
-			you.loading();
-			you.authenDelete("/logout", {}, function() {
-				console.log("33333")
-				you.clearStore();
-				setTimeout(function() {
-      	    plus.runtime.restart();
-      	  },500);
-      	  you.endLoding();
+		mui.plusReady(function() {
+			mui("#user_name")[0].innerText = you.getStore("name");
+			mui("#sys_no")[0].innerText = you.getStore("sys_no");
+			mui("#avatar")[0].src = you.getStore("logo");
+		})
+		window.addEventListener("reload", function() {
+			mui("#user_name")[0].innerText = you.getStore("name");
+			mui("#sys_no")[0].innerText = you.getStore("sys_no");
+			mui("#avatar")[0].src = you.getStore("logo");
+		})
+		mui("#set")[0].addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'set.html',
+				id: 'set'
+			})
+		})
+		
+		mui("#user_setting")[0].addEventListener("tap", function() {
+			var href = "user/info.html";
+			third_search_web = plus.webview.getWebviewById("template");
+			children_view = third_search_web.children()[0];
+			aniShow = mui.os.ios ? 'pop-in' : 'slide-in-right';
+			mui.fire(third_search_web, 'updateHeader', {
+				title: "个人信息",
+				target: href,
+				aniShow: 'slide-in-right'
 			});
+			if (mui.os.ios || parseFloat(mui.os.version) < 4.4) {
+				if (children_view.getURL() != href) {
+					children_view.loadURL(href);
+				} else {
+					children_view.show();
+					giant.endLoding();
+				}
+				third_search_web.show('slide-in-right', 150);
+			}
 		});
 	</script>
 </html>
