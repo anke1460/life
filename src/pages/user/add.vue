@@ -15,28 +15,26 @@
 					<input type="search" class="mui-input-clear" placeholder="有友好/手机号" v-model="q" />
 				</div>
 			</form>
-			<template v-if="users.length > 0">
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell" v-for="user in users">
-						<img class="mui-media-object mui-pull-left" :src="user.logo" />
-						<div class="mui-media-body">
-							{{user.name}}
-							<p class="mui-ellipsis">{{user.sign}}</p>
-						</div>
-					</li>
-				</ul>
-			</template>
-			<template v-else>
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell">
-						<img class="mui-media-object mui-pull-left" :src="logo" />
-						<div class="mui-media-body">
-							通讯录导入
-							<p>添加或邀请通讯录中好友</p>
-						</div>
-					</li>
-				</ul>
-			</template>
+			<ul class="mui-table-view" v-show="users.length > 0">
+				<li class="mui-table-view-cell" v-for="user in users">
+					<img class="mui-media-object mui-pull-left" :src="user.logo" />
+					<div class="mui-media-body">
+						{{user.name}}
+						<p class="mui-ellipsis">{{user.sign}}</p>
+						<span class="add-user" @tap="add(user)">{{user.is_friend ?  '已是好友': '添加好友'}}</span>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view" v-show="!findUser">
+				<li class="mui-table-view-cell">
+					<img class="mui-media-object mui-pull-left" :src="logo" />
+					<div class="mui-media-body">
+						通讯录导入
+						<p>添加或邀请通讯录中好友</p>
+					</div>
+				</li>
+			</ul>
+			<h5 v-show="findUser && users.length == 0">没有改用户</h5>
 
 		</div>
 
@@ -44,72 +42,87 @@
 </template>
 <script>
 	module.exports = {
-			el: "#app",
-			data: function() {
-				return {
-					q: '',
-					users: [],
-					page: 1,
-					per_page: 20,
-					logo: '../images/1.png'
+		el: "#app",
+		data: function() {
+			return {
+				q: '',
+				users: [],
+				page: 1,
+				per_page: 20,
+				logo: '../images/1.png',
+				findUser: false
+			}
+		},
+		ready: function() {
+			var self = this;
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					up: {
+						contentrefresh: "上拉加载更多",
+						contentnomore: '',
+						callback: self.loadMore
+					}
 				}
-			},
-			ready: function() {
+			});
+			mui(".mui-search").on("tap", ".mui-icon-clear", function(e) {
+				self.users = [];
+				self.findUser = false;
+			});
+		},
+		methods: {
+			loadMore: function() {
 				var self = this;
-				mui.init({
-					pullRefresh: {
-						container: "#refreshContainer",
-						up: {
-							contentrefresh: "上拉加载更多",
-							contentnomore: '',
-							callback: self.loadMore
+				you.loading();
+				mui.plusReady(function() {
+					you.authenGet("/users/find", {
+						q: self.q,
+						page: self.page,
+						per_page: self.per_page
+					}, function(result) {
+						you.endLoding();
+						console.log(JSON.stringify(result));
+						self.users = self.users.concat(result.users);
+						self.findUser = true;
+						if (self.page * self.per_page > result.total_count) {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+						} else {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
 						}
-					}
-				});
+						self.page = self.page + 1;
+					})
+				})
 			},
-			methods: {
-				loadMore: function() {
-						var self = this;
-						you.loading();
-						mui.plusReady(function() {
-							you.authenGet("/users/find", {
-								q: self.q,
-								page: self.page,
-								per_page: self.per_page
-							}, function(result) {
-								you.endLoding();
-								console.log(JSON.stringify(result));
-								self.users = self.users.concat(result.users);
-								if (self.page * self.per_page > result.total_count) {
-									mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
-								} else {
-									mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
-								}
-								self.page = self.page + 1;
-							})
-						})
-					},
-					search: function() {
-						var self = this;
-						self.users = [];
-						console.log(this.q);
-						mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
-						this.loadMore();
-//						you.authenGet("/users/find", {
-//							q: this.q,
-//							page: self.page,
-//							per_page: self.per_page
-//						}, function(result) {
-//							console.log(JSON.stringify(result));
-//							self.users = result.users;
-//						})
-					}
+			search: function() {
+				var self = this;
+				self.users = [];
+				self.page = 1;
+				console.log(this.q);
+				mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+				this.loadMore();
+			},
+			add: function(user) {
+				if (!user.is_friend) {
+					you.authenPost("/users/"+ user.id + "/add_friend", {}, function(result) {
+						user.is_friend = true;
+						console.log(JSON.stringify(result));
+					})
 				}
 			}
+		}
+	}
 </script>
 <style lang="sass">
 	body {
 		height: 100%;
+	}
+	
+	.add-user {
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		font-size: 14px;
+		color: #666
 	}
 	
 	.mui-input-row.mui-search .mui-icon-clear {
