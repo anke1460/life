@@ -26,16 +26,33 @@
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
-				 	{{title}}<span id="add_wish" @tap.stop="addWish">心愿</span>
-				</a>
-
+				 		{{title}}
+				 		<span id="add_wish" @tap.stop="addWish">心愿</span>
+						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
-
+						  <li class="">
+						  		<div class="col">
+						  			<span>含成就点</span>
+						  			<span class="col-conent">44</span>
+						  		</div>
+						  		<div class="col">
+						  			<span>组合总分</span>
+						  			<span class="col-conent">44</span>
+						  		</div>
+						  		<div class="col">
+						  			<span>封获头衔</span>
+						  			<span class="col-conent">44</span>
+						  		</div>
+						  		<div class="col">
+						  			<span>我的总分</span>
+						  			<span class="col-conent">44</span>
+						  		</div>
+						  </li>
 						</ul>
 					</li>
 				</ul>
 				<p id="attainment_tip">
-					<strong>包含一下成就点</strong>
+					<strong>包含以下成就点</strong>
 					<span id="change_view" @tap="change">点击切换文字</span>
 				</p>
 				<div v-show="is_text" class="city-wraper">
@@ -44,7 +61,7 @@
 				<div v-show="!is_text">
 					<div id="map"></div>
 				</div>
-				
+
 				<div id="infos">
 					<div id="baner">
 						<a class="active">推荐</a>
@@ -79,12 +96,12 @@
 	<div id="popover" class="mui-popover">
 		<h4 class="pop-title">成就操作<span id="close" @tap="close"></span></h4>
 		<div class="content">
-		  	<p class="mui-text-center">选择<strong>{{city_name}}</strong>的完成时间</p>
-		  	<input id="selecte_date" type="hidden" v-model="haved_at"/>
-		  	<button class="mui-btn mui-btn-block" @tap="markHaved" v-show="!is_selected">仅确认时间</button>
-		  	<button class="mui-btn mui-btn-block" @tap="addPhoto">{{ is_selected ? '继续添加图文记录' : '添加图文记录'}}</button>
-		  	<button class="mui-btn mui-btn-block" v-show="is_selected" @tap="cancelMark">取消</button>
-	  	</div>
+			<p class="mui-text-center">选择<strong>{{city_name}}</strong>的完成时间</p>
+			<input id="selecte_date" type="hidden" v-model="haved_at" />
+			<button class="mui-btn mui-btn-block" @tap="markHaved" v-show="!is_selected">仅确认时间</button>
+			<button class="mui-btn mui-btn-block" @tap="addPhoto">{{ is_selected ? '继续添加图文记录' : '添加图文记录'}}</button>
+			<button class="mui-btn mui-btn-block" v-show="is_selected && has_photo != true" @tap="cancelMark">取消</button>
+		</div>
 	</div>
 </template>
 <script>
@@ -103,7 +120,8 @@
 				current_index: 1,
 				current_item: '',
 				city: [],
-				current_node: ''
+				current_node: '',
+				has_photo: false
 			}
 		},
 		watch: {
@@ -131,25 +149,24 @@
 			this.echart = echarts.init(document.getElementById('map'));
 			mui.plusReady(function() {
 				self.title = you.current_page.detail_classify_name;
-			  self.loadData();
+				self.loadData();
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;
 				self.current_node = self.nodes[event.detail.slideNumber];
 			});
-		 window.addEventListener("reloadData", function() {
-		 	 self.loadData();
-		 	 self.trends = [];
-		 	 self.page = 1;
-		 	 self.loadMsg();
-		 })
-			
+			window.addEventListener("reloadData", function() {
+				self.loadData();
+				self.trends = [];
+				self.page = 1;
+				self.loadMsg();
+			})
 		},
 		methods: {
 			loadMsg: function() {
 				var self = this;
 				mui.plusReady(function() {
-					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/trend", {} ,function(result) {
+					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/trend", {}, function(result) {
 						console.log(JSON.stringify(result));
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
@@ -163,14 +180,16 @@
 			},
 			loadData: function() {
 				var self = this;
-					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
+				you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
 					self.nodes = result.nodes;
+					console.log(JSON.stringify(result));
 					var city = [];
 					mui.each(result.nodes, function(i, d) {
 						city.push({
 							name: d.name,
 							id: d.id,
-							selected: d.selected
+							selected: d.selected,
+							has_photo: d.has_photo
 						});
 					})
 					self.city = city;
@@ -196,20 +215,20 @@
 				var self = this;
 				you.loading();
 				you.authenPost("/nodes/" + this.current_item.id + "/mark", {
-					haved_at: document.getElementById("selecte_date").value,
-					detail_classify_id: you.current_page.detail_classify_id
-				},
-				function(result) {
-					self.current_item.selected = true;
-					mui('.mui-popover').popover('toggle');
-					you.endLoding();
-					mui.fire(you.webview("attainment_list"), "reloadData");
-				}, function(xhr) {
-					mui.toast(JSON.parse(xhr.responseText).error);
-					mui('.mui-popover').popover('toggle');
-				});
+						haved_at: document.getElementById("selecte_date").value,
+						detail_classify_id: you.current_page.detail_classify_id
+					},
+					function(result) {
+						self.current_item.selected = true;
+						mui('.mui-popover').popover('toggle');
+						you.endLoding();
+						mui.fire(you.webview("attainment_list"), "reloadData");
+					},
+					function(xhr) {
+						mui.toast(JSON.parse(xhr.responseText).error);
+						mui('.mui-popover').popover('toggle');
+					});
 			},
-			
 			cancelMark: function() {
 				var self = this;
 				you.loading();
@@ -225,7 +244,6 @@
 			},
 			addWish: function() {
 				console.log("addd");
-				
 			},
 			change: function() {
 				this.is_text = !this.is_text;
@@ -235,6 +253,7 @@
 				this.city_name = item.name;
 				this.current_item = item;
 				this.is_selected = item.selected;
+				this.has_photo = item.has_photo;
 				mui('.mui-popover').popover('toggle');
 			},
 			close: function() {
@@ -289,7 +308,15 @@
 		z-index: 2;
 		top: 5px;
 	}
-	
+	.col {
+		float: left;
+     width: 50%;
+     padding: 5px 5px;
+		 font-size: 14px;
+		 .col-content {
+		 	 mmargin-left: 5px;
+		 }
+	}
 	#baner {
 		margin-top: 10px;
 		border-top: 1px solid #F3F3F3;
@@ -347,16 +374,15 @@
 		}
 		.pop-title {
 			margin: 0px;
-	    height: 40px;
-	    line-height: 40px;
-	    background: #1FCC7C;
-	    color: #fff;
-	    text-align: center;
+			height: 40px;
+			line-height: 40px;
+			background: #1FCC7C;
+			color: #fff;
+			text-align: center;
 		}
 		strong {
 			color: #1FCC7C;
 		}
-		
 	}
 	
 	.mui-btn {
@@ -379,14 +405,15 @@
 		text-align: center;
 		width: 20%;
 	}
+	
 	.city-name.selected {
 		color: #1FCC7C;
 	}
 	
 	#change_view {
 		float: right;
-    margin-right: 15px;
-    font-size: 12px;
+		margin-right: 15px;
+		font-size: 12px;
 	}
 	
 	.num {
@@ -411,8 +438,8 @@
 	
 	#close {
 		position: absolute;
-    right: 0px;
-    width: 40px;
-    height: 40px;
+		right: 0px;
+		width: 40px;
+		height: 40px;
 	}
 </style>
