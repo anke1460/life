@@ -29,11 +29,11 @@
 			<div class="tip">
 				<div class="mui-col-xs-3 mui-pull-left">
 					<p>自我标记</p>
-					<span>50%</span>
+					<span>100%</span>
 				</div>
 				<div class="mui-col-xs-3 mui-pull-left">
 					<p>图片认证</p>
-					<span>30%</span>
+					<span>60%</span>
 				</div>
 				<div class="mui-col-xs-3 mui-pull-left">
 					<p>好友确认</p>
@@ -108,8 +108,7 @@
 					url: 'detail.html',
 					id: 'attainment_detail',
 					extras: {
-						detail_classify_id: detail_classify.id,
-						detail_classify_name: detail_classify.name
+						detail_classify: detail_classify
 					}
 				})
 			}

@@ -33,19 +33,19 @@
 						  <li class="">
 						  		<div class="col">
 						  			<span>含成就点</span>
-						  			<span class="col-conent">44</span>
+						  			<span class="col-conent">{{detail_classify.nodes_count}}</span>
 						  		</div>
 						  		<div class="col">
 						  			<span>组合总分</span>
-						  			<span class="col-conent">44</span>
+						  			<span class="col-conent">{{detail_classify.max_score}}</span>
 						  		</div>
 						  		<div class="col">
 						  			<span>封获头衔</span>
-						  			<span class="col-conent">44</span>
+						  			<span class="col-conent">{{detail_classify.rank | '无'}}</span>
 						  		</div>
 						  		<div class="col">
 						  			<span>我的总分</span>
-						  			<span class="col-conent">44</span>
+						  			<span class="col-conent">{{detail_classify.current_score}}</span>
 						  		</div>
 						  </li>
 						</ul>
@@ -121,7 +121,9 @@
 				current_item: '',
 				city: [],
 				current_node: '',
-				has_photo: false
+				has_photo: false,
+				map_type: '',
+				detail_classify: ''
 			}
 		},
 		watch: {
@@ -146,10 +148,22 @@
 					}
 				}
 			});
-			this.echart = echarts.init(document.getElementById('map'));
+			
 			mui.plusReady(function() {
-				self.title = you.current_page.detail_classify_name;
+				self.detail_classify = you.current_page.detail_classify;
+				self.title = self.detail_classify.name;
 				self.loadData();
+				self.echart = echarts.init(document.getElementById('map'));
+				self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
+				
+				if (self.detail_classify.map_name != '') {
+					console.log('map name', self.detail_classify.map_name);
+					echarts.util.mapData.params.params[self.detail_classify.map_name] = {
+				    getGeoJson: function (callback) {
+					   	you.get('/map/' + self.detail_classify.id, {}, callback);
+				    }
+				  }
+				}
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;
@@ -166,7 +180,7 @@
 			loadMsg: function() {
 				var self = this;
 				mui.plusReady(function() {
-					you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/trend", {}, function(result) {
+					you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/trend", {}, function(result) {
 						console.log(JSON.stringify(result));
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
@@ -180,7 +194,7 @@
 			},
 			loadData: function() {
 				var self = this;
-				you.authenGet("/detail_classifies/" + you.current_page.detail_classify_id + "/nodes", {}, function(result) {
+				you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/nodes", {}, function(result) {
 					self.nodes = result.nodes;
 					console.log(JSON.stringify(result));
 					var city = [];
@@ -207,7 +221,7 @@
 					extras: {
 						node_id: this.current_item.id,
 						title: this.current_item.name,
-						detail_classify_id: you.current_page.detail_classify_id
+						detail_classify_id: you.current_page.detail_classify.id
 					}
 				})
 			},
@@ -215,19 +229,19 @@
 				var self = this;
 				you.loading();
 				you.authenPost("/nodes/" + this.current_item.id + "/mark", {
-						haved_at: document.getElementById("selecte_date").value,
-						detail_classify_id: you.current_page.detail_classify_id
-					},
-					function(result) {
-						self.current_item.selected = true;
-						mui('.mui-popover').popover('toggle');
-						you.endLoding();
-						mui.fire(you.webview("attainment_list"), "reloadData");
-					},
-					function(xhr) {
-						mui.toast(JSON.parse(xhr.responseText).error);
-						mui('.mui-popover').popover('toggle');
-					});
+				  haved_at: document.getElementById("selecte_date").value,
+				  detail_classify_id: you.current_page.detail_classify.id
+			  },
+				function(result) {
+					self.current_item.selected = true;
+					mui('.mui-popover').popover('toggle');
+					you.endLoding();
+					mui.fire(you.webview("attainment_list"), "reloadData");
+				},
+				function(xhr) {
+					mui.toast(JSON.parse(xhr.responseText).error);
+					mui('.mui-popover').popover('toggle');
+				});
 			},
 			cancelMark: function() {
 				var self = this;
@@ -269,7 +283,7 @@
 					series: [{
 						name: '中国',
 						type: 'map',
-						mapType: 'china',
+						mapType: this.map_type,
 						mapLocation: {
 							x: 'center',
 							y: '20',
@@ -291,8 +305,9 @@
 						data: this.city
 					}]
 				};
+				console.log('c333', JSON.stringify(this.city));
 				this.echart.setOption(this.options);
-				this.echart.setOption(this.options, true);
+//				this.echart.setOption(this.options, true);
 			},
 			comment: function() {
 				console.log('comment')
