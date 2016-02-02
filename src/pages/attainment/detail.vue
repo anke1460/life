@@ -30,24 +30,24 @@
 				 		<span id="add_wish" @tap.stop="addWish">心愿</span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
-						  <li class="">
-						  		<div class="col">
-						  			<span>含成就点</span>
-						  			<span class="col-conent">{{detail_classify.nodes_count}}</span>
-						  		</div>
-						  		<div class="col">
-						  			<span>组合总分</span>
-						  			<span class="col-conent">{{detail_classify.max_score}}</span>
-						  		</div>
-						  		<div class="col">
-						  			<span>封获头衔</span>
-						  			<span class="col-conent">{{detail_classify.rank | '无'}}</span>
-						  		</div>
-						  		<div class="col">
-						  			<span>我的总分</span>
-						  			<span class="col-conent">{{detail_classify.current_score}}</span>
-						  		</div>
-						  </li>
+							<li class="">
+								<div class="col">
+									<span>含成就点</span>
+									<span class="col-conent">{{detail_classify.nodes_count}}</span>
+								</div>
+								<div class="col">
+									<span>组合总分</span>
+									<span class="col-conent">{{detail_classify.max_score}}</span>
+								</div>
+								<div class="col">
+									<span>封获头衔</span>
+									<span class="col-conent">{{detail_classify.rank | '无'}}</span>
+								</div>
+								<div class="col">
+									<span>我的总分</span>
+									<span class="col-conent">{{detail_classify.current_score}}</span>
+								</div>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -148,21 +148,19 @@
 					}
 				}
 			});
-			
 			mui.plusReady(function() {
 				self.detail_classify = you.current_page.detail_classify;
 				self.title = self.detail_classify.name;
 				self.loadData();
 				self.echart = echarts.init(document.getElementById('map'));
 				self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
-				
 				if (self.detail_classify.map_name != '') {
 					console.log('map name', self.detail_classify.map_name);
 					echarts.util.mapData.params.params[self.detail_classify.map_name] = {
-				    getGeoJson: function (callback) {
-					   	you.get('/map/' + self.detail_classify.id, {}, callback);
-				    }
-				  }
+						getGeoJson: function(callback) {
+							you.get('/map/' + self.detail_classify.id, {}, callback);
+						}
+					}
 				}
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
@@ -229,19 +227,19 @@
 				var self = this;
 				you.loading();
 				you.authenPost("/nodes/" + this.current_item.id + "/mark", {
-				  haved_at: document.getElementById("selecte_date").value,
-				  detail_classify_id: you.current_page.detail_classify.id
-			  },
-				function(result) {
-					self.current_item.selected = true;
-					mui('.mui-popover').popover('toggle');
-					you.endLoding();
-					mui.fire(you.webview("attainment_list"), "reloadData");
-				},
-				function(xhr) {
-					mui.toast(JSON.parse(xhr.responseText).error);
-					mui('.mui-popover').popover('toggle');
-				});
+						haved_at: document.getElementById("selecte_date").value,
+						detail_classify_id: you.current_page.detail_classify.id
+					},
+					function(result) {
+						self.current_item.selected = true;
+						mui('.mui-popover').popover('toggle');
+						you.endLoding();
+						mui.fire(you.webview("attainment_list"), "reloadData");
+					},
+					function(xhr) {
+						mui.toast(JSON.parse(xhr.responseText).error);
+						mui('.mui-popover').popover('toggle');
+					});
 			},
 			cancelMark: function() {
 				var self = this;
@@ -257,6 +255,20 @@
 				});
 			},
 			addWish: function() {
+				var options = {
+					type: "date",
+					beginYear: (new Date).getFullYear()
+				};
+				var picker = new mui.DtPicker(options);
+				picker.show(function(rs) {
+					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {
+						date: rs.text
+					}, function(result) {
+						console.log(JSON.stringify(result));
+						you.alert("已添加到我的心愿清单");
+						picker.dispose();
+					})
+				})
 				console.log("addd");
 			},
 			change: function() {
@@ -307,7 +319,7 @@
 				};
 				console.log('c333', JSON.stringify(this.city));
 				this.echart.setOption(this.options);
-//				this.echart.setOption(this.options, true);
+				//				this.echart.setOption(this.options, true);
 			},
 			comment: function() {
 				console.log('comment')
@@ -323,15 +335,17 @@
 		z-index: 2;
 		top: 5px;
 	}
+	
 	.col {
 		float: left;
-     width: 50%;
-     padding: 5px 5px;
-		 font-size: 14px;
-		 .col-content {
-		 	 mmargin-left: 5px;
-		 }
+		width: 50%;
+		padding: 5px 5px;
+		font-size: 14px;
+		.col-content {
+			mmargin-left: 5px;
+		}
 	}
+	
 	#baner {
 		margin-top: 10px;
 		border-top: 1px solid #F3F3F3;

@@ -31,7 +31,7 @@
 									</div>
 								</div>
 							</div>
-							<h5>关联习惯</h5>
+							<!--<h5>关联习惯</h5>
 							<ul class="mui-table-view">
 								<li class="mui-table-view-cell" v-for="habit in item.habits">
 									<span class="">
@@ -41,7 +41,7 @@
 										<div class="mui-switch-handle"></div>
 									</div>
 								</li>
-							</ul>
+							</ul>-->
 						</div>
 					</li>
 				</template>
@@ -103,8 +103,7 @@
 				}
 			},
 			load: function() {
-				console.log('loadding')
-				you.authenGet("/wishes", {}, function(result) {
+				you.authenGet("/aspiration", {}, function(result) {
 					console.log(JSON.stringify(result))
 					this.items = result.wishes;
 					you.endLoding();
