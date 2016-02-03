@@ -27,24 +27,24 @@
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
 				 		{{title}}
-				 		<span id="add_wish" @tap.stop="addWish">心愿</span>
+				 		<span id="add_wish" @tap.stop="addWish" v-show="!detail_classify.is_aspiration">心愿</span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="">
 								<div class="col">
-									<span>含成就点</span>
+									<span>含成就点:</span>
 									<span class="col-conent">{{detail_classify.nodes_count}}</span>
 								</div>
 								<div class="col">
-									<span>组合总分</span>
+									<span>组合总分:</span>
 									<span class="col-conent">{{detail_classify.max_score}}</span>
 								</div>
 								<div class="col">
-									<span>封获头衔</span>
-									<span class="col-conent">{{detail_classify.rank | '无'}}</span>
+									<span>封获头衔:</span>
+									<span class="col-conent">{{detail_classify.rank || '无'}}</span>
 								</div>
 								<div class="col">
-									<span>我的总分</span>
+									<span>我的总分:</span>
 									<span class="col-conent">{{detail_classify.current_score}}</span>
 								</div>
 							</li>

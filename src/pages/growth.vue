@@ -13,39 +13,29 @@
 						<div class="mui-slider-cell">
 							<div class="wish_content" @click="go(item, $event)">
 								<h6>
-									<span class="mui-pull-left">许愿 {{item.wish_day}} 天</span>
-									<span class="mui-pull-right">剩余 {{item.residue_day}} 天</span>
+									<span class="mui-pull-left">许愿{{item.wish_day}}天</span>
+									<span class="mui-pull-right">成就分值: {{item.score}}</span>
 								</h6>
 								<div class="oa-contact-cell mui-table">
 									<div class="oa-contact-avatar mui-table-cell">
-										<p class="mui-pull-right">成就分值: {{item.score}}</p>
-										{{item.name}}
-										<p> {{item.description}}</p>
-										<p>
-											<h5 class="mui-pull-left">完成进度：</h5>
-											<div class="progress-bar orange shine">
-												<span :style="{width:finished[$index] + '%'}"></span>
-											</div>
-											<span class="finished-text">{{finished[$index]}} %</span>
-										</p>
+										<img :src="item.img_url" class="mui-media-object mui-pull-left" />
+										<div class="mui-media-body">
+											{{item.name}}
+											<p> {{item.description}}</p>
+											<p>
+												<h5 class="mui-pull-left">完成进度：</h5>
+												<div class="progress-bar orange shine">
+													<span :style="{width: finishScale(item.finish_num, item.total_num) + '%'}"></span>
+												</div>
+												<span class="finished-text">{{item.finish_num}}/{{item.total_num}}</span>
+											</p>
+										</div>
 									</div>
 								</div>
 							</div>
-							<!--<h5>关联习惯</h5>
-							<ul class="mui-table-view">
-								<li class="mui-table-view-cell" v-for="habit in item.habits">
-									<span class="">
-									{{habit.name}}
-								</span>
-									<div class="mui-switch mui-switch-mini">
-										<div class="mui-switch-handle"></div>
-									</div>
-								</li>
-							</ul>-->
 						</div>
 					</li>
 				</template>
-
 			</ul>
 		</div>
 	</div>
@@ -56,31 +46,19 @@
 		el: "#app",
 		data: function() {
 			return {
-				items: [{
-					id: 1,
-					resource_id: 3,
-					realize_on: "2016-02-02",
-					goal_num: 3,
-					finished_num: 0,
-					score: 1577,
-					img_url: null,
-					name: "走遍中国",
-					description: "去过中国34个省份",
-					wish_day: 31,
-					residue_day: 29
-				}]
+				items: []
 			}
 		},
-		computed: {
-			finished: function() {
-				var data = [];
-				for (var i in this.items) {
-					data.push((this.items[i].finished_num / this.items[i].goal_num * 100).toFixed(1));
-				}
-				console.log(JSON.stringify(data))
-				return data;
-			}
-		},
+		//		computed: {
+		//			finished: function() {
+		//				var data = [];
+		//				for (var i in this.items) {
+		//					data.push((this.items[i].finished_num / this.items[i].goal_num * 100).toFixed(1));
+		//				}
+		//				console.log(JSON.stringify(data))
+		//				return data;
+		//			}
+		//		},
 		ready: function() {
 			mui.init({
 				swipeBack: false
@@ -91,21 +69,33 @@
 			}.bind(this))
 		},
 		methods: {
-			go: function(item, e) {
-				if (!e.target.classList.contains("mui-switch-handle")) {
-				  var wish_id = item.id;
-					plus.storage.setItem("wish_id", wish_id.toString());
-					you.loadWebUrl("wish/wish_detail.html", "template", {
-						title: item.name,
-						target: "wish/wish_detail.html",
-						aniShow: 'slide-in-right'
-					});
-				}
+			//			go: function(item, e) {
+			//				if (!e.target.classList.contains("mui-switch-handle")) {
+			//				  var wish_id = item.id;
+			//					plus.storage.setItem("wish_id", wish_id.toString());
+			//					you.loadWebUrl("wish/wish_detail.html", "template", {
+			//						title: item.name,
+			//						target: "wish/wish_detail.html",
+			//						aniShow: 'slide-in-right'
+			//					});
+			//				}
+			//			},
+			go: function(item) {
+				mui.openWindow({
+					url: 'attainment/detail.html',
+					id: 'attainment_detail',
+					extras: {
+						detail_classify: item.detail_classify
+					}
+				})
+			},
+			finishScale: function(v, t) {
+				return (v / t * 100).toFixed(1)
 			},
 			load: function() {
 				you.authenGet("/aspiration", {}, function(result) {
 					console.log(JSON.stringify(result))
-					this.items = result.wishes;
+					this.items = result.aspirations;
 					you.endLoding();
 					setTimeout(function() {
 						mui('.mui-content .mui-switch')['switch']();
@@ -121,7 +111,7 @@
 		font: 13px 'trebuchet MS', Arial, Helvetica;
 		height: 14px;
 		padding: 1px;
-		width: 130px;
+		width: 110px;
 		float: left;
 		margin-top: 5px;
 		span {
@@ -193,6 +183,8 @@
 	.finished-text {
 		margin-left: 5px;
 		float: left;
+		font-size: 14px;
+		color: #1FCC7C;
 	}
 	
 	.wish {
