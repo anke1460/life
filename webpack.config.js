@@ -17,8 +17,10 @@ module.exports = {
 		"attainment_list":       ["./src/pages/attainment/list.js"],
 		"attainment_detail":     ["./src/pages/attainment/detail.js"],
 		"attainment_mark_photo": ["./src/pages/attainment/mark_photo.js"],
-		"add_user":							["./src/pages/user/add.js"]
-		},
+		"add_user":							["./src/pages/user/add.js"],
+		"rank":                  ["./src/pages/rank.js"],
+		"vs.js":                 ["./src/pages/vs.js"]
+	},
 	output: {
 		path: './build',
 		filename: '[name].min.js'

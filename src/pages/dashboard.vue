@@ -75,10 +75,10 @@
 			</div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left">
-					<img :src="'images/rank.png'" />
+					<img :src="'images/rank.png'" @tap="go('rank.html')"/>
 				</div>
 				<div class="mui-col-xs-4 mui-pull-left">
-					<img :src="'images/vs.png'" />
+					<img :src="'images/vs.png'" @tap="go('pk.html')" />
 				</div>
 				<div class="mui-col-xs-4 mui-pull-left">
 					<img :src="'images/find_friend.png'" />
@@ -173,7 +173,6 @@
 				var type = type || 'default';
 				mui.plusReady(function() {
 					you.authenGet("/stories", {type: type} ,function(result) {
-						console.log(JSON.stringify(result));
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
@@ -202,6 +201,12 @@
 						title: item.name
 					}
 				});
+			},
+			go: function(html) {
+				mui.openWindow({
+					url: html,
+					id: html
+				})
 			}
 		}
 	}

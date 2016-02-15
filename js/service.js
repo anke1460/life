@@ -12,7 +12,7 @@
 	mui.plusReady(function() {
 
 		if (mui.os.ios) {
-			mui(".mui-scroll-wrapper").scroll();
+//			mui(".mui-scroll-wrapper").scroll();
 		} else {
 			mui(".scroll-wraper").scroll();
 		}
