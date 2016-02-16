@@ -18,9 +18,9 @@
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell mui-media">
 						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" :src="images/1.png">
+							<img class="mui-media-object mui-pull-left" :src="qu">
 							<div class="sys">
-								有友
+								知趣
 							</div>
 						</a>
 					</li>
@@ -37,17 +37,18 @@
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li data-group="{{item.name}}" class="mui-table-view-divider mui-indexed-list-group">{{item.name}}</li>
-						<li data-value="{{group.short_pinyin}}" data-tags="{{group.pinyin}}" class="mui-table-view-cell mui-indexed-list-item mui-media" v-for="group in item.groups">
+						<li data-value="{{group.pinyin}}" data-tags="{{group.pinyin}}" class="mui-table-view-cell mui-indexed-list-item mui-media" v-for="group in item.groups">
 							<img class="mui-media-object mui-pull-left" :src="group.logo">
 							<div class="mui-media-body">
 								{{group.name}}
-								<p class="mui-ellipsis">有友分：{{group.score}}</p>
+								<span class="honor-name">{{group.honor_nam}}</span>
+								<p class="mui-ellipsis">知趣分：{{group.score}}</p>
 							</div>
-							<span class="rank">有友排行: <strong>{{group.rank}}</strong></span>
+							<span class="rank">知趣排行: <strong>{{group.rank_num}}</strong></span>
 						</li>
 					</template>
 				</ul>
-				<h5 class="mui-text-center total"> {{total}} 位有友</h5>
+				<h5 class="mui-text-center total"> {{total}} 位好友</h5>
 			</div>
 		</div>
 
@@ -58,96 +59,48 @@
 		el: '#app',
 		data: function() {
 			return {
+				qu: 'images/qu.png',
 				items: [],
+				indexs: [],
 				total: 0,
-				indexs: ['A', 'B', 'C']
 			}
 		},
 		ready: function() {
-			this.items = [{
-				name: 'A',
-				groups: [{
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}]
-			}, {
-				name: 'B',
-				groups: [{
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}, {
-					name: '小芳',
-					short_pinyin: 'AS',
-					pinyin: 'AS',
-					logo: 'images/1.png',
-					score: '100',
-					rank: '2'
-				}]
-			}];
-			this.total = 98;
 			mui.init();
-			mui.ready(function() {
-				var header = document.querySelector('header.mui-bar');
-				var list = mui("#list")[0];
-				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
-				window.indexedList = new mui.IndexedList(list);
+			mui.plusReady(function() {
+				you.authenGet("/users/friend", {}, function(result) {
+					var friends = [];
+					var title = [];
+					mui.each(result.friends, function(i, n) {
+						if (title.indexOf(n.pin) == -1) {
+							title.push(n.pin);
+							var p = {
+								name: n.pin
+							};
+							p.groups = [n];
+							friends.push(p)
+						} else {
+							mui.each(friends, function(s, d) {
+								if (d.name == n.pin) {
+									d.groups.push(n)
+								}
+							})
+						}
+					})
+					this.indexs = title.sort();
+					friends.sort(function(a, b) {
+						return a.name > b.name
+					})
+					this.items = friends;
+					this.total = friends.length;
+					setTimeout(function() {
+						var header = document.querySelector('header.mui-bar');
+						var list = mui("#list")[0];
+						list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+						window.indexedList = new mui.IndexedList(list);
+					}, 100)
+				}.bind(this))
+			
 			}.bind(this))
 		},
 		methods: {
@@ -163,6 +116,10 @@
 <style lang="sass">
 	.total {
 		margin-top: 10px;
+	}
+	.honor-name {
+		font-size: 12px;
+		color: #999
 	}
 	
 	.rank {
