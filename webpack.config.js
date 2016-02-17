@@ -19,7 +19,8 @@ module.exports = {
 		"attainment_mark_photo": ["./src/pages/attainment/mark_photo.js"],
 		"add_user":							["./src/pages/user/add.js"],
 		"rank":                  ["./src/pages/rank.js"],
-		"vs.js":                 ["./src/pages/vs.js"]
+		"vs.js":                 ["./src/pages/vs.js"],
+		"user_index":            ["./src/pages/user/index.js"]
 	},
 	output: {
 		path: './build',

@@ -143,7 +143,7 @@
 					up: {
 						auto: true,
 						contentrefresh: "上拉加载动态",
-						contentnomore: '',
+						contentnomore: '没有数据',
 						callback: self.loadMsg
 					}
 				}

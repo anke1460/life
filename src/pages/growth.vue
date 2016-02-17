@@ -107,13 +107,13 @@
 </script>
 <style lang="sass">
 	.progress-bar {
-		background-color: #1FCC7C;
-		font: 13px 'trebuchet MS', Arial, Helvetica;
-		height: 14px;
+		height: 10px;
 		padding: 1px;
+		border: 1px solid #1FCC7C;
 		width: 110px;
 		float: left;
-		margin-top: 5px;
+		position: relative;
+		margin-top: 7px;
 		span {
 			display: inline-block;
 			height: 100%;
@@ -127,14 +127,11 @@
 			-ms-transition: width .4s ease-in-out;
 			-o-transition: width .4s ease-in-out;
 			transition: width .4s ease-in-out;
-			position: relative;
-			background-color: #fecf23;
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#fecf23), to(#fd9215));
-			background-image: -webkit-linear-gradient(top, #fecf23, #fd9215);
-			background-image: -moz-linear-gradient(top, #fecf23, #fd9215);
-			background-image: -ms-linear-gradient(top, #fecf23, #fd9215);
-			background-image: -o-linear-gradient(top, #fecf23, #fd9215);
-			background-image: linear-gradient(top, #fecf23, #fd9215);
+			position: absolute;
+			background-color: #1FCC7C;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#1FCC7C), to(#1FCC7C));
+			background-image: -webkit-linear-gradient(top, #1FCC7C, #1FCC7C);
+			background-image: linear-gradient(top, #1FCC7C, #1FCC7C);
 		}
 		span::after {
 			content: '';

@@ -7,7 +7,7 @@
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title">通讯录</h1>
-		<a id="menu" class="mui-pull-right" @tap="add_user"></a>
+		<a id="menu" class="mui-pull-right" @tap="addUser"></a>
 	</header>
 	<div class="mui-content">
 		<div id='list' class="mui-indexed-list">
@@ -37,7 +37,7 @@
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li data-group="{{item.name}}" class="mui-table-view-divider mui-indexed-list-group">{{item.name}}</li>
-						<li data-value="{{group.pinyin}}" data-tags="{{group.pinyin}}" class="mui-table-view-cell mui-indexed-list-item mui-media" v-for="group in item.groups">
+						<li data-value="{{group.pinyin}}" data-tags="{{group.pinyin}}" class="mui-table-view-cell mui-indexed-list-item mui-media" @tap="user(group)" v-for="group in item.groups">
 							<img class="mui-media-object mui-pull-left" :src="group.logo">
 							<div class="mui-media-body">
 								{{group.name}}
@@ -48,7 +48,7 @@
 						</li>
 					</template>
 				</ul>
-				<h5 class="mui-text-center total"> {{total}} 位好友</h5>
+				<!--<h5 class="mui-text-center total"> {{total}} 位好友</h5>-->
 			</div>
 		</div>
 
@@ -104,11 +104,21 @@
 			}.bind(this))
 		},
 		methods: {
-			add_user: function() {
+			addUser: function() {
+				console.log('addd');
 				mui.openWindow({
-					url: 'user/address_book.html',
-					id: 'address_book'
-				});
+					url: 'user/add_user.html',
+					id: 'add_user'
+				})
+			},
+			user: function(user) {
+				mui.openWindow({
+					url: 'user/index.html',
+					id: 'user_index',
+					extras: {
+						user: user
+					}
+				})
 			}
 		}
 	}
@@ -116,6 +126,10 @@
 <style lang="sass">
 	.total {
 		margin-top: 10px;
+	}
+	
+	.mui-indexed-list-bar {
+		height: auto;
 	}
 	.honor-name {
 		font-size: 12px;

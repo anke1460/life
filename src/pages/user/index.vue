@@ -1,0 +1,203 @@
+<!--
+	作者：zuosjob@gmail.com
+	时间：2016-02-17
+	描述：用户主页
+-->
+<template>
+	<header class="mui-bar mui-bar-nav header">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">详细资料</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<a>
+						<img class="mui-media-object mui-pull-left" :src="user.logo" />
+						<div class="mui-media-body">
+							{{user.name}}
+							<span class="{{user.sex}} sex"></span>
+							<p>头衔{{user.honor_nam}}</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div id="u_info">
+				<div class="u-item">
+					<span>24</span>
+					<p>关注</p>
+				</div>
+				<div class="u-item">
+					<span>24</span>
+					<p>粉丝</p>
+				</div>
+			</div>
+			<div id="graph">
+				<div id="radar_graph">
+				</div>
+				<div id="total_score">{{user.score}}</div>
+				<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />爱好</span>
+				<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />社交</span>
+				<span style="position: absolute;top:120px;left:120px;"><img  class="class-icon" :src="logo3" />旅行</span>
+				<span style="position: absolute;top:120px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
+				<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />美食</span>
+			</div>
+			<div id="trend">
+			  <ul class="mui-table-view">
+			  	<li class="mui-table-view-cell">
+			  	  <label>地区</label>
+			  	  湖北
+			  	</li>
+			  	<li class="mui-table-view-cell trend-wraper">
+			  	  <label>动态</label>
+			  	  <img :src="logo1"v-for="i in [1,2,3]"/>
+			  	</li>
+			  </ul>
+				
+			</div>
+		</div>
+		
+	</div>
+</template>
+<script>
+	module.exports = {
+		el: "#app",
+		data: function() {
+			return {
+				user: {
+					logo: '../images/translate.png'
+				},
+				logo1: '../images/hobby.png',
+				logo2: '../images/social.png',
+				logo3: '../images/travel.png',
+				logo4: '../images/skill.png',
+				logo5: '../images/food.png',
+			}
+		},
+		ready: function() {
+			var self = this;
+			mui.init();
+			mui.plusReady(function() {
+				mui("mui-scroll-wrapper").scroll();
+				self.user = you.current_page.user;
+				console.log(JSON.stringify(you.current_page));
+				var score = echarts.init(document.getElementById('radar_graph'));
+				var option = {
+					title: {
+						show: true
+					},
+					tooltip: {
+						show: false
+					},
+					legend: {
+						show: false,
+						data: ['']
+					},
+					toolbox: {
+						show: false
+					},
+					calculable: true,
+					polar: [{
+						name: false,
+						indicator: [{
+							text: '爱好',
+							max: 10000
+						}, {
+							text: '社交',
+							max: 10000
+						}, {
+							text: '旅行',
+							max: 10000
+						}, {
+							text: '技能',
+							max: 10000
+						}, {
+							text: '美食',
+							max: 10000
+						}],
+						radius: 45
+					}],
+					series: [{
+						name: '',
+						type: 'radar',
+						itemStyle: {
+							normal: {
+								areaStyle: {
+									type: 'default'
+								}
+							}
+						},
+						data: [{
+							value: [self.user.hobby_score, self.user.social_core, self.user.travel_score, self.user.skill_score, self.user.food_score],
+							name: ''
+						}]
+					}]
+				};
+				score.setOption(option);
+			})
+		},
+		methods: {
+		}
+	}
+</script>
+<style lang="sass">
+	.class-icon {
+		width: 20px;
+		display: block;
+	}
+	
+	.sex {
+		width: 15px;
+		height: 15px;
+		display: inline-block;
+		background-size: cover;
+	}
+	.trend-wraper {
+		height: 92px;
+    line-height: 70px;
+		img {
+			width: 70px;
+   		margin: 2px;
+		}
+	}
+	#u_info {
+		overflow: hidden;
+		text-align: center;
+		background: #fff;
+		padding-top: 10px;
+		.u-item {
+			float: left;
+			width: 50%;
+		}
+	}
+	#trend {
+		margin-top: 10px;
+		label {
+			width: 100px;
+			color: #8f8f94;
+			display: block;
+			float: left;
+		}
+	}
+	#graph {
+		background: #fff;
+		position: relative;
+		font-size: 9px;
+		#radar_graph {
+			margin-top: 10px;
+			padding-top: 12px;
+			width: 100%;
+			height: 180px;
+		}
+	}
+	
+	#total_score {
+		position: absolute;
+		top: 70px;
+		left: 50%;
+		width: 50px;
+		text-align: center;
+		margin-left: -25px;
+		color: red;
+	}
+</style>

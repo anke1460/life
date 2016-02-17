@@ -12,7 +12,7 @@
 		<div class="mui-scroll">
 			<form v-on:submit.prevent="search">
 				<div class="mui-input-row mui-search">
-					<input type="search" class="mui-input-clear" placeholder="有友好/手机号" v-model="q" />
+					<input type="search" class="mui-input-clear" placeholder="知趣号/手机号" v-model="q" />
 				</div>
 			</form>
 			<ul class="mui-table-view" v-show="users.length > 0">
