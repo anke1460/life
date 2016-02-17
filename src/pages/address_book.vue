@@ -66,6 +66,12 @@
 			}
 		},
 		ready: function() {
+//			mui.ready(function() {
+//				var header = document.querySelector('header.mui-bar');
+//				var list = mui("#list")[0];
+//				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+//				window.indexedList = new mui.IndexedList(list);
+//			})
 			mui.init();
 			mui.plusReady(function() {
 				you.authenGet("/users/friend", {}, function(result) {
@@ -98,7 +104,7 @@
 						var list = mui("#list")[0];
 						list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
 						window.indexedList = new mui.IndexedList(list);
-					}, 100)
+					}, 50)
 				}.bind(this))
 			
 			}.bind(this))
