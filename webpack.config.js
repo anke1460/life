@@ -20,7 +20,8 @@ module.exports = {
 		"add_user":							["./src/pages/user/add.js"],
 		"rank":                  ["./src/pages/rank.js"],
 		"vs.js":                 ["./src/pages/vs.js"],
-		"user_index":            ["./src/pages/user/index.js"]
+		"user_index":            ["./src/pages/user/index.js"],
+		"user_trend":            ["./src/pages/user/trend.js"]
 	},
 	output: {
 		path: './build',

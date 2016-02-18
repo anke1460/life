@@ -160,8 +160,14 @@
 					buttons: actionbuttons
 				};
 				plus.nativeUI.actionSheet(actionstyle, function(e) {
-					this.updateValue({value: e.index, type: 'sex'}, function(result) {
-						this.user_info.sex = e.index;
+					this.updateValue({value: {
+							1: "男",
+							2: "女"
+						}[e.index], type: 'sex'}, function(result) {
+						this.user_info.sex = {
+							1: "男",
+							2: "女"
+						}[e.index];
 						this.sex_name = {
 							1: "男",
 							2: "女"
@@ -204,6 +210,7 @@
 				});
 			},
 			updateValue: function(data, callback) {
+				console.log(JSON.stringify(data));
 				you.authenPut("/users/info", data, function(result) {
 					callback(result);
 				}.bind(this));

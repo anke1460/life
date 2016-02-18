@@ -68,6 +68,7 @@
 		ready: function() {
 			mui.init();
 			mui.plusReady(function() {
+				you.loading();
 				you.authenGet("/users/friend", {}, function(result) {
 					var friends = [];
 					var title = [];
@@ -99,6 +100,7 @@
 						list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
 						window.indexedList = new mui.IndexedList(list);
 					}, 100)
+					you.endLoding();
 				}.bind(this))
 			
 			}.bind(this))

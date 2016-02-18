@@ -13,10 +13,10 @@
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media">
 					<a>
-						<img class="mui-media-object mui-pull-left" :src="user.logo" />
+						<img class="mui-media-object mui-pull-left logo" :src="user.logo" />
 						<div class="mui-media-body">
 							{{user.name}}
-							<span class="{{user.sex}} sex"></span>
+							<span class="sex" :class="{'man': user.sex=='男', 'female': user.sex=='女'}"></span>
 							<p>头衔{{user.honor_nam}}</p>
 						</div>
 					</a>
@@ -38,22 +38,25 @@
 				<div id="total_score">{{user.score}}</div>
 				<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />爱好</span>
 				<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />社交</span>
-				<span style="position: absolute;top:120px;left:120px;"><img  class="class-icon" :src="logo3" />旅行</span>
-				<span style="position: absolute;top:120px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
+				<span style="position: absolute;top:140px;left:120px;"><img  class="class-icon" :src="logo3" />旅行</span>
+				<span style="position: absolute;top:140px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
 				<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />美食</span>
 			</div>
 			<div id="trend">
 			  <ul class="mui-table-view">
 			  	<li class="mui-table-view-cell">
 			  	  <label>地区</label>
-			  	  湖北
+			  	  {{area}}
 			  	</li>
 			  	<li class="mui-table-view-cell trend-wraper">
 			  	  <label>动态</label>
-			  	  <img :src="logo1"v-for="i in [1,2,3]"/>
+			  	  <img :src="logo1"v-for="i in [1,2,3]" @tap="trend"/>
 			  	</li>
 			  </ul>
-				
+			</div>
+			<div id="send">
+				<div id="follow" class="btn">关注</div>
+				<div id="add_user" class="btn">已是好友</div>
 			</div>
 		</div>
 		
@@ -64,6 +67,7 @@
 		el: "#app",
 		data: function() {
 			return {
+				area: '',
 				user: {
 					logo: '../images/translate.png'
 				},
@@ -80,6 +84,10 @@
 			mui.plusReady(function() {
 				mui("mui-scroll-wrapper").scroll();
 				self.user = you.current_page.user;
+				if (self.user.residence_id) {
+					self.area = you.getCity(self.user.residence_id	);
+				}
+				
 				console.log(JSON.stringify(you.current_page));
 				var score = echarts.init(document.getElementById('radar_graph'));
 				var option = {
@@ -137,10 +145,29 @@
 			})
 		},
 		methods: {
+			trend: function() {
+				mui.openWindow({
+					url: 'trend.html',
+					id: 'trend',
+					extras: {
+						user: {
+						  id:	this.user.id,
+						  name: this.user.name,
+						  honor_nam: this.user.honor_nam
+						}
+					}
+				})
+			}
 		}
 	}
 </script>
 <style lang="sass">
+  .logo {
+  	  border-radius: 50%;
+  }
+  #add_user {
+  	  margin-left: 50px;
+  }
 	.class-icon {
 		width: 20px;
 		display: block;
@@ -164,7 +191,10 @@
 		overflow: hidden;
 		text-align: center;
 		background: #fff;
-		padding-top: 10px;
+		padding-top: 5px;
+		p {
+			padding-bottom: 5px;
+		}
 		.u-item {
 			float: left;
 			width: 50%;
@@ -172,9 +202,9 @@
 	}
 	#trend {
 		margin-top: 10px;
+		color: #8F8F94;
 		label {
-			width: 100px;
-			color: #8f8f94;
+			width: 60px;
 			display: block;
 			float: left;
 		}
@@ -199,5 +229,22 @@
 		text-align: center;
 		margin-left: -25px;
 		color: red;
+	}
+	#send {
+		overflow: hidden;
+    text-align: center;
+    width: 250px;
+    margin: 0 auto;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 14px;
+    .btn {
+    	  line-height: 30px;
+    	  height: 30px;
+	    background: #1FCC7C;
+	    width: 100px;
+	    float: left;
+	    border-radius: 15px;
+    }
 	}
 </style>
