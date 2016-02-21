@@ -17,18 +17,18 @@
 						<div class="mui-media-body">
 							{{user.name}}
 							<span class="sex" :class="{'man': user.sex=='男', 'female': user.sex=='女'}"></span>
-							<p>头衔{{user.honor_nam}}</p>
+							<p>头衔：{{user.honor_nam}}</p>
 						</div>
 					</a>
 				</li>
 			</ul>
 			<div id="u_info">
 				<div class="u-item">
-					<span>24</span>
+					<span>{{relation.follows}}</span>
 					<p>关注</p>
 				</div>
 				<div class="u-item">
-					<span>24</span>
+					<span>{{relation.fans}}</span>
 					<p>粉丝</p>
 				</div>
 			</div>
@@ -44,19 +44,20 @@
 			</div>
 			<div id="trend">
 			  <ul class="mui-table-view">
-			  	<li class="mui-table-view-cell">
-			  	  <label>地区</label>
-			  	  {{area}}
-			  	</li>
-			  	<li class="mui-table-view-cell trend-wraper">
-			  	  <label>动态</label>
-			  	  <img :src="logo1"v-for="i in [1,2,3]" @tap="trend"/>
-			  	</li>
+				  	<li class="mui-table-view-cell">
+				  	  <label>地区</label>
+				  	  {{area}}
+				  	</li>
+				  	<li class="mui-table-view-cell trend-wraper" @tap="trend">
+				  	  <label>动态</label>
+				  	  <img :src="relation.photo" v-if="relation.photo != ''"/>
+				  	  <div class="content mui-ellipsis">{{relation.trend}}</div>
+				  	</li>
 			  </ul>
 			</div>
 			<div id="send">
-				<div id="follow" class="btn">关注</div>
-				<div id="add_user" class="btn">已是好友</div>
+				<div id="follow" class="btn" @tap="concern">{{relation.is_concerned ? '已关注' : '关注'}}</div>
+				<div id="add_user" class="btn" @tap="requestFriend">{{relation.is_friend ? '已是好友' : '添加好友'}}</div>
 			</div>
 		</div>
 		
@@ -68,6 +69,12 @@
 		data: function() {
 			return {
 				area: '',
+				relation: {
+					follows: 0,
+					fans: 0,
+					is_friend: false,
+					is_concerned: false
+				},
 				user: {
 					logo: '../images/translate.png'
 				},
@@ -84,11 +91,14 @@
 			mui.plusReady(function() {
 				mui("mui-scroll-wrapper").scroll();
 				self.user = you.current_page.user;
+				you.authenGet("/users/"+ self.user.id + "/relation", {}, function(result) {
+					console.log(JSON.stringify(result))
+					self.relation = result;
+				})
 				if (self.user.residence_id) {
 					self.area = you.getCity(self.user.residence_id	);
 				}
 				
-				console.log(JSON.stringify(you.current_page));
 				var score = echarts.init(document.getElementById('radar_graph'));
 				var option = {
 					title: {
@@ -157,6 +167,14 @@
 						}
 					}
 				})
+			},
+			concern: function() {
+				var self = this;
+				if (this.relation.is_concerned == false) {
+					you.authenPost("/users/"+ this.user.id + "/concern", {}, function(result) {
+						self.relation.is_concerned = true;
+					})
+				}
 			}
 		}
 	}
@@ -180,11 +198,15 @@
 		background-size: cover;
 	}
 	.trend-wraper {
-		height: 92px;
-    line-height: 70px;
+    line-height: 50px;
 		img {
-			width: 70px;
+			width: 50px;
    		margin: 2px;
+   		float: left;
+		}
+		.content {
+			line-height: 50px;
+			font-size: 14px;
 		}
 	}
 	#u_info {

@@ -11,11 +11,11 @@
 						<img class="mui-media-object mui-pull-left logo" :src="item.avatar" />
 						<div class="mui-media-body">
 							{{item.name}}
-							<p>头衔{{user.honor_nam}}</p>
+							<p class="rank-name">头衔：{{user.honor_nam}}</p>
 						</div>
 					</a>
 					<div class="mui-media-body" style="margin: 0px;">
-						<div>{{item.content}}</div>
+						<div class="content">{{item.content}}</div>
 						<p>
 							<img :src="img.thumb" width="100px" v-for="img in item.imgs" class="thumb-img" />
 						</p>
@@ -86,6 +86,15 @@
 		position: absolute;
 		right: 10px;
 		top: 10px
+	}
+	
+	.content {
+		padding: 10px 0px;
+		font-size: 14px;
+	}
+	
+	.rank-name {
+		font-size: 14px;
 	}
 
 </style>
