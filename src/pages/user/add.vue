@@ -12,7 +12,7 @@
 		<div class="mui-scroll">
 			<form v-on:submit.prevent="search">
 				<div class="mui-input-row mui-search">
-					<input type="search" class="mui-input-clear" placeholder="有友好/手机号" v-model="q" />
+					<input type="search" class="mui-input-clear" placeholder="知趣号/手机号" v-model="q" />
 				</div>
 			</form>
 			<ul class="mui-table-view" v-show="users.length > 0">
@@ -21,7 +21,7 @@
 					<div class="mui-media-body">
 						{{user.name}}
 						<p class="mui-ellipsis">{{user.sign}}</p>
-						<span class="add-user" @tap="add(user)">{{user.is_friend ?  '已是好友': '添加好友'}}</span>
+						<span class="add-user" @tap="add(user)">{{user.current_relation | state}}</span>
 					</div>
 				</li>
 			</ul>
@@ -49,8 +49,9 @@
 				users: [],
 				page: 1,
 				per_page: 20,
-				logo: '../images/1.png',
-				findUser: false
+				logo: '../images/addressbox.png',
+				findUser: false,
+				current_relation_name: ''
 			}
 		},
 		ready: function() {
@@ -102,9 +103,9 @@
 				this.loadMore();
 			},
 			add: function(user) {
-				if (!user.is_friend) {
+				if (user.current_relation !='request') {
 					you.authenPost("/users/"+ user.id + "/add_friend", {}, function(result) {
-						user.is_friend = true;
+						user.current_relation = 'request';
 						console.log(JSON.stringify(result));
 					})
 				}

@@ -156,7 +156,6 @@
 							name: '更多',
 							img: './images/1.png'
 						});
-						console.log(1111,JSON.stringify(this[d]));
 					}.bind(this))
 				}.bind(this))
 			}.bind(this));
