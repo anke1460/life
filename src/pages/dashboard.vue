@@ -80,7 +80,7 @@
 				<div class="mui-col-xs-4 mui-pull-left">
 					<img :src="'images/vs.png'" @tap="go('pk.html')" />
 				</div>
-				<div class="mui-col-xs-4 mui-pull-left">
+				<div class="mui-col-xs-4 mui-pull-left" @tap="go('user/add_user.html')">
 					<img :src="'images/find_friend.png'" />
 				</div>
 			</div>

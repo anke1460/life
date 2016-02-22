@@ -70,6 +70,7 @@
 			mui.plusReady(function() {
 				you.loading();
 				you.authenGet("/users/friend", {}, function(result) {
+					you.endLoding();
 					var friends = [];
 					var title = [];
 					mui.each(result.friends, function(i, n) {

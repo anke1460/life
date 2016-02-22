@@ -34,7 +34,7 @@
 					</div>
 				</li>
 			</ul>
-			<h5 v-show="findUser && users.length == 0">没有改用户</h5>
+			<h5 v-show="findUser && users.length == 0">没有该用户</h5>
 
 		</div>
 
