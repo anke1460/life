@@ -100,6 +100,7 @@
 					you.endLoding();
 					setTimeout(function() {
 						mui('.mui-slider').slider();
+						mui(".mui-scroll-wrapper").scroll();
 					}, 100);
 				});
 			},
