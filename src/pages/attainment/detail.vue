@@ -155,7 +155,6 @@
 				self.echart = echarts.init(document.getElementById('map'));
 				self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
 				if (self.detail_classify.map_name != '') {
-					console.log('map name', self.detail_classify.map_name);
 					echarts.util.mapData.params.params[self.detail_classify.map_name] = {
 						getGeoJson: function(callback) {
 							you.get('/map/' + self.detail_classify.id, {}, callback);
@@ -179,7 +178,6 @@
 				var self = this;
 				mui.plusReady(function() {
 					you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/trend", {}, function(result) {
-						console.log(JSON.stringify(result));
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
@@ -194,7 +192,6 @@
 				var self = this;
 				you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/nodes", {}, function(result) {
 					self.nodes = result.nodes;
-					console.log(JSON.stringify(result));
 					var city = [];
 					mui.each(result.nodes, function(i, d) {
 						city.push({
@@ -264,12 +261,10 @@
 					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {
 						date: rs.text
 					}, function(result) {
-						console.log(JSON.stringify(result));
 						you.alert("已添加到我的心愿清单");
 						picker.dispose();
 					})
 				})
-				console.log("addd");
 			},
 			change: function() {
 				this.is_text = !this.is_text;
@@ -317,7 +312,6 @@
 						data: this.city
 					}]
 				};
-				console.log('c333', JSON.stringify(this.city));
 				this.echart.setOption(this.options);
 				//				this.echart.setOption(this.options, true);
 			},

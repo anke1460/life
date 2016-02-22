@@ -66,16 +66,11 @@
 			}
 		},
 		ready: function() {
-//			mui.ready(function() {
-//				var header = document.querySelector('header.mui-bar');
-//				var list = mui("#list")[0];
-//				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
-//				window.indexedList = new mui.IndexedList(list);
-//			})
 			mui.init();
 			mui.plusReady(function() {
 				you.loading();
 				you.authenGet("/users/friend", {}, function(result) {
+					you.endLoding();
 					var friends = [];
 					var title = [];
 					mui.each(result.friends, function(i, n) {
@@ -99,7 +94,7 @@
 						return a.name > b.name
 					})
 					this.items = friends;
-					this.total = friends.length;
+//					this.total = friends.length;
 					setTimeout(function() {
 						var header = document.querySelector('header.mui-bar');
 						var list = mui("#list")[0];
