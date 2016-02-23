@@ -136,10 +136,9 @@
 						document.activeElement.blur();
 						you.post("/login", loginInfo, function(result) {
 							you.endLoding();
-							console.log(JSON.stringify(result))
 							plus.storage.setItem("token", result.authen_token);
 							plus.storage.setItem("name", result.name);
-							plus.storage.setItem("uid", result.uid);
+							plus.storage.setItem("uid", "" + result.uid);
 							plus.storage.setItem('logo', result.logo);
 							plus.storage.setItem('sys_no', result.sys_no);
 							toMain();

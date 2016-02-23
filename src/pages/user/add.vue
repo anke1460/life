@@ -82,7 +82,6 @@
 						per_page: self.per_page
 					}, function(result) {
 						you.endLoding();
-						console.log(JSON.stringify(result));
 						self.users = self.users.concat(result.users);
 						self.findUser = true;
 						if (self.page * self.per_page > result.total_count) {
@@ -98,7 +97,6 @@
 				var self = this;
 				self.users = [];
 				self.page = 1;
-				console.log(this.q);
 				mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
 				this.loadMore();
 			},

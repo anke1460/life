@@ -108,7 +108,6 @@
 		},
 		methods: {
 			addUser: function() {
-				console.log('addd');
 				mui.openWindow({
 					url: 'user/add_user.html',
 					id: 'add_user'

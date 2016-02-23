@@ -36,7 +36,7 @@
 					<span>60%</span>
 				</div>
 				<div class="mui-col-xs-3 mui-pull-left">
-					<p>好友确认</p>
+					<p class="no-open">好友确认</p>
 					<span>20%</span>
 				</div>
 				<div class="mui-col-xs-3 mui-pull-left">
@@ -100,8 +100,10 @@
 					you.endLoding();
 					setTimeout(function() {
 						mui('.mui-slider').slider();
-						mui(".mui-scroll-wrapper").scroll();
 					}, 100);
+					setTimeout(function() {
+						mui(".mui-scroll-wrapper").scroll();
+					},150)
 				});
 			},
 			goDetail: function(detail_classify) {
@@ -109,6 +111,7 @@
 					url: 'detail.html',
 					id: 'attainment_detail',
 					extras: {
+						classify: this.classify,
 						detail_classify: detail_classify
 					}
 				})
@@ -118,7 +121,7 @@
 </script>
 <style lang="sass">
 	.mui-slider {
-		height: 120px;
+		height: 140px;
 		img {
 			background-size: cover;
 		}
