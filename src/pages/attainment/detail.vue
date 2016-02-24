@@ -156,7 +156,6 @@
 			mui.plusReady(function() {
 				self.detail_classify = you.current_page.detail_classify;
 				self.classify = you.current_page.classify;
-				console.log(14444,JSON.stringify(self.classify));
 				self.title = self.detail_classify.name;
 				self.loadData();
 				if (self.classify.is_mark) {

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>有友</title>
+		<title>知趣人生</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -84,12 +84,12 @@
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<a id="chat" class="mui-icon mui-icon-chat mui-pull-left" style="display: none;"></a>
-			<h1 id="title" class="mui-title" style="display: none;">我有</h1>
-			<div class="mui-input-row mui-search" style="color: #000000;" id="search">
+			<h1 id="title" class="mui-title">首页</h1>
+			<!--<div class="mui-input-row mui-search" style="color: #000000;" id="search">
 				<div class="search-wraper">
 					<input type="search" class="mui-input-clear" placeholder="" style="background: #fff;">
 				</div>
-			</div>
+			</div>-->
 			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
 			<a id="contact" class="mui-icon mui-icon-contact mui-pull-right" style="margin-right: 10px;display:none"></a>
 		</header>
@@ -104,7 +104,7 @@
 			</a>
 			<a class="mui-tab-item" href="message.html">
 				<span class="mui-icon friends"></span>
-				<span class="mui-tab-label">互动</span>
+				<span class="mui-tab-label">通讯录</span>
 			</a>
 			<a class="mui-tab-item" href="setting.html">
 				<span class="mui-icon find"></span>
@@ -117,7 +117,7 @@
 			mui.init();
 			var subpages = ['dashbord.html', 'growth.html', 'message.html', 'setting.html'];
 			var subpage_style = {
-				top: '44px',
+				top: '64px',
 				bottom: '61px'
 			};
 			
@@ -150,19 +150,15 @@
 				document.getElementById("menu").style.display = "none";
 				document.getElementById("chat").style.display = "none";
 				document.getElementById("contact").style.display = "none";
-			  	if (targetTab == 'dashbord.html') { 
-			  		document.getElementById("title").style.display = "none";
-			  		document.getElementById("search").style.display = "";
-			  	} else {
-			  		document.getElementById("title").style.display = "";
-			  		document.getElementById("search").style.display = "none";
-			  	}
+//			  	if (targetTab == 'dashbord.html') { 
+//			  		document.getElementById("title").style.display = "none";
+//			  	} else {
+//			  		document.getElementById("title").style.display = "";
+//			  	}
 				if (targetTab == 'growth.html') {
 					document.getElementById("menu").style.display = "none";
 				} else if (targetTab == 'message.html') {
 					document.getElementById("chat").style.display = "none";
-//					document.getElementById("contact").style.display = "";
-//					document.getElementById("menu").style.display = "";
 				}
 				//更换标题
 				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;

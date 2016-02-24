@@ -30,8 +30,15 @@ a {
 	color: #fff;
 	border: 1px solid #1FCC7C;
 	background-color: #1FCC7C;
+	padding-top: 20px;
 }
 
+.header.mui-bar {
+	height: 64px;
+}
+ .mui-bar-nav~.mui-content {
+ 	padding-top: 64px;
+ }
 .header .mui-title,
 .header .mui-btn {
 	color: #fff;

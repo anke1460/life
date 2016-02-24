@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+  <link href="css/mui.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="libs/MPreview/MPreview.mobile.css"/>
+</head>
+<body>
+	<div class="overlay" id="overlay"></div>
+  <script src="js/mui.min.js"></script>
+  <script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+  <script src="libs/MPreview/quo.js" type="text/javascript" charset="utf-8"></script>
+	<script src="libs/MPreview/MPreview.mobile.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function() {
+			var urls = [];
+				mui.each(you.current_page.photos, function(i, d) {
+					urls.push(d.url);
+				})
+				MPreview({
+			    data: urls,
+			    desc:  [],
+			    wrap: '#overlay',
+			    title: '',
+			    direction: 'left',
+			    close: function() {
+			    	  you.current_page.close();
+			    }
+				});
+		})
+	</script>
+</body>
+</html>

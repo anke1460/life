@@ -85,7 +85,8 @@
 					url: 'attainment/detail.html',
 					id: 'attainment_detail',
 					extras: {
-						detail_classify: item.detail_classify
+						detail_classify: item.detail_classify,
+						classify: item.classify
 					}
 				})
 			},

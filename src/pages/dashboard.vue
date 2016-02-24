@@ -91,8 +91,8 @@
 					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
 				</div>
 				<div id="all" class="">
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell mui-media" v-for="item in trends">
+					<ul class="table-view">
+						<li class="table-view-cell" v-for="item in trends">
 							<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
 							<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item)">
 								<span class="user-name">
@@ -102,9 +102,9 @@
 								<span class="tag-name">{{item.classify}}.{{item.detail_classify}}</span>
 								<div class="info-content">{{item.content}}</div>
 								<p>
-									<img :src="img.img" v-for="img in item.imgs" class="thumb-img" />
+									<img :src="img.thumb" v-for="img in item.photos" class="thumb-img" @tap="viewPhoto(item.photos)"/>
 								</p>
-								<span class="time">{{item.created_at || time}}</span>
+								<span class="time">{{item.created_at | time}}</span>
 								<div class="mui-pull-right">
 									<span class="mui-icon mui-icon-checkmarkempty" @tap="praise(item)" v-show="item.user_id != uid"></span>
 									<span class="mui-icon mui-icon-chatboxes" @tap="comment(item)"></span>
@@ -116,6 +116,7 @@
 			</div>
 		</div>
 	</div>
+	<div class="overlay" id="overlay"></div>
 </template>
 <script>
 	module.exports = {
@@ -238,6 +239,18 @@
 						}
 					}
 				})
+			},
+			viewPhoto: function(photos) {
+				mui.openWindow({
+					url: 'preview.html',
+					id: 'preview',
+					extras: {
+						photos: photos
+					},
+					show: {
+						aniShow: 'fade-in'
+					}
+				})
 			}
 		}
 	}
@@ -332,6 +345,65 @@
 	.tag-name {
 		color: #989898;
 		font-size: 12px
+	}
+	
+	.table-view {
+		position: relative;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-left: 0;
+		list-style: none;
+		background-color: #fff;
+		.mui-media-object.mui-pull-left {
+			margin-right: 10px;	
+		}
+		.mui-media-object {
+			line-height: 42px;
+			max-width: 42px;
+			height: 42px;
+		}
+		.mui-media-body {
+			overflow: hidden;
+		}
+		&:before {
+			position: absolute;
+			right: 0;
+			left: 0;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc;
+			top: -1px;
+			&:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+		}
+		.table-view-cell {
+			overflow: hidden;
+			position: relative;
+			overflow: hidden;
+			padding: 11px 15px;
+			&:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+		}
 	}
 
 </style>
