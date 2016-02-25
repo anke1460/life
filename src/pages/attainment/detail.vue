@@ -158,14 +158,6 @@
 				self.classify = you.current_page.classify;
 				self.title = self.detail_classify.name;
 				self.loadData();
-<<<<<<< HEAD
-				self.echart = echarts.init(document.getElementById('map'));
-				self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
-				if (self.detail_classify.map_name != '') {
-					echarts.util.mapData.params.params[self.detail_classify.map_name] = {
-						getGeoJson: function(callback) {
-							you.get('/map/' + self.detail_classify.id, {}, callback);
-=======
 				if (self.classify.is_mark) {
 					self.echart = echarts.init(document.getElementById('map'));
 					self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
@@ -174,7 +166,6 @@
 							getGeoJson: function(callback) {
 								you.get('/map/' + self.detail_classify.id, {}, callback);
 							}
->>>>>>> df8be2fd80d2aeeb19e617d2c711c6e384449a97
 						}
 					}
 				} else {
