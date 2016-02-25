@@ -24,90 +24,10 @@
 	</head>
 
 	<body>
-		<div class="mui-content">
-			<div id="app">
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell mui-media" id='address'>
-						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" src="images/address.png">
-							<div class="sys">
-								通讯录
-							</div>
-						</a>
-					</li>
-					<li class="mui-table-view-cell mui-media">
-						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" src="images/sys.png">
-							<div class="sys">
-								系统消息
-							</div>
-						</a>
-					</li>
-					<!--<li class="mui-table-view-cell mui-media">
-						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" src="images/1.png">
-							<div class="sys">
-								有活动
-							</div>
-						</a>
-					</li>
-					<li class="mui-table-view-cell mui-media">
-						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" src="images/1.png">
-							<div class="sys">
-								有任务
-							</div>
-						</a>
-					</li>-->
-				</ul>
-				<div class="mui-table-view-divider">
-				</div>
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell mui-media">
-						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" src="images/1.png">
-							<div class="mui-media-body">
-								CBD
-								<p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-							</div>
-							<span class="time-ago">16:00</span>
-						</a>
-					</li>
-					<li class="mui-table-view-cell mui-media">
-						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" src="images/1.png">
-							<div class="mui-media-body">
-								CBD
-								<p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-							</div>
-							<span class="time-ago">星期四</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<div id="app"></div>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript">
-		mui.init();
-		mui("#address")[0].addEventListener("tap", function() {
-			mui.openWindow({
-				url: 'address_book.html',
-				id: 'address_book'
-			});
-		})
-//		function showContact() {
-//			mui.openWindow({
-//				url: 'address_book.html',
-//				id: 'address_book'
-//			})
-//		}
-//		function showMenu() {
-//			 mui.openWindow({
-//			 	url: 'user/add_user.html',
-//			 	id: 'add_user'
-//			 })
-//		}
-	</script>
+	<script src="http://localhost:8080/message.min.js"></script>
+
 </html>

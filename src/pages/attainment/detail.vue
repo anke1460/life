@@ -348,6 +348,7 @@
 		color: #444;
 		z-index: 2;
 		top: 5px;
+		padding-top: 22px;
 	}
 	
 	.col {
