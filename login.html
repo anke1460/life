@@ -62,10 +62,10 @@
 				<div class="mui-card">
 					<form id='login-form' class="mui-input-group">
 						<div class="mui-input-row">
-							<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入手机号">
+							<input id='account' type="text" class="mui-input-clear mui-input" placeholder="手机号">
 						</div>
 						<div class="mui-input-row">
-							<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+							<input id='password' type="password" class="mui-input-clear mui-input" placeholder="密码">
 						</div>
 					</form>
 				</div>
@@ -136,10 +136,9 @@
 						document.activeElement.blur();
 						you.post("/login", loginInfo, function(result) {
 							you.endLoding();
-							console.log(JSON.stringify(result))
 							plus.storage.setItem("token", result.authen_token);
 							plus.storage.setItem("name", result.name);
-							plus.storage.setItem("uid", result.uid);
+							plus.storage.setItem("uid", "" + result.uid);
 							plus.storage.setItem('logo', result.logo);
 							plus.storage.setItem('sys_no', result.sys_no);
 							toMain();
@@ -209,7 +208,7 @@
 						url: "" ,
 						id: id + "_sub",
 						styles: {
-							top: '44px',
+							top: '64px',
 							bottom: '0px',
 						}
 					});

@@ -21,7 +21,7 @@
 			<ul class="mui-table-view" style="margin-top: 10px;">
 				<li class="mui-table-view-cell mui-media">
 					<div>
-						<span>评论(1)</span>
+						<span>评论({{comment_total}})</span>
 						<div class="up">
 							<img class="avatar" :src="item.avatar" height="30px">
 							<img class="avatar" :src="item.avatar" height="30px">
@@ -64,7 +64,8 @@
 			return {
 				content: "",
 				item: '',
-				comments: []
+				comments: [],
+				comment_total: 0
 			}
 		},
 		ready: function() {
@@ -90,6 +91,7 @@
 				mui.plusReady(function() {
 					you.authenGet("/stories/" + you.current_page.item.id + "/comment", {} ,function(result) {
 						console.log(JSON.stringify(result));
+						self.comment_total = result.total_count;
 						self.comments = self.comments.concat(result.comments);
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);

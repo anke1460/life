@@ -21,7 +21,11 @@ module.exports = {
 		"rank":                  ["./src/pages/rank.js"],
 		"vs.js":                 ["./src/pages/vs.js"],
 		"user_index":            ["./src/pages/user/index.js"],
-		"user_trend":            ["./src/pages/user/trend.js"]
+		"user_trend":            ["./src/pages/user/trend.js"],
+		"message":               ["./src/pages/message.js"],
+		"new_friends":           ["./src/pages/new_friends.js"],
+		"concern":               ["./src/pages/concern.js"],
+		"fans":                  ["./src/pages/fans.js"]
 	},
 	output: {
 		path: './build',

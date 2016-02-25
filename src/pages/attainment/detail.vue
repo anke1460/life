@@ -12,7 +12,7 @@
 					<div class="mui-slider-group">
 						<div class="mui-slider-item" v-for="node in nodes">
 							<a href="#">
-								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node.imgs[0] +')'}" />
+								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node.imgs[0] +')'}" class="bg-img" />
 							</a>
 						</div>
 					</div>
@@ -25,7 +25,7 @@
 				</div>
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell mui-collapse">
-						<a class="mui-navigate-right" href="#">
+						<a class="mui-navigate-right">
 				 		{{title}}
 				 		<span id="add_wish" @tap.stop="addWish" v-show="!detail_classify.is_aspiration">心愿</span>
 						</a>
@@ -53,7 +53,7 @@
 				</ul>
 				<p id="attainment_tip">
 					<strong>包含以下成就点</strong>
-					<span id="change_view" @tap="change">点击切换文字</span>
+					<span id="change_view" @tap="change" v-show="classify.is_mark">点击切换文字</span>
 				</p>
 				<div v-show="is_text" class="city-wraper">
 					<span class="city-name" v-for="item in city" @tap="mark(item)" v-bind:class="{'selected': item.selected}">{{item.name}}</span>
@@ -123,7 +123,12 @@
 				current_node: '',
 				has_photo: false,
 				map_type: '',
-				detail_classify: ''
+				detail_classify: '',
+				classify: {
+					is_mark: false
+				},
+				page: 1,
+				per_page: 20
 			}
 		},
 		watch: {
@@ -150,17 +155,32 @@
 			});
 			mui.plusReady(function() {
 				self.detail_classify = you.current_page.detail_classify;
+				self.classify = you.current_page.classify;
 				self.title = self.detail_classify.name;
 				self.loadData();
+<<<<<<< HEAD
 				self.echart = echarts.init(document.getElementById('map'));
 				self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
 				if (self.detail_classify.map_name != '') {
 					echarts.util.mapData.params.params[self.detail_classify.map_name] = {
 						getGeoJson: function(callback) {
 							you.get('/map/' + self.detail_classify.id, {}, callback);
+=======
+				if (self.classify.is_mark) {
+					self.echart = echarts.init(document.getElementById('map'));
+					self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
+					if (self.detail_classify.map_name != '') {
+						echarts.util.mapData.params.params[self.detail_classify.map_name] = {
+							getGeoJson: function(callback) {
+								you.get('/map/' + self.detail_classify.id, {}, callback);
+							}
+>>>>>>> df8be2fd80d2aeeb19e617d2c711c6e384449a97
 						}
 					}
+				} else {
+					self.is_text = true;
 				}
+				
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;
@@ -175,6 +195,10 @@
 		},
 		methods: {
 			loadMsg: function() {
+				if (this.page == 1) {
+					// fix 初始化滚动问题
+					mui('#refreshContainer').pullRefresh().scrollTo(0, 0, 100);
+				}
 				var self = this;
 				mui.plusReady(function() {
 					you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/trend", {}, function(result) {
@@ -281,6 +305,9 @@
 				mui('.mui-popover').popover('toggle');
 			},
 			showMap: function() {
+				if (this.classify.is_mark != true) {
+					return true;
+				}
 				this.options = {
 					tooltip: {
 						trigger: 'item',
@@ -328,6 +355,7 @@
 		color: #444;
 		z-index: 2;
 		top: 5px;
+		padding-top: 22px;
 	}
 	
 	.col {
@@ -426,7 +454,9 @@
 		float: left;
 		margin: 0px;
 		text-align: center;
-		width: 20%;
+		width: auto;
+		margin-right: 15px;
+		margin-top: 4px;
 	}
 	
 	.city-name.selected {
@@ -464,5 +494,10 @@
 		right: 0px;
 		width: 40px;
 		height: 40px;
+	}
+	
+	.bg-img {
+		background-repeat: no-repeat;
+		background-size: 100%
 	}
 </style>

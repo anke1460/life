@@ -6,21 +6,21 @@
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title">通讯录</h1>
+		<h1 class="mui-title">好友</h1>
 		<a id="menu" class="mui-pull-right" @tap="addUser"></a>
 	</header>
 	<div class="mui-content">
 		<div id='list' class="mui-indexed-list">
-			<div class="mui-indexed-list-search mui-input-row mui-search">
+			<div class="mui-indexed-list-search mui-input-row mui-search" style="display: none;">
 				<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索">
 			</div>
 			<div class="mui-sys-panel">
 				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell mui-media">
+					<li class="mui-table-view-cell mui-media" @tap="newFriends">
 						<a class="mui-navigate-right">
 							<img class="mui-media-object mui-pull-left" :src="qu">
 							<div class="sys">
-								知趣
+								新的朋友
 							</div>
 						</a>
 					</li>
@@ -48,7 +48,7 @@
 						</li>
 					</template>
 				</ul>
-				<!--<h5 class="mui-text-center total"> {{total}} 位好友</h5>-->
+				<h5 class="mui-text-center total"> {{total}} 位好友</h5>
 			</div>
 		</div>
 
@@ -119,6 +119,12 @@
 					extras: {
 						user: user
 					}
+				})
+			},
+			newFriends: function() {
+				mui.openWindow({
+					url: 'new_friends.html',
+					id: 'new_friends'
 				})
 			}
 		}

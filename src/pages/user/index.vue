@@ -17,18 +17,18 @@
 						<div class="mui-media-body">
 							{{user.name}}
 							<span class="sex" :class="{'man': user.sex=='男', 'female': user.sex=='女'}"></span>
-							<p>头衔：{{user.honor_nam}}</p>
+							<p>头衔：{{user.honor_name}}</p>
 						</div>
 					</a>
 				</li>
 			</ul>
 			<div id="u_info">
 				<div class="u-item">
-					<span>{{relation.follows}}</span>
+					<span>{{user.follows}}</span>
 					<p>关注</p>
 				</div>
 				<div class="u-item">
-					<span>{{relation.fans}}</span>
+					<span>{{user.fans}}</span>
 					<p>粉丝</p>
 				</div>
 			</div>
@@ -50,14 +50,14 @@
 				  	</li>
 				  	<li class="mui-table-view-cell trend-wraper" @tap="trend">
 				  	  <label>动态</label>
-				  	  <img :src="relation.photo" v-if="relation.photo != ''"/>
-				  	  <div class="content mui-ellipsis">{{relation.trend}}</div>
+				  	  <img :src="user.photo" v-if="user.photo != ''"/>
+				  	  <div class="content mui-ellipsis">{{user.trend}}</div>
 				  	</li>
 			  </ul>
 			</div>
-			<div id="send">
-				<div id="follow" class="btn" @tap="concern">{{relation.is_concerned ? '已关注' : '关注'}}</div>
-				<div id="add_user" class="btn" @tap="requestFriend">{{relation.is_friend ? '已是好友' : '添加好友'}}</div>
+			<div id="send" v-show="!is_self">
+				<div id="follow" class="btn" @tap="concern">{{user.is_concerned ? '已关注' : '关注'}}</div>
+				<div id="add_user" class="btn" @tap="requestFriend">{{user.is_friend ? '已是好友' : '添加好友'}}</div>
 			</div>
 		</div>
 		
@@ -69,13 +69,12 @@
 		data: function() {
 			return {
 				area: '',
-				relation: {
+				is_self: false,
+				user: {
 					follows: 0,
 					fans: 0,
 					is_friend: false,
-					is_concerned: false
-				},
-				user: {
+					is_concerned: false,
 					logo: '../images/translate.png'
 				},
 				logo1: '../images/hobby.png',
@@ -91,13 +90,13 @@
 			mui.plusReady(function() {
 				mui("mui-scroll-wrapper").scroll();
 				self.user = you.current_page.user;
+				self.is_self = (plus.storage.getItem("uid") == self.user.id);
 				you.authenGet("/users/"+ self.user.id + "/relation", {}, function(result) {
-					console.log(JSON.stringify(result))
-					self.relation = result;
+					self.user = result;
+					if (self.user.residence_id) {
+						self.area = you.getCity(self.user.residence_id	);
+					}
 				})
-				if (self.user.residence_id) {
-					self.area = you.getCity(self.user.residence_id	);
-				}
 				
 				var score = echarts.init(document.getElementById('radar_graph'));
 				var option = {
@@ -170,9 +169,9 @@
 			},
 			concern: function() {
 				var self = this;
-				if (this.relation.is_concerned == false) {
+				if (this.user.is_concerned == false) {
 					you.authenPost("/users/"+ this.user.id + "/concern", {}, function(result) {
-						self.relation.is_concerned = true;
+						self.user.is_concerned = true;
 					})
 				}
 			}

@@ -44,7 +44,7 @@
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in hobby">
-								<a href="#">
+								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
 								</a>
@@ -54,7 +54,7 @@
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
-								<a href="#">
+								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
 								</a>
@@ -91,20 +91,22 @@
 					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
 				</div>
 				<div id="all" class="">
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell mui-media" v-for="item in trends">
-							<img class="mui-media-object mui-pull-left" :src="item.avatar">
-							<div class="mui-media-body" style="margin: 0px;">
+					<ul class="table-view">
+						<li class="table-view-cell" v-for="item in trends">
+							<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
+							<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item)">
 								<span class="user-name">
 									{{item.name}}
 								</span>
+								<i class="tag-img"></i>
+								<span class="tag-name">{{item.classify}}.{{item.detail_classify}}</span>
 								<div class="info-content">{{item.content}}</div>
 								<p>
-									<img :src="img.img" v-for="img in item.imgs" class="thumb-img" />
+									<img :src="img.thumb" v-for="img in item.photos" class="thumb-img" @tap="viewPhoto(item.photos)"/>
 								</p>
-								<span class="time">{{item.created_at || time}}</span>
+								<span class="time">{{item.created_at | time}}</span>
 								<div class="mui-pull-right">
-									<span class="mui-icon mui-icon-checkmarkempty"></span>
+									<span class="mui-icon mui-icon-checkmarkempty" @tap="praise(item)" v-show="item.user_id != uid"></span>
 									<span class="mui-icon mui-icon-chatboxes" @tap="comment(item)"></span>
 								</div>
 							</div>
@@ -114,6 +116,7 @@
 			</div>
 		</div>
 	</div>
+	<div class="overlay" id="overlay"></div>
 </template>
 <script>
 	module.exports = {
@@ -129,7 +132,8 @@
 				trends: [],
 				page: 1,
 				per_page: 20,
-				current_active: 'default'
+				current_active: 'default',
+				uid: ''
 			}
 		},
 		ready: function() {
@@ -146,6 +150,7 @@
 				}
 			});
 			mui.plusReady(function() {
+				self.uid = you.getStore("uid");
 				you.authenGet("/classifies", {}, function(result) {
 					mui.each(result.classifies, function(i, d) {
 						this[d.alias].push(d);
@@ -172,6 +177,7 @@
 				var type = type || 'default';
 				mui.plusReady(function() {
 					you.authenGet("/stories", {type: type} ,function(result) {
+						console.log(3444,JSON.stringify(result));
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
@@ -183,12 +189,28 @@
 				})
 			},
 			comment: function(item) {
+				console.log(1111);
 				mui.openWindow({
 					url: 'comment.html',
 					id: 'comment',
 					extras: {
 						item: item
 					}
+				})
+			},
+			detailTrend: function(item) {
+				console.log(3333);
+//				mui.openWindow({
+//					url: 'comment.html',
+//					id: 'comment',
+//					extras: {
+//						item: item
+//					}
+//				})
+			},
+			praise: function(item) {
+				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
+					console.log(JSON.stringify(result));
 				})
 			},
 			goAttainment: function(item) {
@@ -205,6 +227,29 @@
 				mui.openWindow({
 					url: html,
 					id: html
+				})
+			},
+			viewUser: function(item) {
+				mui.openWindow({
+					url: "user/index.html",
+					id: 'user_index',
+					extras: {
+						user: {
+							id: item.user_id
+						}
+					}
+				})
+			},
+			viewPhoto: function(photos) {
+				mui.openWindow({
+					url: 'preview.html',
+					id: 'preview',
+					extras: {
+						photos: photos
+					},
+					show: {
+						aniShow: 'fade-in'
+					}
 				})
 			}
 		}
@@ -295,6 +340,70 @@
 	
 	.mui-slider-indicator .mui-indicator {
 		box-shadow: none;
+	}
+	
+	.tag-name {
+		color: #989898;
+		font-size: 12px
+	}
+	
+	.table-view {
+		position: relative;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-left: 0;
+		list-style: none;
+		background-color: #fff;
+		.mui-media-object.mui-pull-left {
+			margin-right: 10px;	
+		}
+		.mui-media-object {
+			line-height: 42px;
+			max-width: 42px;
+			height: 42px;
+		}
+		.mui-media-body {
+			overflow: hidden;
+		}
+		&:before {
+			position: absolute;
+			right: 0;
+			left: 0;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc;
+			top: -1px;
+			&:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+		}
+		.table-view-cell {
+			overflow: hidden;
+			position: relative;
+			overflow: hidden;
+			padding: 11px 15px;
+			&:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+		}
 	}
 
 </style>

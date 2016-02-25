@@ -4,61 +4,72 @@
 	描述：成长
 -->
 <template>
-	<div class="mui-content">
-		<div class=" mui-content-padded">
-			<ul class="mui-table-view">
-				<template v-for="item in items">
-					<li class="mui-table-view-divider" v-show="$index != 0"></li>
-					<li class="mui-table-view-cell wish">
-						<div class="mui-slider-cell">
-							<div class="wish_content" @click="go(item, $event)">
-								<h6>
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<img :src="images[images.length-1].url" />
+					</div>
+					<div class="mui-slider-item" v-for="image in images">
+						<img :src="image.url" />
+					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<img :src="images[0].url" />
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator" v-for="image in images" :class="{'mui-active': $index == 0}"></div>
+				</div>
+			</div>
+			<div class=" mui-content-padded">
+
+				<ul class="mui-table-view">
+					<template v-for="item in items">
+						<li class="mui-table-view-divider" v-show="$index != 0"></li>
+						<li class="mui-table-view-cell wish">
+							<div class="mui-slider-cell">
+								<div class="wish_content" @click="go(item, $event)">
+									<h6>
 									<span class="mui-pull-left">许愿{{item.wish_day}}天</span>
 									<span class="mui-pull-right">成就分值: {{item.score}}</span>
 								</h6>
-								<div class="oa-contact-cell mui-table">
-									<div class="oa-contact-avatar mui-table-cell">
-										<img :src="item.img_url" class="mui-media-object mui-pull-left" />
-										<div class="mui-media-body">
-											{{item.name}}
-											<p> {{item.description}}</p>
-											<p>
-												<h5 class="mui-pull-left">完成进度：</h5>
-												<div class="progress-bar orange shine">
-													<span :style="{width: finishScale(item.finish_num, item.total_num) + '%'}"></span>
-												</div>
-												<span class="finished-text">{{item.finish_num}}/{{item.total_num}}</span>
-											</p>
+									<div class="oa-contact-cell mui-table">
+										<div class="oa-contact-avatar mui-table-cell">
+											<img :src="item.img_url" class="mui-media-object mui-pull-left" />
+											<div class="mui-media-body">
+												{{item.name}}
+												<p> {{item.description}}</p>
+												<p>
+													<h5 class="mui-pull-left">完成进度：</h5>
+													<div class="progress-bar orange shine">
+														<span :style="{width: finishScale(item.finish_num, item.total_num) + '%'}"></span>
+													</div>
+													<span class="finished-text">{{item.finish_num}}/{{item.total_num}}</span>
+												</p>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</li>
-				</template>
-			</ul>
+						</li>
+					</template>
+				</ul>
+			</div>
 		</div>
 	</div>
-
 </template>
 <script>
 	module.exports = {
 		el: "#app",
 		data: function() {
 			return {
-				items: []
+				items: [],
+				images: [{
+					url: 'http://www.youyou.help/uploads/node_image/image/181/large___.jpg'
+				}]
 			}
 		},
-		//		computed: {
-		//			finished: function() {
-		//				var data = [];
-		//				for (var i in this.items) {
-		//					data.push((this.items[i].finished_num / this.items[i].goal_num * 100).toFixed(1));
-		//				}
-		//				console.log(JSON.stringify(data))
-		//				return data;
-		//			}
-		//		},
 		ready: function() {
 			mui.init({
 				swipeBack: false
@@ -85,7 +96,8 @@
 					url: 'attainment/detail.html',
 					id: 'attainment_detail',
 					extras: {
-						detail_classify: item.detail_classify
+						detail_classify: item.detail_classify,
+						classify: item.classify
 					}
 				})
 			},
