@@ -510,7 +510,7 @@
 	$.timeAgo = function(times) {
 		var secs = times - $.begin_of_day();
 		var date = new Date(times * 1000);
-		if (secs > 720) {
+		if (secs > 3600*4) {
 			return "下午" + (date.getHours() %12) + ":" + date.getMinutes();
 		}
 		if (secs > 0) {
