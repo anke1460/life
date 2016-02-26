@@ -161,7 +161,7 @@
   	  margin-bottom: 5px;
   }
   #refreshContainer {
-  		top: 77px;
+  		top: 97px;
   }
 	.sub-menu {
 		margin: 0px;
@@ -183,7 +183,7 @@
 		height: 34px;
 		width: 100%;
 		position: fixed;
-		top: 44px;
+		top: 64px;
 		z-index: 2;
 		background: #fff;
 		border-bottom: 1px #eee solid;
