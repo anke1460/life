@@ -32,15 +32,17 @@
 					<p>粉丝</p>
 				</div>
 			</div>
-			<div id="graph">
-				<div id="radar_graph">
+			<div class="graph">
+				<div id="graph">
+					<div id="radar_graph">
+					</div>
+					<div id="total_score">{{user.score}}</div>
+					<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />爱好</span>
+					<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />社交</span>
+					<span style="position: absolute;top:140px;left:120px;"><img  class="class-icon" :src="logo3" />旅行</span>
+					<span style="position: absolute;top:140px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
+					<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />美食</span>
 				</div>
-				<div id="total_score">{{user.score}}</div>
-				<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />爱好</span>
-				<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />社交</span>
-				<span style="position: absolute;top:140px;left:120px;"><img  class="class-icon" :src="logo3" />旅行</span>
-				<span style="position: absolute;top:140px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
-				<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />美食</span>
 			</div>
 			<div id="trend">
 			  <ul class="mui-table-view">
@@ -179,6 +181,10 @@
 	}
 </script>
 <style lang="sass">
+  .graph {
+  	  width: 100%;
+  	  background: #fff;
+  }
   .logo {
   	  border-radius: 50%;
   }
@@ -234,6 +240,8 @@
 		background: #fff;
 		position: relative;
 		font-size: 9px;
+		width: 320px;
+		margin: 0 auto;
 		#radar_graph {
 			margin-top: 10px;
 			padding-top: 12px;

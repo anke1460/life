@@ -37,8 +37,8 @@
 						</a>
 					</li>
 				</ul>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
+			<ul class="mui-table-view" id="list">
+				<li class="mui-table-view-cell open" href="user/preview_score.html">
 					<a class="mui-navigate-right">
 						<img src="images/grade_overview.png" class="icon"/>
 						评分总览
@@ -116,5 +116,14 @@
 				third_search_web.show('slide-in-right', 150);
 			}
 		});
+		
+		mui("#list").on("tap", ".open", function() {
+			console.log(this.getAttribute("href"));
+			mui.openWindow({
+				url: this.getAttribute("href"),
+				id: this.getAttribute("href")
+			})
+		})
+		
 	</script>
 </html>

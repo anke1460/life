@@ -25,7 +25,8 @@ module.exports = {
 		"message":               ["./src/pages/message.js"],
 		"new_friends":           ["./src/pages/new_friends.js"],
 		"concern":               ["./src/pages/concern.js"],
-		"fans":                  ["./src/pages/fans.js"]
+		"fans":                  ["./src/pages/fans.js"],
+		"preview_score":         ["./src/pages/user/preview_score.js"]
 	},
 	output: {
 		path: './build',
