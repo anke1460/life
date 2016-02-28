@@ -25,27 +25,39 @@
 				</div>
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell mui-collapse">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right group-cos">
 				 		{{title}}
-				 		<span id="add_wish" @tap.stop="addWish" v-show="!detail_classify.is_aspiration">心愿</span>
+				 		<span id="add_wish" @tap.stop="addWish" v-show="!detail_classify.is_aspiration"></span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
-							<li class="">
-								<div class="col">
-									<span>含成就点:</span>
-									<span class="col-conent">{{detail_classify.nodes_count}}</span>
+							<li class="group-content">
+								<div class="score-cal">
+									<div class="col">
+										<span>含成就点:</span>
+										<span class="col-conent">{{detail_classify.nodes_count}}</span>
+									</div>
+									<div class="col">
+										<span>组合总分:</span>
+										<span class="col-conent">{{detail_classify.max_score}}</span>
+									</div>
+									<div class="col">
+										<span>封获头衔:</span>
+										<span class="col-conent">{{detail_classify.rank || '无'}}</span>
+									</div>
+									<div class="col">
+										<span>我的总分:</span>
+										<span class="col-conent">{{detail_classify.current_score}}</span>
+									</div>
 								</div>
-								<div class="col">
-									<span>组合总分:</span>
-									<span class="col-conent">{{detail_classify.max_score}}</span>
+								<div class="user-photo">
+									<img :src="u" v-for="u in finished.user"/>
+									{{finished.count > 0 ? finished.count + '等' : '' }}人已完成
+									<a>查看</a>
 								</div>
-								<div class="col">
-									<span>封获头衔:</span>
-									<span class="col-conent">{{detail_classify.rank || '无'}}</span>
-								</div>
-								<div class="col">
-									<span>我的总分:</span>
-									<span class="col-conent">{{detail_classify.current_score}}</span>
+								<div class="user-photo">
+									<img :src="u" v-for="u in aspiration.user"/>
+									{{aspiration.count > 0 ? aspiration.count + '等' : ''}}人加入心愿
+									<a>查看</a>
 								</div>
 							</li>
 						</ul>
@@ -123,12 +135,16 @@
 				current_node: '',
 				has_photo: false,
 				map_type: '',
-				detail_classify: '',
+				detail_classify: {
+					is_aspiration: true
+				},
 				classify: {
 					is_mark: false
 				},
 				page: 1,
-				per_page: 20
+				per_page: 20,
+				aspiration: '',
+				finished: ''
 			}
 		},
 		watch: {
@@ -172,6 +188,12 @@
 					self.is_text = true;
 				}
 				
+				you.authenGet("/detail_classifies/" + self.detail_classify.id +"/joined_user", {}, function(result) {
+					console.log(4555, JSON.stringify(result));
+					self.finished = result.finished;
+					self.aspiration = result.aspiration;
+				})
+				
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;
@@ -208,7 +230,6 @@
 				var self = this;
 				you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/nodes", {}, function(result) {
 					self.nodes = result.nodes;
-					console.log(JSON.stringify(result));
 					var city = [];
 					mui.each(result.nodes, function(i, d) {
 						city.push({
@@ -269,19 +290,19 @@
 				});
 			},
 			addWish: function() {
-				var options = {
-					type: "date",
-					beginYear: (new Date).getFullYear()
-				};
-				var picker = new mui.DtPicker(options);
-				picker.show(function(rs) {
+//				var options = {
+//					type: "date",
+//					beginYear: (new Date).getFullYear()
+//				};
+//				var picker = new mui.DtPicker(options);
+//				picker.show(function(rs) {
 					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {
-						date: rs.text
+//						date: rs.text
 					}, function(result) {
 						you.alert("已添加到我的心愿清单");
-						picker.dispose();
+//						picker.dispose();
 					})
-				})
+//				})
 			},
 			change: function() {
 				this.is_text = !this.is_text;
@@ -333,7 +354,6 @@
 					}]
 				};
 				this.echart.setOption(this.options);
-				//				this.echart.setOption(this.options, true);
 			},
 			comment: function() {
 				console.log('comment')
@@ -433,6 +453,7 @@
 		padding: 5px;
 		background: #1FCC7C;
 		color: #fff;
+		border-color: #1fcc7c;
 	}
 	
 	.city-wraper {
@@ -492,5 +513,42 @@
 	.bg-img {
 		background-repeat: no-repeat;
 		background-size: 100%
+	}
+	
+	.group-cos {
+		height: 59px;
+		padding-top: 20px !important;
+		background-color: #e9feea;
+	}
+	
+	.group-content {
+		background-color: #e9feea;
+		overflow: hidden;
+		color: #999;
+		padding: 0 15px;
+		img {
+			width: 24px;
+			vertical-align: bottom;
+		}
+		.user-photo {
+			font-size: 14px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	}
+	.mui-table-view.mui-table-view-chevron :before { 
+	  position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px !important;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+	}
+	
+	.score-cal {
+		overflow: hidden;
 	}
 </style>

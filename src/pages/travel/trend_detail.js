@@ -1,11 +1,6 @@
 var Vue= require("vue");
 Vue.filter('time', function (value) {
-	if (value) {
-		return you.timeAgo(new Date(value.replace(/-/g, "/")));
-	} else {
-		return '';
-	}
-   
+	return you.timeAgo(new Date(value));
 })
 var TrendDetail = require("./trend_detail.vue");
 var vm = new Vue(TrendDetail);

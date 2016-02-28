@@ -7,6 +7,7 @@
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title">详细资料</h1>
+		<a id="menu" class="mui-pull-right" @tap="more"></a>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
@@ -37,11 +38,11 @@
 					<div id="radar_graph">
 					</div>
 					<div id="total_score">{{user.score}}</div>
-					<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />爱好</span>
-					<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />社交</span>
-					<span style="position: absolute;top:140px;left:120px;"><img  class="class-icon" :src="logo3" />旅行</span>
+					<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />旅行</span>
+					<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />美食</span>
+					<span style="position: absolute;top:140px;left:120px;"><img  class="class-icon" :src="logo3" />社交</span>
 					<span style="position: absolute;top:140px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
-					<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />美食</span>
+					<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />爱好</span>
 				</div>
 			</div>
 			<div id="trend">
@@ -58,8 +59,9 @@
 			  </ul>
 			</div>
 			<div id="send" v-show="!is_self">
-				<div id="follow" class="btn" @tap="concern">{{user.is_concerned ? '已关注' : '关注'}}</div>
-				<div id="add_user" class="btn" @tap="requestFriend">{{user.is_friend ? '已是好友' : '添加好友'}}</div>
+				<div id="send_btn">发消息</div>
+				<!--<div id="follow" class="btn" @tap="concern">{{user.is_concerned ? '已关注' : '关注'}}</div>
+				<div id="add_user" class="btn" @tap="requestFriend">{{user.is_friend ? '已是好友' : '添加好友'}}</div>-->
 			</div>
 		</div>
 		
@@ -79,11 +81,11 @@
 					is_concerned: false,
 					logo: '../images/translate.png'
 				},
-				logo1: '../images/hobby.png',
-				logo2: '../images/social.png',
-				logo3: '../images/travel.png',
+				logo1: '../images/travel.png',
+				logo2: '../images/food.png',
+				logo3: '../images/social.png',
 				logo4: '../images/skill.png',
-				logo5: '../images/food.png',
+				logo5: '../images/hobby.png',
 			}
 		},
 		ready: function() {
@@ -119,19 +121,19 @@
 					polar: [{
 						name: false,
 						indicator: [{
-							text: '爱好',
+							text: '旅行',
+							max: 10000
+						}, {
+							text: '美食',
 							max: 10000
 						}, {
 							text: '社交',
 							max: 10000
 						}, {
-							text: '旅行',
-							max: 10000
-						}, {
 							text: '技能',
 							max: 10000
 						}, {
-							text: '美食',
+							text: '爱好',
 							max: 10000
 						}],
 						radius: 45
@@ -147,7 +149,7 @@
 							}
 						},
 						data: [{
-							value: [self.user.hobby_score, self.user.social_core, self.user.travel_score, self.user.skill_score, self.user.food_score],
+							value: [self.user.travel_score,self.user.food_score, self.user.social_core, self.user.skill_score, self.user.hobby_score],
 							name: ''
 						}]
 					}]
@@ -169,6 +171,22 @@
 					}
 				})
 			},
+			cancelFriend: function() {
+				var self = this;
+				you.authenDelete("/users/" + this.user.id + "/friend", {}, function(result) {
+					self.user.is_friend = false;
+				})
+			},
+			cancelConcern: function() {
+				var self = this;
+				you.authenDelete("/users/" + this.user.id + "/concern", {}, function(result) {
+					self.user.is_concerned = false;
+				})
+			},
+			sendRequest: function() {
+				you.authenPost("/users/" + this.user.id + "/add_friend", {}, function(result) {
+				})
+			},
 			concern: function() {
 				var self = this;
 				if (this.user.is_concerned == false) {
@@ -176,6 +194,39 @@
 						self.user.is_concerned = true;
 					})
 				}
+			},
+			more: function() {
+				var self = this;
+				var actionstyle = {
+					title: "更多",
+					cancel:"取消",
+					buttons:  [{
+					 title: "设置备注"
+				  }, {
+					 title: "推荐给朋友"
+				  }, {
+					 title: self.user.is_concerned ? "取消关注" : "关注动态"
+				  }, {
+					 title: self.user.is_friend ? "删除好友" : '添加好友'
+				  }]
+				};
+				plus.nativeUI.actionSheet(actionstyle, function(e) {
+					console.log(e.index);
+					if (e.index == 3) {
+						if (self.user.is_concerned) {
+							console.log('ccen');
+							self.cancelConcern();
+						} else {
+							self.concern();
+						}
+					} else if (e.index == 4) {
+						if (self.user.is_friend) {
+							self.cancelFriend();
+						} else {
+							self.sendRequest();
+						}
+					}
+				}.bind(this));
 			}
 		}
 	}
@@ -220,7 +271,8 @@
 		background: #fff;
 		padding-top: 5px;
 		p {
-			padding-bottom: 5px;
+			padding-bottom: 0px;
+			margin-bottom: 0px;
 		}
 		.u-item {
 			float: left;
@@ -262,18 +314,18 @@
 	#send {
 		overflow: hidden;
     text-align: center;
-    width: 250px;
-    margin: 0 auto;
+    width: 100%;
     margin-top: 10px;
     color: #fff;
     font-size: 14px;
-    .btn {
-    	  line-height: 30px;
-    	  height: 30px;
-	    background: #1FCC7C;
-	    width: 100px;
-	    float: left;
-	    border-radius: 15px;
-    }
+	}
+	
+	#send_btn {
+		margin: 0 auto;
+		line-height: 30px;
+  	  height: 30px;
+    background: #1FCC7C;
+    width: 150px;
+    border-radius: 15px;
 	}
 </style>

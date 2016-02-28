@@ -121,7 +121,7 @@
 	.progress-bar {
 		height: 10px;
 		padding: 1px;
-		border: 1px solid #1FCC7C;
+		border: 1px dotted #1FCC7C;
 		width: 110px;
 		float: left;
 		position: relative;

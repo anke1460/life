@@ -8,7 +8,7 @@
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media">
 					<img class="mui-media-object mui-pull-left" :src="item.avatar">
-					<span class="time">1分钟前</span>
+					<span class="time">{{item.created_at | time}}</span>
 					<div class="mui-media-body reply-content">
 						{{item.name}}
 						<div>{{item.content}}</div>
@@ -23,24 +23,23 @@
 					<div>
 						<span>评论({{comment_total}})</span>
 						<div class="up">
-							<img class="avatar" :src="item.avatar" height="30px">
-							<img class="avatar" :src="item.avatar" height="30px">
-							<span>赞 2</span>
+							<img class="avatar" :src="p.logo" v-for="p in praise" @tap="viewUser(p)">
+							<span>赞 {{total_praise}}</span>
 						</div>
 					</div>
 				</li>
 			</ul>
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media" @tap="reply(item)" v-for="comment in comments">
+				<li class="mui-table-view-cell mui-media" @tap="reply(comment)" v-for="comment in comments">
 					<img class="mui-media-object mui-pull-left" :src="comment.user_logo">
 					<span class="time">{{comment.created_at | time}}</span>
 					<div class="mui-media-body reply-content">
 						{{comment.user_name}}
 						<div>
-							<template v-if="comment.replay.length > 0">
+							<template v-if="comment.reply_user.length > 0">
 								回复 
 								<strong>
-									{{comment.reply.length > 0 ? comment.reply[1] : ''}}
+									{{comment.reply_user.length > 0 ? comment.reply_user[1] : ''}}
 								</strong> 
 							</template>
 							
@@ -52,7 +51,7 @@
 	</div>
 	<div id="comment">
 		<div class="comment-input">
-			<textarea placeholder="说点什么" id="content" v-model="content" value="{{content}}"></textarea>
+			<textarea placeholder="说点什么" id="content" v-model="content"></textarea>
 		</div>
 		<button id="send" @tap="send">发送</button>
 	</div>
@@ -65,7 +64,13 @@
 				content: "",
 				item: '',
 				comments: [],
-				comment_total: 0
+				comment_total: 0,
+				total_praise: '',
+				praise: '',
+				page: 1,
+				per_page: 20,
+				reply_users: [],
+				reply_content: []
 			}
 		},
 		ready: function() {
@@ -83,16 +88,19 @@
 			});
 			mui.plusReady(function() {
 				this.item = you.current_page.item;
+				console.log('item', JSON.stringify(this.item));
 			}.bind(this))
 		},
 		methods: {
 			loadMsg: function() {
 				var self = this;
 				mui.plusReady(function() {
-					you.authenGet("/stories/" + you.current_page.item.id + "/comment", {} ,function(result) {
+					you.authenGet("/stories/" + you.current_page.item.id + "/comment", {page: self.page, per_page: self.per_page} ,function(result) {
 						console.log(JSON.stringify(result));
 						self.comment_total = result.total_count;
 						self.comments = self.comments.concat(result.comments);
+						self.praise = result.praise;
+						self.total_praise = result.total_praise;
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
 						} else {
@@ -104,20 +112,44 @@
 			},
 			reply: function(item) {
 				if (item.user_id != plus.storage.getItem("uid")) {
-					this.content =  "@" + item.name + "：";
+					//避免回复自己
+					
+					if (this.reply_users.indexOf(item.user_id) == -1) {
+						this.content +=  "@" + item.user_name + "：";
+					  this.reply_content.push("@" + item.user_name + "：");
+					  this.reply_users.push(item.user_id);
+					}
 				} else {
-					console.log(11111);
+					this.reply_content = [];
+					this.content = "";
+					this.reply_users = [];
 				}
 				
 			},
 			send: function() {
-				console.log(223344);
 				var self = this;
-				you.authenPost("/stories/" + you.current_page.item.id + "/comment", {content: this.content}, function(result) {
-					console.log(1113);
-					console.log(JSON.stringify(result));
+				var content = "";
+				console.log('ccccc', JSON.stringify(this.reply_content), this.content);
+				console.log(JSON.stringify(this.reply_users));
+				mui.each(this.reply_content, function(i, d) {
+					content = self.content.replace(d, "")
+				})
+				console.log(content);
+				you.authenPost("/stories/" + you.current_page.item.id + "/comment", {content: content, reply_users: self.reply_users}, function(result) {
 					self.comments.splice(0,0,result);
 					self.content = "";
+					self.comment_total += 1;
+				})
+			},
+			viewUser: function(user) {
+				mui.openWindow({
+					url: 'user/index.html',
+					id: 'user_index',
+					extras: {
+						user: {
+							id: user.user_id
+						}
+					}
 				})
 			}
 		}
@@ -135,6 +167,7 @@
 			width: 30px;
 			height: 30px;
 			vertical-align: middle;
+			margin-right: 4px;
 		}
 	}
 	
@@ -182,9 +215,11 @@
 	#comment {
 		position: fixed;
 		width: 100%;
-		bottom: 5px;
+		bottom: 0px;
 		z-index: 999;
-		left: 5px;
+		left: 0px;
+		padding: 0 5px;
+		background: #fff;
 		.comment-input {
 			margin-right: 70px;
 		}
