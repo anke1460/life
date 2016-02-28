@@ -1,6 +1,6 @@
 (function($) {
-//	$.web_base = "http://youyou.127.0.0.1.xip.io";
-  $.web_base = "http://www.youyou.help";
+	$.web_base = "http://youyou.127.0.0.1.xip.io";
+//$.web_base = "http://www.youyou.help";
 	$.app_base = $.web_base + "/api/v1";
 	$.guid = function() {
 		function s4() {
@@ -510,7 +510,7 @@
 	$.timeAgo = function(times) {
 		var secs = times - $.begin_of_day();
 		var date = new Date(times * 1000);
-		if (secs > 3600*4) {
+		if (secs > 720) {
 			return "下午" + (date.getHours() %12) + ":" + date.getMinutes();
 		}
 		if (secs > 0) {

@@ -159,6 +159,8 @@
 					document.getElementById("menu").style.display = "none";
 				} else if (targetTab == 'message.html') {
 					document.getElementById("chat").style.display = "none";
+				} else if (targetTab == 'dashbord.html') {
+					mui.fire(plus.webview.getWebviewById("dashbord.html"), "reloadData");
 				}
 				//更换标题
 				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;

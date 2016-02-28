@@ -18,14 +18,20 @@
 					</div>
 				</form>
 			</div>
-			<ul class="mui-table-view" v-show="users.length > 0">
-				<li class="mui-table-view-cell" v-for="user in users">
-					<img class="mui-media-object mui-pull-left" :src="user.logo" />
-					<div class="mui-media-body">
-						{{user.name}}
-						<p class="mui-ellipsis">{{user.sign}}</p>
-						<span class="add-user" @tap="add(user)">{{user.current_relation | state}}</span>
+			<ul class="mui-table-view" v-show="users.length > 0" id="list">
+				<li class="mui-table-view-cell mui-disabled" v-for="user in users" data-id="{{user.request_id}}">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
 					</div>
+					<div class="mui-slider-handle">
+						<img class="mui-media-object mui-pull-left" :src="user.logo" />
+						<div class="mui-media-body">
+							{{user.name}}
+							<p class="mui-ellipsis">{{user.sign}}</p>
+							<span class="add-user" @tap="add(user)" :class="{'accept': user.status == 2}">{{user.status | state}}</span>
+						</div>
+					</div>
+					
 				</li>
 			</ul>
 		</div>
@@ -54,7 +60,27 @@
 					you.endLoding();
 				}.bind(this))
 			
-			}.bind(this))
+			}.bind(this));
+			mui('#list').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('确认删除该条记录？', '提示', ['确认', '取消'], function(e) {
+						if (e.index == 0) {
+							console.log(li.dataset.id);
+							you.authenDelete("/users/" + li.dataset.id + "/request", {}, function(result) {
+								li.parentNode.removeChild(li);
+								console.log(JSON.stringify(result));
+							})
+							
+							console.log(33344);
+							
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
 		},
 		methods: {
 			addUser: function() {
@@ -74,6 +100,14 @@
 					},150)
 					you.endLoding();
 				}.bind(this))
+			},
+			add: function(user) {
+				console.log(JSON.stringify(user));
+				if (user.status == 2) {
+					you.authenPost("/users/" + user.request_id + "/accept", {}, function(resullt) {
+						user.status = 3;
+					})
+				}
 			}
 		}
 	}
@@ -82,10 +116,17 @@
   .add-user {
 		position: absolute;
 		right: 20px;
-		top: 20px;
+		top: 10px;
 		font-size: 14px;
-		color: #666
+		color: #666;
+		&.accept {
+			background-color: #1FCC7C;
+			padding: 4px 8px;
+			border-radius: 4px;
+			color: #fff;
+		}
 	}
+	
 	.search-bg {
 		padding: 10px 10px 0px;
 		background: #e6e8e3;

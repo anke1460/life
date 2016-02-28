@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+  <link href="../css/mui.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="../css/style.css" />
+  <style>
+	  .score-bg-left {
+			width: 4px;
+	    height: 12px;
+	    float: left;
+	    background-image: url(../images/score_bg_left.png);
+	    background-size: cover;
+		}
+		
+		.score-bg-body {
+			width: 100px;
+	    height: 12px;
+	    float: left;
+	    background-image: url(../images/no_score_body.png);
+	    background-size: contain;
+		}
+		
+		.score-bg-right {
+	    width: 4px;
+	    height: 12px;
+	    float: left;
+	    background-image: url(../images/score_bg_right.png);
+	    background-size: cover;
+		}
+		
+		.score-bg {
+			overflow: hidden;
+		}
+		
+		.score {
+			overflow: hidden;
+			position: relative;
+      top: -12px;
+		}
+		
+		.score-left {
+			width: 4px;
+	    height: 12px;
+	    float: left;
+	    background-image: url(../images/left_score.png);
+	    background-size: cover;
+		}
+		
+		.score-body {
+			width: 15px;
+	    height: 12px;
+	    float: left;
+	    background-image: url(../images/score_body.png);
+	    background-size: contain;
+		}
+		
+		.score-right {
+	    width: 4px;
+	    height: 12px;
+	    float: left;
+	    background-image: url(../images/right_score.png);
+	    background-size: cover;
+		}
+		
+		.score-graph {
+		  position: absolute;
+	    top: 4px;
+	    right: 10px;
+		}
+		
+		.score-value {
+			position: absolute;
+	    top: -4px;
+	    width: 40px;
+	    left: 50%;
+	    margin-left: -20px;
+	    color: #fff;
+	    font-size: 12px;
+	    text-align: center;
+		}
+		
+  </style>
+</head>
+<body>
+	<div id="app"></div>
+  <script src="../js/mui.min.js"></script>
+  <script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://localhost:8080/preview_score.min.js"></script>
+</body>
+</html>

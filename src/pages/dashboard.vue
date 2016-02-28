@@ -88,13 +88,14 @@
 				<div id="baner">
 					<a @tap="load('default')" :class="{'active':current_active == 'default'}">推荐</a>
 					<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
+					<a @tap="load('concern')" :class="{'active':current_active == 'concern'}">关注</a>
 					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
 				</div>
 				<div id="all" class="">
 					<ul class="table-view">
 						<li class="table-view-cell" v-for="item in trends">
 							<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
-							<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item)">
+							<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item, $event)">
 								<span class="user-name">
 									{{item.name}}
 								</span>
@@ -106,8 +107,8 @@
 								</p>
 								<span class="time">{{item.created_at | time}}</span>
 								<div class="mui-pull-right">
-									<span class="mui-icon mui-icon-checkmarkempty" @tap="praise(item)" v-show="item.user_id != uid"></span>
-									<span class="mui-icon mui-icon-chatboxes" @tap="comment(item)"></span>
+									<span class="mui-icon praise" @tap="praise(item)" v-show="item.user_id != uid"></span>
+									<span class="mui-icon note" @tap="comment(item)"></span>
 								</div>
 							</div>
 						</li>
@@ -144,7 +145,7 @@
 					up: {
 						auto: true,
 						contentrefresh: "上拉加载动态",
-						contentnomore: '已加载完',
+						contentnomore: '没有更多动态',
 						callback: self.loadMsg
 					}
 				}
@@ -164,6 +165,12 @@
 					}.bind(this))
 				}.bind(this))
 			}.bind(this));
+			
+			window.addEventListener("reloadData", function() {
+				self.page = 1;
+				self.trends = [];
+				self.loadMsg();
+			})
 		},
 		methods: {
 			load: function(type) {
@@ -176,8 +183,7 @@
 				var self = this;
 				var type = type || 'default';
 				mui.plusReady(function() {
-					you.authenGet("/stories", {type: type} ,function(result) {
-						console.log(3444,JSON.stringify(result));
+					you.authenGet("/stories", {type: type, page: self.page, per_page: self.per_page} ,function(result) {
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
@@ -189,7 +195,6 @@
 				})
 			},
 			comment: function(item) {
-				console.log(1111);
 				mui.openWindow({
 					url: 'comment.html',
 					id: 'comment',
@@ -198,15 +203,16 @@
 					}
 				})
 			},
-			detailTrend: function(item) {
-				console.log(3333);
-//				mui.openWindow({
-//					url: 'comment.html',
-//					id: 'comment',
-//					extras: {
-//						item: item
-//					}
-//				})
+			detailTrend: function(item, e) {
+				if (e.target.className.includes("mui-icon") == false) {
+				  mui.openWindow({
+						url: 'comment.html',
+						id: 'comment',
+						extras: {
+							item: item
+						}
+					})
+				}
 			},
 			praise: function(item) {
 				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
