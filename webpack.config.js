@@ -26,7 +26,8 @@ module.exports = {
 		"new_friends":           ["./src/pages/new_friends.js"],
 		"concern":               ["./src/pages/concern.js"],
 		"fans":                  ["./src/pages/fans.js"],
-		"preview_score":         ["./src/pages/user/preview_score.js"]
+		"preview_score":         ["./src/pages/user/preview_score.js"],
+		"medal":                 ["./src/pages/medal.js"]
 	},
 	output: {
 		path: './build',

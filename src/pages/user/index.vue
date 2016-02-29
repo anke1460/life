@@ -59,7 +59,7 @@
 			  </ul>
 			</div>
 			<div id="send" v-show="!is_self">
-				<div id="send_btn">发消息</div>
+				<div id="send_btn" @tap="sendMsg(user)">发消息</div>
 				<!--<div id="follow" class="btn" @tap="concern">{{user.is_concerned ? '已关注' : '关注'}}</div>
 				<div id="add_user" class="btn" @tap="requestFriend">{{user.is_friend ? '已是好友' : '添加好友'}}</div>-->
 			</div>
@@ -158,6 +158,15 @@
 			})
 		},
 		methods: {
+			sendMsg: function(user) {
+				mui.openWindow({
+					url: '../chat.html',
+					id: 'chat',
+					extras: {
+						user: user
+					}
+				})
+			},
 			trend: function() {
 				mui.openWindow({
 					url: 'trend.html',

@@ -8,27 +8,108 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style type="text/css">
+		.feedback body {
+	background-color: #EFEFF4;
+}
+.feedback input,
+.feedback textarea {
+	border: none !important;
+}
+.feedback textarea {
+	height: 100px;
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+.feedback .row {
+	width: 100%;
+	background-color: #fff;
+}
+.feedback p {
+	padding: 10px 15px 0;
+}
+.feedback button { 
+	width: 90%;
+	height: 46px;
+	left: 50%;
+	-webkit-transform: translate(-50%);
+}
+.feedback .hidden {
+	display: none;
+}
+.feedback .image-list {
+	width: 100%;
+	height: 85px;
+	background-size: cover;
+	padding: 10px 10px;
+	overflow: hidden;
+}
+.feedback .image-item {
+	width: 65px;
+	height: 65px;
+	background-image: url(images/iconfont-tianjia.png);
+	background-size: 100% 100%;
+	display: inline-block;
+	position: relative;
+	border-radius: 5px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border: solid 1px #e8e8e8;
+}
+.feedback .image-item input[type="file"] {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+	z-index: 0;
+}
+.feedback .image-item.space {
+	border: none;
+}
+.feedback .image-item .image-close {
+	position: absolute;
+	display: inline-block;
+	right: -6px;
+	top: -6px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 12px;
+	background-color: #FF5053;
+	color: #f3f3f3;
+	border: solid 1px #FF5053;
+	font-size: 9px;
+	font-weight: 200;
+	z-index: 1;
+}
+.feedback .image-item.space .image-close {
+	display: none;
+}
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">问题反馈</h1>
+			<h1 class="mui-title">给评测模版提建议</h1>
 		</header>
 		<div id="feedback" class="feedback mui-content">
 			<div class="mui-content-padded">
-				<p>问题和意见</p>
+				<p>问题或建议</p>
 				<div class="row mui-input-row">
-					<textarea id='question' class="mui-input-clear question" placeholder="请详细描述你的问题和意见..."></textarea>
+					<textarea id='question' class="mui-input-clear question" placeholder="请详细描述你的问题或建议..."></textarea>
 				</div>
-				<p>图片(选填,提供问题截图)</p>
+				<p>图片(选填,提供问题或建议截图)</p>
 				<div id='image-list' class="row image-list">
 				</div>
-				<p>QQ/邮箱</p>
+				<p>QQ/邮箱/手机号</p>
 				<div class="mui-input-row">
 					<input id='contact' type="text" class="mui-input-clear  contact" placeholder="(选填,方便我们联系你 )" />
 				</div>
+				<h5 class="mui-text-center">一经采用必有重谢！</h5>
 				<button id='submit' type="button" class="mui-btn mui-btn-green">提交</button>
 			</div>
 			<p></p>
@@ -36,5 +117,115 @@
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		(function(mui, window, document, undefined) {
+	mui.init();
+	var get = function(id) {
+		return document.getElementById(id);
+	};
+	var qsa = function(sel) {
+		return [].slice.call(document.querySelectorAll(sel));
+	};
+	var ui = {
+		question: get('question'),
+		contact: get('contact'),
+		imageList: get('image-list'),
+		submit: get('submit')
+	};
+	ui.clearForm = function() {
+		ui.question.value = '';
+		ui.contact.value = '';
+		ui.imageList.innerHTML = '';
+		ui.newPlaceholder();
+	};
+	ui.getFileInputArray = function() {
+		return [].slice.call(ui.imageList.querySelectorAll('input[type="file"]'));
+	};
+	ui.getFileInputIdArray = function() {
+		var fileInputArray = ui.getFileInputArray();
+		var idArray = [];
+		fileInputArray.forEach(function(fileInput) {
+			if (fileInput.value != '') {
+				idArray.push(fileInput.getAttribute('id'));
+			}
+		});
+		return idArray;
+	};
+	var imageIndexIdNum = 0;
+	ui.newPlaceholder = function() {
+		var fileInputArray = ui.getFileInputArray();
+		if (fileInputArray &&
+			fileInputArray.length > 0 &&
+			fileInputArray[fileInputArray.length - 1].parentNode.classList.contains('space')) {
+			return;
+		}
+		imageIndexIdNum++;
+		var placeholder = document.createElement('div');
+		placeholder.setAttribute('class', 'image-item space');
+		var closeButton = document.createElement('div');
+		closeButton.setAttribute('class', 'image-close');
+		closeButton.innerHTML = 'X';
+		closeButton.addEventListener('click', function(event) {
+			event.stopPropagation();
+			event.cancelBubble = true;
+			setTimeout(function() {
+				ui.imageList.removeChild(placeholder);
+			}, 0);
+			return false;
+		}, false);
+		var fileInput = document.createElement('input');
+		fileInput.setAttribute('type', 'file');
+		fileInput.setAttribute('accept', 'image/*');
+		fileInput.setAttribute('id', 'image-' + imageIndexIdNum);
+		fileInput.addEventListener('change', function(event) {
+			var file = fileInput.files[0];
+			if (file) {
+				var reader = new FileReader();
+				reader.onload = function() {
+					//处理 android 4.1 兼容问题
+					var base64 = reader.result.split(',')[1];
+					var dataUrl = 'data:image/png;base64,' + base64;
+					//
+					placeholder.style.backgroundImage = 'url(' + dataUrl + ')';
+				}
+				reader.readAsDataURL(file);
+				placeholder.classList.remove('space');
+				ui.newPlaceholder();
+			}
+		}, false);
+		placeholder.appendChild(closeButton);
+		placeholder.appendChild(fileInput);
+		ui.imageList.appendChild(placeholder);
+	};
+	ui.newPlaceholder();
+	ui.submit.addEventListener('click', function(event) {
+		if (ui.question.value == '' ||
+			(ui.contact.value != '' &&
+				ui.contact.value.search(/^(\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+)|([1-9]\d{4,9})$/) != 0)) {
+			return mui.toast('信息填写不符合规范');
+		} 
+//		plus.nativeUI.showWaiting();
+			ui.getFileInputIdArray().forEach(function(fileInputId) {
+				console.log(mui("#" + fileInputId)[0].value);
+			})
+				console.log(JSON.stringify({
+			question: ui.question.value,
+			contact: ui.contact.value,
+			images: ui.getFileInputIdArray()
+		}));
+		
+//		feedback.send({
+//			question: ui.question.value,
+//			contact: ui.contact.value,
+//			images: ui.getFileInputIdArray()
+//		}, function() {
+//			plus.nativeUI.closeWaiting();
+//			mui.toast('感谢您的建议~');
+//			ui.clearForm();
+//			mui.back();
+//		});
+	}, false);
+})(mui, window, document, undefined);
+	</script>
 
 </html>
