@@ -112,7 +112,7 @@
 			<input id="selecte_date" type="hidden" v-model="haved_at" />
 			<button class="mui-btn mui-btn-block" @tap="markHaved" v-show="!is_selected">仅确认时间</button>
 			<button class="mui-btn mui-btn-block" @tap="addPhoto">{{ is_selected ? '继续添加图文记录' : '添加图文记录'}}</button>
-			<button class="mui-btn mui-btn-block" v-show="is_selected && has_photo != true" @tap="cancelMark">取消</button>
+			<button class="mui-btn mui-btn-block" v-show="is_selected && has_photo != true" @tap="cancelMark">删除记录</button>
 		</div>
 	</div>
 </template>
@@ -277,16 +277,23 @@
 			},
 			cancelMark: function() {
 				var self = this;
-				you.loading();
-				you.authenDelete("/nodes/" + this.current_item.id + "/mark", {}, function() {
-					self.current_item.selected = false;
-					mui('.mui-popover').popover('toggle');
-					mui.fire(you.webview("attainment_list"), "reloadData");
-					you.endLoding();
-				}, function(xhr) {
-					mui.toast(JSON.parse(xhr.responseText).error);
-					mui('.mui-popover').popover('toggle');
-				});
+				plus.nativeUI.confirm("确定删除记录吗，这将会减去您的成就分数", function(e) {
+					if (e.index == 0) {
+						you.loading();
+						you.authenDelete("/nodes/" + this.current_item.id + "/mark", {}, function() {
+							self.current_item.selected = false;
+							mui('.mui-popover').popover('toggle');
+							mui.fire(you.webview("attainment_list"), "reloadData");
+							you.endLoding();
+						}, function(xhr) {
+							mui.toast(JSON.parse(xhr.responseText).error);
+							mui('.mui-popover').popover('toggle');
+						});
+					} else {
+						mui('.mui-popover').popover('toggle');
+					}
+				 }.bind(this), "提示", ["删除", "取消"]);
+				
 			},
 			addWish: function() {
 //				var options = {

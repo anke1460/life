@@ -5,18 +5,19 @@
 -->
 <template>
 	<header class="mui-bar mui-bar-nav header">
-    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">勋章墙</h1>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">勋章墙</h1>
 	</header>
-	<div class="mui-content">
-	    <div class="mui-content-padded">
-	    		<ul class="mui-table-view" v-for="item in items">
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content-padded">
+				<ul class="mui-table-view" v-for="item in items">
 					<li class="mui-table-view-cell">
 						<div class="mui-slider-cell">
 							<div class="wish_content" @click="go(item, $event)">
 								<h6 :class="{'geted': item.finished_at != ''}">
 									<span class="mui-pull-left">获得时间:{{item.finished_at == '' ? '暂无获得' : item.finished_at}}</span>
-									<span class="mui-pull-right"> {{item.finished_rate}}人获得</span>
+									<span class="mui-pull-right"> {{item.finished_rate}}%用户获得</span>
 								</h6>
 								<div class="oa-contact-cell mui-table">
 									<div class="oa-contact-avatar mui-table-cell">
@@ -27,7 +28,7 @@
 											<p>
 												<h5 class="mui-pull-left">
 													<span v-for="p in item.finished_people.users">{{p.name}}</span>
-													等{{item.finished_people.user_count}}人获得
+													{{item.finished_people.user_count == 0 ? '' : item.finished_people.user_count + '等'}}人获得
 												</h5>
 												<span class="score-text">分数:{{item.total_score}}</span>
 											</p>
@@ -38,12 +39,13 @@
 						</div>
 					</li>
 				</ul>
-	    </div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
 	module.exports = {
-		el: "#app", 
+		el: "#app",
 		data: function() {
 			return {
 				items: ''
@@ -55,11 +57,11 @@
 			mui.plusReady(function() {
 				you.authenGet("/medals", {}, function(result) {
 					self.items = result.medals;
+					setTimeout(function() {
+						mui(".mui-scroll-wrapper").scroll();
+					}, 150)
 				})
 			})
-		},
-		methods: {
-			
 		}
 	}
 </script>
@@ -71,7 +73,7 @@
 		margin: 0px;
 		padding: 6px 15px;
 		font-size: 16px;
-	  color: #666;
+		color: #666;
 		&.geted {
 			background: #1FCC7C;
 			color: #fff;
@@ -86,14 +88,14 @@
 		margin-bottom: 10px;
 	}
 	
-  .score-text {
-  		position: absolute;
+	.score-text {
+		position: absolute;
 		right: 10px;
 		top: 10px;
 		color: #666
-  }
-  
-  .oa-contact-avatar.mui-table-cell {
-  	  padding: 10px;
-  }
+	}
+	
+	.oa-contact-avatar.mui-table-cell {
+		padding: 10px;
+	}
 </style>

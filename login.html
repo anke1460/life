@@ -58,7 +58,7 @@
 	<body>
 		<div class="mui-content" id="content">
 			<div id="login_panel">
-				<h1 class="title">知趣</h1>
+				<h1 class="title">知趣人生</h1>
 				<div class="mui-card">
 					<form id='login-form' class="mui-input-group">
 						<div class="mui-input-row">
@@ -141,6 +141,8 @@
 							plus.storage.setItem("uid", "" + result.uid);
 							plus.storage.setItem('logo', result.logo);
 							plus.storage.setItem('sys_no', result.sys_no);
+							plus.storage.setItem('client_key', result.client_key);
+							plus.storage.setItem('client_name', result.client_name);
 							toMain();
 						}, function(res) {
 							you.alert("手机或密码错误");
