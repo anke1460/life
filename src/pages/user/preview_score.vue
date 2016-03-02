@@ -50,17 +50,17 @@
 	    	  	  <img :src="user_logo"/>
 	    	  </div>
 	    	  <div id="v_bg"></div>
-	    	  <div id="score_value">4555分</div>
-	    	  <p id="score_date">知趣：2012/10/10 -- 2015/01/22</p>
+	    	  <div id="score_value">{{user.score}}分</div>
+	    	  <p id="score_date">知趣：{{time_range[0]}} -- {{time_range[1]}}</p>
 	    	</div>
 	    	<div class="record" v-for="record in recordes">
 	    	  <div class="list-bg"></div>
-	    	  <img :src="record.score_type | to_photo" />
+	    	  <img :src="record.score_type_id | to_photo" />
 	    	  <p>
 	    	  	 <span>{{record.score_type}}</span>
 	    	   <span>{{record.node}}</span>
 	    	  </p>
-	    	  <span class="recored-score">{{record.score}}分</span>
+	    	  <span class="recored-score">{{record.score > 0 ? '+' + record.score : record.score}}分</span>
 	    	  <span class="recored-date">{{record.created_at}}</span>
 	    	</div>
 		</div>
@@ -88,6 +88,7 @@
 					hobby_score: 0
 				},
 				user_logo: '../images/skill.png',
+				time_range: '',
 				recordes: ''
 			}
 		},
@@ -123,7 +124,18 @@
 				you.authenGet("/users/score", {}, function(result) {
 					self.user = result.user;
 					self.categories = result.categories;
+					var score = {};
+					mui.each(self.categories, function(i, d) {
+						score[d.alias] = d.score;
+					})
+					self.generateGraph(score);
 				})
+				
+			})
+		},
+		methods: {
+			generateGraph: function() {
+				var self = this;
 				var score = echarts.init(document.getElementById('radar_graph'));
 				var option = {
 					title: {
@@ -144,19 +156,19 @@
 						name: false,
 						indicator: [{
 							text: '旅行',
-							max: 10000
+							max: score.travel
 						}, {
 							text: '美食',
-							max: 10000
+							max: score.food
 						}, {
 							text: '社交',
-							max: 10000
+							max: score.social
 						}, {
 							text: '技能',
-							max: 10000
+							max: score.skill
 						}, {
 							text: '爱好',
-							max: 10000
+							max: score.hobby
 						}],
 						radius: 45
 					}],
@@ -177,22 +189,24 @@
 					}]
 				};
 				score.setOption(option);
-			})
-		},
-		methods: {
+			},
 			load: function(params) {
 				var self = this;
 				mui.plusReady(function() {
-					you.authenGet("/uses/score_recordes", params, function(result) {
-						self.recordes = result.recordes;
-						if (self.page * self.per_page > result.total_count) {
-							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
-						} else {
-							mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
-						}
-						self.page = self.page + 1;
-						you.endLoding();
-					})
+					setTimeout(function() {
+						you.authenGet("/users/score_recordes", params, function(result) {
+							console.log(JSON.stringify(result));
+							self.recordes = result.recordes;
+							self.time_range = result.time_range;
+							if (self.page * self.per_page > result.total_count) {
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							} else {
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
+							}
+							self.page = self.page + 1;
+							you.endLoding();
+						})
+					}, 150)
 				})
 			},
 			rule: function() {

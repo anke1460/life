@@ -2,14 +2,14 @@
 
 	/*************** 环信配置开始 ****************/
 	//以后信息更改后，需卸载 “调试 app” 重新调用运行
-	var APP_KEY = 'dcloudio#mui';
+	var APP_KEY = 'anke#koudai';
 	var CUSTOM_ID = 'customer';
 	/*************** 环信配置结束 ****************/
 
 	//一组 “常量”
 	var PASSWORD = 'pass01!';
-	var LOCAL_STORE_KEY = 'mui://user';
-	var USER_PREFIX = 'mui-user-';
+	var LOCAL_STORE_KEY = 'zhiqu://user';
+	var USER_PREFIX = 'zhiqu-user-';
 
 
 	/**
