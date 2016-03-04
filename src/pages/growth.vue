@@ -71,26 +71,19 @@
 			}
 		},
 		ready: function() {
+			var self = this;
 			mui.init({
 				swipeBack: false
 			});
 			mui.plusReady(function() {
 				you.loading();
 				this.load();
+				window.addEventListener("reloadData", function() {
+					self.load();
+				} )
 			}.bind(this))
 		},
 		methods: {
-			//			go: function(item, e) {
-			//				if (!e.target.classList.contains("mui-switch-handle")) {
-			//				  var wish_id = item.id;
-			//					plus.storage.setItem("wish_id", wish_id.toString());
-			//					you.loadWebUrl("wish/wish_detail.html", "template", {
-			//						title: item.name,
-			//						target: "wish/wish_detail.html",
-			//						aniShow: 'slide-in-right'
-			//					});
-			//				}
-			//			},
 			go: function(item) {
 				mui.openWindow({
 					url: 'attainment/detail.html',
@@ -109,9 +102,6 @@
 					console.log(JSON.stringify(result))
 					this.items = result.aspirations;
 					you.endLoding();
-					setTimeout(function() {
-						mui('.mui-content .mui-switch')['switch']();
-					}, 200)
 				}.bind(this));
 			}
 		}

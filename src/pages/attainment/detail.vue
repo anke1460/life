@@ -51,12 +51,12 @@
 								</div>
 								<div class="user-photo">
 									<img :src="u" v-for="u in finished.user"/>
-									{{finished.count > 0 ? finished.count + '等' : '' }}人已完成
+									{{finished.count > 0 ? '等' : aspiration.count }} 人已完成
 									<a>查看</a>
 								</div>
 								<div class="user-photo">
 									<img :src="u" v-for="u in aspiration.user"/>
-									{{aspiration.count > 0 ? aspiration.count + '等' : ''}}人加入心愿
+									{{aspiration.count > 0 ? '等' : aspiration.count}} 人加入心愿
 									<a>查看</a>
 								</div>
 							</li>
@@ -427,7 +427,7 @@
 		width: 100%;
 		height: 50px;
 		padding-left: 15px;
-		background-color: rgba(0, 0, 0, 0.7);
+		/*background-color: rgba(0, 0, 0, 0.7);*/
 		p {
 			color: #fff;
 		}
