@@ -27,7 +27,8 @@ module.exports = {
 		"concern":               ["./src/pages/concern.js"],
 		"fans":                  ["./src/pages/fans.js"],
 		"preview_score":         ["./src/pages/user/preview_score.js"],
-		"medal":                 ["./src/pages/medal.js"]
+		"medal":                 ["./src/pages/medal.js"],
+		"system_msg":            ["./src/pages/system_msg.js"]
 	},
 	output: {
 		path: './build',

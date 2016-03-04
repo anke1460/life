@@ -7,7 +7,19 @@
 	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="mui-slider">
-				<div class="mui-slider-group">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<div class="mui-slider-item">
+							<ul class="mui-table-view mui-grid-view mui-grid-9">
+								<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
+									<a>
+										<img :src="item.img" class="img" />
+										<div class="mui-media-body">{{item.name}}</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel" @tap="goAttainment(item)">
@@ -17,9 +29,6 @@
 								</a>
 							</li>
 						</ul>
-						<div id="travel">
-							<img :src="'images/title.png'" />
-						</div>
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -61,6 +70,23 @@
 							</li>
 						</ul>
 					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<div class="mui-slider-item">
+							<ul class="mui-table-view mui-grid-view mui-grid-9">
+								<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel" @tap="goAttainment(item)">
+									<a href="#">
+										<img :src="item.img" class="img" />
+										<div class="mui-media-body">{{item.name}}</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="graph-wraper">
+					<div class="class-bg"><div>{{current_score}}</div></div>
+					<div class="score-bg"><div>{{current_rank}}</div></div>
+					<p class="score-text"><span class="c-g">旅行成绩</span><span class="h-g">好友排名</span></p>
 				</div>
 				<div class="mui-slider-indicator">
 					<div class="mui-indicator mui-active"></div>
@@ -87,8 +113,8 @@
 			<div id="infos">
 				<div id="baner">
 					<a @tap="load('default')" :class="{'active':current_active == 'default'}">推荐</a>
-					<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
 					<a @tap="load('concern')" :class="{'active':current_active == 'concern'}">关注</a>
+					<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
 					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
 				</div>
 				<div id="all" class="">
@@ -134,7 +160,11 @@
 				page: 1,
 				per_page: 20,
 				current_active: 'default',
-				uid: ''
+				uid: '',
+				user_score: '',
+				current_score: '',
+				current_rank: '',
+				loadedPage: false
 			}
 		},
 		ready: function() {
@@ -151,25 +181,19 @@
 				}
 			});
 			mui.plusReady(function() {
+				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+           self.current_score = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_score"];
+           self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
+  				})
 				self.uid = you.getStore("uid");
-				you.authenGet("/classifies", {}, function(result) {
-					mui.each(result.classifies, function(i, d) {
-						this[d.alias].push(d);
-					}.bind(this));
-					mui.each(["travel", "food", "hobby", "social", "skill"], function(i, d) {
-						this[d].splice(9, this[d].length - 9);
-						this[d].push({
-							name: '更多',
-							img: './images/1.png'
-						});
-					}.bind(this))
-				}.bind(this))
+				self.loadClassify();
 			}.bind(this));
 			
 			window.addEventListener("reloadData", function() {
 				self.page = 1;
 				self.trends = [];
 				self.loadMsg();
+				self.loadClassify();
 			})
 		},
 		methods: {
@@ -193,6 +217,23 @@
 						self.page = self.page + 1;
 					})
 				})
+			},
+			loadClassify: function() {
+				var self = this;
+				you.authenGet("/classifies", {}, function(result) {
+					self.user_score = result.user_score;
+					self.current_score = self.user_score.travel_score;
+					self.current_rank = self.user_score.travel_num;
+					 if (!self.loadedPage) {
+					 	mui.each(result.classifies, function(i, d) {
+							this[d.alias].push(d);
+						}.bind(this));
+						mui.each(["travel", "food", "hobby", "social", "skill"], function(i, d) {
+							this[d].splice(10, this[d].length - 10);
+						}.bind(this))
+					 }
+					 self.loadedPage = true;
+				}.bind(this))
 			},
 			comment: function(item) {
 				mui.openWindow({
@@ -411,5 +452,24 @@
 			}
 		}
 	}
-
+	
+	.graph-wraper {
+		text-align: center;
+    height: 80px;
+    position: relative;
+    width: 150px;
+    margin: 0 auto;
+	}
+  .score-text {
+  	  position: absolute;
+    bottom: 0px;
+    margin: 0px;
+    font-size: 12px;
+    .c-g {
+    	  margin-left: 12px;
+    }
+    .h-g {
+    	 margin-left: 30px;
+    }
+  }
 </style>

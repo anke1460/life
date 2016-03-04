@@ -157,6 +157,7 @@
 //			  	}
 				if (targetTab == 'growth.html') {
 					document.getElementById("menu").style.display = "none";
+					mui.fire(plus.webview.getWebviewById("growth.html"), "reloadData");
 				} else if (targetTab == 'message.html') {
 					document.getElementById("chat").style.display = "none";
 				} else if (targetTab == 'dashbord.html') {
