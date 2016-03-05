@@ -42,7 +42,7 @@
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social" @tap="goAttainment(item)">
 								<a href="#">
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
@@ -52,7 +52,7 @@
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in hobby">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in hobby" @tap="goAttainment(item)">
 								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
@@ -62,7 +62,7 @@
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill" @tap="goAttainment(item)">
 								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
@@ -86,7 +86,7 @@
 				<div class="graph-wraper">
 					<div class="class-bg"><div>{{current_score}}</div></div>
 					<div class="score-bg"><div>{{current_rank}}</div></div>
-					<p class="score-text"><span class="c-g">旅行成绩</span><span class="h-g">好友排名</span></p>
+					<p class="score-text"><span class="c-g">{{classify_name}}成绩</span><span class="h-g">好友排名</span></p>
 				</div>
 				<div class="mui-slider-indicator">
 					<div class="mui-indicator mui-active"></div>
@@ -164,7 +164,8 @@
 				user_score: '',
 				current_score: '',
 				current_rank: '',
-				loadedPage: false
+				loadedPage: false,
+				classify_name: '旅游'
 			}
 		},
 		ready: function() {
@@ -184,6 +185,7 @@
 				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
            self.current_score = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_score"];
            self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
+           self.classify_name = ["旅行", "美食", "爱好", "社交", "技能"][event.detail.slideNumber];
   				})
 				self.uid = you.getStore("uid");
 				self.loadClassify();
@@ -226,7 +228,7 @@
 					self.current_rank = self.user_score.travel_num;
 					 if (!self.loadedPage) {
 					 	mui.each(result.classifies, function(i, d) {
-							this[d.alias].push(d);
+							this[d.category_alias].push(d);
 						}.bind(this));
 						mui.each(["travel", "food", "hobby", "social", "skill"], function(i, d) {
 							this[d].splice(10, this[d].length - 10);
@@ -245,7 +247,7 @@
 				})
 			},
 			detailTrend: function(item, e) {
-				if (e.target.className.includes("mui-icon") == false) {
+				if (e.target.className.includes("mui-icon") == false && e.target.className.includes("thumb-img") == false) {
 				  mui.openWindow({
 						url: 'comment.html',
 						id: 'comment',
@@ -261,14 +263,26 @@
 				})
 			},
 			goAttainment: function(item) {
-				mui.openWindow({
-					url: "attainment/list.html",
-					id: "attainment_list",
-					extras: {
-						classify: item.id,
-						title: item.name
-					}
-				});
+				console.log(JSON.stringify(item));
+				if (category_alias == 'social') {
+					mui.openWindow({
+						url: "social/" + item.alias +".html",
+						id: item.alias,
+						extras: {
+							classify_id: item.id,
+							title: item.name
+						}
+					});
+				} else {
+					mui.openWindow({
+						url: "attainment/list.html",
+						id: "attainment_list",
+						extras: {
+							classify: item.id,
+							title: item.name
+						}
+					});
+				}
 			},
 			go: function(html) {
 				mui.openWindow({

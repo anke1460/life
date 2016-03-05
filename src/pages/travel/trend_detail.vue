@@ -7,7 +7,7 @@
 		<div class="mui-scroll">
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media">
-					<img class="mui-media-object mui-pull-left" :src="item.avatar">
+					<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
 					<span class="time">{{item.created_at | time}}</span>
 					<div class="mui-media-body reply-content">
 						{{item.name}}
@@ -31,7 +31,7 @@
 			</ul>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media" @tap="reply(comment)" v-for="comment in comments">
-					<img class="mui-media-object mui-pull-left" :src="comment.user_logo">
+					<img class="mui-media-object mui-pull-left" :src="comment.user_logo" @tap="commentUser(comment)">
 					<span class="time">{{comment.created_at | time}}</span>
 					<div class="mui-media-body reply-content">
 						{{comment.user_name}}
@@ -88,7 +88,6 @@
 			});
 			mui.plusReady(function() {
 				this.item = you.current_page.item;
-				console.log('item', JSON.stringify(this.item));
 			}.bind(this))
 		},
 		methods: {
@@ -96,7 +95,6 @@
 				var self = this;
 				mui.plusReady(function() {
 					you.authenGet("/stories/" + you.current_page.item.id + "/comment", {page: self.page, per_page: self.per_page} ,function(result) {
-						console.log(JSON.stringify(result));
 						self.comment_total = result.total_count;
 						self.comments = self.comments.concat(result.comments);
 						self.praise = result.praise;
@@ -129,12 +127,9 @@
 			send: function() {
 				var self = this;
 				var content = "";
-				console.log('ccccc', JSON.stringify(this.reply_content), this.content);
-				console.log(JSON.stringify(this.reply_users));
 				mui.each(this.reply_content, function(i, d) {
 					content = self.content.replace(d, "")
 				})
-				console.log(content);
 				you.authenPost("/stories/" + you.current_page.item.id + "/comment", {content: content, reply_users: self.reply_users}, function(result) {
 					self.comments.splice(0,0,result);
 					self.content = "";
@@ -148,6 +143,17 @@
 					extras: {
 						user: {
 							id: user.user_id
+						}
+					}
+				})
+			},
+			commentUser: function(comment) {
+				mui.openWindow({
+					url: 'user/index.html',
+					id: 'user_index',
+					extras: {
+						user: {
+							id: comment.user_id
 						}
 					}
 				})

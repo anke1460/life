@@ -58,10 +58,8 @@
 				  	</li>
 			  </ul>
 			</div>
-			<div id="send" v-show="!is_self">
+			<div id="send" style="display: none;">
 				<div id="send_btn" @tap="sendMsg(user)">发消息</div>
-				<!--<div id="follow" class="btn" @tap="concern">{{user.is_concerned ? '已关注' : '关注'}}</div>
-				<div id="add_user" class="btn" @tap="requestFriend">{{user.is_friend ? '已是好友' : '添加好友'}}</div>-->
 			</div>
 		</div>
 		
@@ -95,6 +93,9 @@
 				mui("mui-scroll-wrapper").scroll();
 				self.user = you.current_page.user;
 				self.is_self = (plus.storage.getItem("uid") == self.user.id);
+				if (!self.is_self) {
+					mui("#send")[0].style.display = "";
+				}
 				you.authenGet("/users/"+ self.user.id + "/relation", {}, function(result) {
 					self.user = result;
 					if (self.user.residence_id) {

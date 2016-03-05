@@ -43,7 +43,7 @@
 			</ul>
 			<ul class="mui-table-view">
 				<li v-for="item in items" class="mui-table-view-cell">
-					<img class="mui-media-object mui-pull-left logo" :src="item.logo">
+					<img class="mui-media-object mui-pull-left logo" :src="item.logo" @tap="viewUser(item)">
 					<div class="rank-wraper">
 						{{item.name}}
 						<span class="score">{{item.score}}分</span>
@@ -152,6 +152,18 @@
 				} else {
 					mui(el)[0].classList.add("mui-hidden");
 				}
+			},
+			viewUser: function(user) {
+				console.log('usr', JSON.stringify(user));
+				mui.openWindow({
+					url: 'user/index.html',
+					id: "user_index",
+					extras: {
+						user: {
+							id: user.id
+						}
+					}
+				})
 			}
 		}
 	}
