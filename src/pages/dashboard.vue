@@ -264,7 +264,7 @@
 			},
 			goAttainment: function(item) {
 				console.log(JSON.stringify(item));
-				if (category_alias == 'social') {
+				if (item.category_alias == 'social') {
 					mui.openWindow({
 						url: "social/" + item.alias +".html",
 						id: item.alias,

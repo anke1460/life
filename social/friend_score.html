@@ -30,12 +30,14 @@
 			
 			#total_score {
 				float: left;
-				width: 150px
+				width: 150px;
+				font-size: 14px;
 			}
 			
 			#rank {
 				float: left;
 				width: 150px;
+				font-size: 14px;
 			}
 			
 			.score_relation h4 {
@@ -61,7 +63,7 @@
 				width: 90px;
 				text-align: center;
 				margin-left: -45px;
-				top: 0px;
+				top: 10px;
 				z-index: 2;
 				background: #fff;
 			}
@@ -70,14 +72,12 @@
 				width: 0px;
 				height: 500px;
 				margin: 0 auto;
-				border: 2px dotted #1FCC7C;
-				top: 30px;
-				position: relative;
+				border: 1px dotted #1FCC7C;
 			}
 			
 			#level_1 {
 				position: absolute;
-				top: 50px;
+				top: 100px;
 				left: 50%;
 				width: 50px;
 				height: 50px;
@@ -88,114 +88,117 @@
 		    font-size: 12px;
 		    color: #fff;
 			}
+			
+			.score-tip-1 {
+				position: absolute;
+				right: 50%;
+				margin-right: 30px;
+				font-size: 12px;
+				top: 115px;
+				color: #1FCC7C;
+			}
+			#level_2 {
+				position: absolute;
+				top: 245px;
+				left: 50%;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #1FCC7C;
+				margin-left: -25px;
+				text-align: center;
+		    font-size: 12px;
+		    color: #fff;
+			}
+			
+			.score-tip-2 {
+				position: absolute;
+				right: 50%;
+				margin-right: 30px;
+				font-size: 12px;
+				top: 260px;
+				color: #1FCC7C;
+			}
+			
+			#level_3 {
+				position: absolute;
+				top: 395px;
+				left: 50%;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #1FCC7C;
+				margin-left: -25px;
+				text-align: center;
+		    font-size: 12px;
+		    color: #fff;
+			}
+			
+			.score-tip-3 {
+				position: absolute;
+				right: 50%;
+				margin-right: 30px;
+				font-size: 12px;
+				top: 410px;
+				color: #1FCC7C;
+			}
+			
+			#detail {
+				width: 150px;
+				background: #1FCC7C;
+				text-align: center;
+				padding: 5px;
+				border-radius: 20px;
+				margin: 10px auto;
+				color: #fff;
+			}
+			
+			#line {
+				height: 1px;
+				background: #ccc;
+				position: absolute;
+				top: 20px;
+				left: 10px;
+				right: 10px;
+			}
+			
+			#add_score {
+				color: #1FCC7C;
+			}
+			
+			#score_bottom {
+				padding-top: 10px;
+				clear: both;
+			}
+			
+			
+			.score-text {
+				float: left;
+				margin-left: 10px;
+				color: #1FCC7C;
+			}
+			
+			#self_score img {
+				width: 30px;
+			  float: left;
+			  border-radius: 50%;
+			}
+			
+			.score-value {
+				font-size: 12px;
+			}
+			.score-time {
+				font-size: 10px;
+			}
 		</style>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav header">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">好友总分</h1>
-		</header>
-		<div class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<div class="up-score">
-					<div id="graph_wraper">
-						<p>好友总分代表您身边的潜在资源，根据好友总分高低，我们会按一下标准给予您一定的成就评分</p>
-						<div id="graph"></div>
-						<div class="score_relation">
-							<div id="total_score">
-								<div>3000</div>
-								<div>好友总分</div>
-							</div>
-							<div id="rank">
-								<div>3000</div>
-								<div>成就分数</div>
-							</div>
-							<h4>好友总分在好友中的排名: 20</h4>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="split"></div>
-				<div class="down-score">
-					<div id="line"></div>
-					<div id="tip">与友荣焉</div>
-					<div id="v_line">
-						<div id="level_1">
-							<div>20</div>
-							<div>成就分</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
+	  <div id="app"></div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			var chart = echarts.init(document.getElementById('graph'));
-			option = {
-				title: {
-					text: '',
-					show: false
-				},
-				tooltip: {
-					trigger: 'item',
-					formatter: "{a} <br/>{b} : {c}({d}%)"
-				},
-				legend: {
-					show: false,
-					x: 'center',
-					y: 'bottom',
-					data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
-				},
-				toolbox: {
-					show: false
-				},
-				calculable: true,
-				series: [{
-					name: '好友总分',
-					type: 'pie',
-					radius: [30, 60],
-					center: ['50%', 150],
-					roseType: 'area',
-					x: '50%', // for funnel
-					max: 40, // for funnel
-					sort: 'ascending', // for funnel
-					data: [{
-						value: 10,
-						name: 'rose1'
-					}, {
-						value: 5,
-						name: 'rose2'
-					}, {
-						value: 15,
-						name: 'rose3'
-					}, {
-						value: 25,
-						name: 'rose4'
-					}, {
-						value: 20,
-						name: 'rose5'
-					}, {
-						value: 35,
-						name: 'rose6'
-					}, {
-						value: 30,
-						name: 'rose7'
-					}, {
-						value: 40,
-						name: 'rose8'
-					}, {
-						value: 40,
-						name: 'rose8'
-					}]
-				}]
-			};
-			chart.setOption(option);
-		</script>
+		<script src="http://localhost:8080/social_friend_score.min.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>
