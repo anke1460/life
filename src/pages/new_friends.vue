@@ -24,7 +24,7 @@
 						<a class="mui-btn mui-btn-red">删除</a>
 					</div>
 					<div class="mui-slider-handle">
-						<img class="mui-media-object mui-pull-left" :src="user.logo" />
+						<img class="mui-media-object mui-pull-left" :src="user.logo" @tap="viewUser(user)"/>
 						<div class="mui-media-body">
 							{{user.name}}
 							<p class="mui-ellipsis">{{user.sign}}</p>
@@ -66,14 +66,9 @@
 					var li = elem.parentNode.parentNode;
 					mui.confirm('确认删除该条记录？', '提示', ['确认', '取消'], function(e) {
 						if (e.index == 0) {
-							console.log(li.dataset.id);
 							you.authenDelete("/users/" + li.dataset.id + "/request", {}, function(result) {
 								li.parentNode.removeChild(li);
-								console.log(JSON.stringify(result));
 							})
-							
-							console.log(33344);
-							
 						} else {
 							setTimeout(function() {
 								mui.swipeoutClose(li);
@@ -90,7 +85,6 @@
 				})
 			},
 			submit: function() {
-				console.log('submit');
 				you.loading();
 				you.authenGet("/users/new_friends", {}, function(result) {
 					you.endLoding();
@@ -102,12 +96,20 @@
 				}.bind(this))
 			},
 			add: function(user) {
-				console.log(JSON.stringify(user));
 				if (user.status == 2) {
 					you.authenPost("/users/" + user.request_id + "/accept", {}, function(resullt) {
 						user.status = 3;
 					})
 				}
+			},
+			viewUser: function(user) {
+				mui.openWindow({
+					url: 'user/index.html',
+					id: 'user_index',
+					extras: {
+						user: user
+					}
+				})
 			}
 		}
 	}

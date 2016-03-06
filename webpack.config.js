@@ -28,7 +28,9 @@ module.exports = {
 		"fans":                  ["./src/pages/fans.js"],
 		"preview_score":         ["./src/pages/user/preview_score.js"],
 		"medal":                 ["./src/pages/medal.js"],
-		"system_msg":            ["./src/pages/system_msg.js"]
+		"system_msg":            ["./src/pages/system_msg.js"],
+		"social_friend_score":   ["./src/pages/social/friend_score.js"],
+		"social_friend_sex":     ["./src/pages/social/friend_sex.js"]
 	},
 	output: {
 		path: './build',

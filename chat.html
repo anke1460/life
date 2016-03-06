@@ -408,8 +408,6 @@
 				$.plusReady(function() {
 					var user_logo = plus.webview.currentWebview().user.logo;
 					var self_logo = plus.storage.getItem("logo");
-					console.log(self_logo);
-					console.log(JSON.stringify(plus.webview.currentWebview()));
 					plus.webview.currentWebview().setStyle({
 						softinputMode: "adjustResize"
 					});
@@ -452,14 +450,16 @@
 						var msgType = msgItem.getAttribute('msg-type');
 						var msgContent = msgItem.getAttribute('msg-content')
 						if (msgType == 'sound') {
-							player = plus.audio.createPlayer(msgContent);
 							var playState = msgItem.querySelector('.play-state');
+							var player = plus.audio.createPlayer(msgContent);
 							playState.innerText = '正在播放...';
 							player.play(function() {
 								playState.innerText = '点击播放';
 							}, function(e) {
 								playState.innerText = '点击播放';
 							});
+							
+							
 						}
 					};
 					var imageViewer = new $.ImageViewer('.msg-content-image', {
@@ -514,13 +514,25 @@
 							bindMsgList();
 						},
 						onAudioMessage: function(message) {
-							record.push({
-								sender: 'zs',
-								type: 'sound',
-								logo: user_logo,
-								content: message.url
-							});
-							bindMsgList();
+							var dtask = plus.downloader.createDownload(  message.url, {}, function ( d, status ) {
+								// 下载完成
+									if ( status == 200 ) { 
+									var path = d.filename;
+										record.push({
+										sender: 'zs',
+										type: 'sound',
+										logo: user_logo,
+										content: path
+									});
+									bindMsgList();
+									
+									} else {
+										console.info( "Download failed: " + status ); 
+										plus.nativeUI.toast('下载失败'+status);
+									} 
+								});
+								dtask.start();
+							
 						},
 						onTextMessage: function(message) {
 							record.push({
@@ -548,11 +560,8 @@
 							};
 							conn.sendTextMessage(options);
 						} else if (msg.type == 'image') {
-							console.log('mmm222');
 							var task = plus.uploader.createUpload('http://a1.easemob.com/zhiqulife/zhiqulife/chatfiles', {},
 								function(t, status) {
-									console.log(JSON.stringify(t))
-									console.log(JSON.parse(t.responseText).entities[0]["share-secret"], JSON.parse(t.responseText).entities[0].uuid)
 									var options = {};
 									var data = JSON.parse(t.responseText);
 									options.to = plus.webview.currentWebview().user.client_name;
@@ -579,8 +588,6 @@
 						} else {
 							var task = plus.uploader.createUpload('https://a1.easemob.com/zhiqulife/zhiqulife/chatfiles', {},
 								function(t, status) {
-									console.log(JSON.stringify(t))
-									console.log(status)
 									var options = {};
 									var data = JSON.parse(t.responseText);
 									options.to = plus.webview.currentWebview().user.client_name;
