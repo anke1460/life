@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style>
+			.mui-content {
+				background: #fafafa;
+			}
+			
+			#graph_wraper {
+				text-align: center;
+			}
+			
+			#graph {
+				width: 300px;
+				height: 300px;
+				margin: 0 auto;
+			}
+			
+			.score_relation {
+				width: 300px;
+				margin: 0 auto;
+				text-align: center;
+			}
+			
+			#total_score {
+				float: left;
+				width: 150px;
+				font-size: 14px;
+			}
+			
+			#rank {
+				float: left;
+				width: 150px;
+				font-size: 14px;
+			}
+			
+			.score_relation h4 {
+				clear: both;
+				padding-top: 10px;
+			}
+			
+			.split {
+				width: 100%;
+				height: 10px;
+			}
+			
+			.up-score,
+			.down-score {
+				background: #fff;
+				padding: 10px;
+				position: relative;
+			}
+			
+			#tip {
+				position: absolute;
+				left: 50%;
+				width: 150px;
+				text-align: center;
+				margin-left: -75px;
+				top: 10px;
+				z-index: 2;
+				background: #fff;
+			}
+			
+			#v_line {
+				width: 0px;
+				height: 500px;
+				margin: 0 auto;
+				border: 1px dotted #1FCC7C;
+			}
+			
+			#level_1 {
+				position: absolute;
+				top: 100px;
+				left: 50%;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #1FCC7C;
+				margin-left: -25px;
+				text-align: center;
+		    font-size: 12px;
+		    color: #fff;
+			}
+			
+			.score-tip-1 {
+				position: absolute;
+				right: 50%;
+				margin-right: 30px;
+				font-size: 12px;
+				top: 115px;
+				color: #1FCC7C;
+			}
+			#level_2 {
+				position: absolute;
+				top: 245px;
+				left: 50%;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #1FCC7C;
+				margin-left: -25px;
+				text-align: center;
+		    font-size: 12px;
+		    color: #fff;
+			}
+			
+			.score-tip-2 {
+				position: absolute;
+				right: 50%;
+				margin-right: 30px;
+				font-size: 12px;
+				top: 260px;
+				color: #1FCC7C;
+			}
+			
+			#level_3 {
+				position: absolute;
+				top: 395px;
+				left: 50%;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #1FCC7C;
+				margin-left: -25px;
+				text-align: center;
+		    font-size: 12px;
+		    color: #fff;
+			}
+			
+			.score-tip-3 {
+				position: absolute;
+				right: 50%;
+				margin-right: 30px;
+				font-size: 12px;
+				top: 410px;
+				color: #1FCC7C;
+			}
+			
+			#detail {
+				width: 150px;
+				background: #1FCC7C;
+				text-align: center;
+				padding: 5px;
+				border-radius: 20px;
+				margin: 10px auto;
+				color: #fff;
+			}
+			
+			#line {
+				height: 1px;
+				background: #ccc;
+				position: absolute;
+				top: 20px;
+				left: 10px;
+				right: 10px;
+			}
+			
+			#add_score {
+				color: #1FCC7C;
+			}
+			
+			#score_bottom {
+				padding-top: 10px;
+				clear: both;
+			}
+			
+			
+			.score-text {
+				float: left;
+				margin-left: 10px;
+				color: #1FCC7C;
+			}
+			
+			#self_score img {
+				width: 30px;
+			  float: left;
+			  border-radius: 50%;
+			}
+			
+			.score-value {
+				font-size: 12px;
+			}
+			.score-time {
+				font-size: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+	  <div id="app"></div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../libs/echarts-all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/city_data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://localhost:8080/social_distribute.min.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

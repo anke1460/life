@@ -1,27 +1,27 @@
 <!--
 	作者：zuosjob@gmail.com
 	时间：2016-03-06
-	描述：年龄星座
+	描述：好友总分
 -->
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title">数量性别</h1>
+		<h1 class="mui-title">年龄星座</h1>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="up-score">
 				<div id="graph_wraper">
-					<p style="text-align: left;">俗话说“朋友多了路好走”，根据您好友的数量，我们会按一下标准给予您一定的成就评分</p>
+					<p style="text-align: left;">不同年龄段的朋友，有着不同的智慧。根据您好友的年龄分布，我们会按一下标准给予您一定的成就评分</p>
 					<div id="graph"></div>
 					<div class="score_relation">
 						<div id="total_score">
-							<div>{{item.friends_count}}</div>
-							<div>好友</div>
+							<div>{{item.ages}}</div>
+							<div>年龄段</div>
 						</div>
 						<div id="sex_num">
-							<div>{{item.opposite_sex}}</div>
-							<div>异性朋友</div>
+							<div>{{item.constellations}}</div>
+							<div>星座</div>
 						</div>
 						<div id="rank">
 							<div id="add_score">+{{item.attainment_score}}</div>
@@ -36,55 +36,55 @@
 			<div class="split"></div>
 			<div class="down-score">
 				<div id="line"></div>
-				
+
 				<div id="v_line_1">
-					<div id="tip_1">高朋满座</div>
-				  <div class="v-line-1"></div>
+					<div id="tip_1">老少皆宜</div>
+					<div class="v-line-1"></div>
 					<div class="level-1">
 						<div>10</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-1">好友数量10个 +</span>
+					<span class="score-tip-1">好友年龄段分布3个 +</span>
 					<div class="level-2">
 						<div>20</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-2">好友数量20个 +</span>
+					<span class="score-tip-2">好友年龄段分布4个 +</span>
 					<div class="level-3">
 						<div>30</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-3">好友数量50个 +</span>
+					<span class="score-tip-3">好友年龄段分布5个 +</span>
 					<div id="self_score" class="{{level}}">
 						<img :src="logo" />
 						<div class="score-text">
-							<div class="score-value">好友数量{{item.friends_count}}个</div>
+							<div class="score-value">好友年龄段{{item.ages}}个</div>
 							<div class="score-time">评分时间：{{item.created_at}}</div>
 						</div>
 					</div>
 				</div>
 				<div id="v_line_2">
-				  <div id="tip_2">异性相吸</div>
-				  <div class="v-line-2"></div>
+					<div id="tip_2">星座聚会</div>
+					<div class="v-line-2"></div>
 					<div class="level-1">
 						<div>10</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-1">+异性好友2个</span>
+					<span class="score-tip-1">+好友分布在8个星座</span>
 					<div class="level-2">
 						<div>20</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-2">+异性好友5个</span>
+					<span class="score-tip-2">+好友分布在10个星座</span>
 					<div class="level-3">
 						<div>30</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-3">+异性好友10个</span>
+					<span class="score-tip-3">+好友分布在12个星座</span>
 					<div id="self_sex_score" class="{{level}}">
 						<img :src="logo" />
 						<div class="score-text">
-							<div class="score-value">异性好友{{item.opposite_sex}}个</div>
+							<div class="score-value">好友分布{{item.constellations}}个星座</div>
 							<div class="score-time">评分时间：{{item.created_at}}</div>
 						</div>
 					</div>
@@ -110,28 +110,27 @@
 			mui.init();
 			mui.plusReady(function() {
 				self.logo = you.getStore("logo");
-				you.authenGet("/socials/friend_sex", {}, function(result) {
+				you.authenGet("/socials/friend_constellation", {}, function(result) {
 					self.item = result;
-					if (self.item.friends_count < 5) {
+					if (self.item.ages < 3) {
 						self.level = 'level1';
-					} else if (self.item.friends_count < 20) {
+					} else if (self.item.ages < 4) {
 						self.level = 'level2';
-					} else if (self.item.friends_count < 50) {
+					} else if (self.item.ages < 5) {
 						self.level = 'level3';
 					} else {
 						self.level = 'level4';
 					}
-					if (self.item.opposite_sex < 2) {
+					if (self.item.constellations < 8) {
 						self.sex_level = 'level1';
 					} else if (5) {
 						self.sex_level = 'level2';
-					} else if (self.item.opposite_sex < 10) {
+					} else if (self.item.constellations < 10) {
 						self.sex_level = 'level3';
 					} else {
 						self.sex_level = 'level4';
 					}
-					
-					self.graph(self.item);
+					self.graph(self.item.distribute);
 					setTimeout(function() {
 						mui(".mui-scroll-wrapper").scroll();
 					}, 150)
@@ -139,38 +138,72 @@
 			})
 		},
 		methods: {
-			graph: function(item) {
+			graph: function(data) {
 				var chart = echarts.init(document.getElementById('graph'));
+				var constellation_names = ['白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'];
 				var option = {
+					title: {
+						show: false
+					},
 					tooltip: {
-						trigger: 'item',
-						formatter: "{a} <br/>{b} : {c} ({d}%)"
+						trigger: 'axis',
+						axisPointer: {
+							show: true,
+							type: 'cross',
+							lineStyle: {
+								type: 'dashed',
+								width: 1
+							}
+						}
 					},
 					toolbox: {
 						show: false
 					},
-					calculable: false,
+					dataZoom: {
+						show: false
+					},
+					grid: {
+						x: 40,
+						x2: 30,
+						y: 40
+					},
+					legend: {
+						data: []
+					},
+					xAxis: [{
+						type: 'value',
+						name: '年龄',
+						min: 0,
+						max: 60
+					}],
+					yAxis: [{
+						type: 'value',
+						name: '星座',
+						min: 0,
+						max: 365,
+						splitNumber: 12,
+						axisLabel: {
+							formatter: function(v) {
+								return ['白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'][parseInt(v / 30)];
+							}
+						}
+					}],
 					series: [{
-						name: '好友',
-						type: 'pie',
-						radius: ['50%', '70%'],
-						itemStyle: {
-							normal: {
-								label: {
-									show: false
-								},
-								labelLine: {
-									show: false
-								}
+						name: '',
+						type: 'scatter',
+						tooltip: {
+							trigger: 'item',
+							formatter: function(params) {
+								return '<div class="mui-pull-left">' + params.value[3] + '' + constellation_names[parseInt(params.value[1] / 30)] + '）<br/>' + params.value[0] + "岁" + "</div>";
+							},
+							axisPointer: {
+								show: false
 							}
 						},
-						data: [{
-							value: item.friends_count - item.opposite_sex,
-							name: '同性'
-						}, {
-							value: item.opposite_sex,
-							name: '异性'
-						}]
+						symbolSize: function(value) {
+							return 8;
+						},
+						data: data
 					}]
 				};
 				chart.setOption(option);
@@ -186,9 +219,11 @@
 		width: 100px;
 		font-size: 14px;
 	}
+	
 	.level1 {
 		top: 50px;
 	}
+	
 	.level2 {
 		top: 180px;
 	}
@@ -275,6 +310,7 @@
 			font-size: 11px;
 			top: 115px;
 			color: #1FCC7C;
+			text-align: right;
 		}
 		.level-2 {
 			position: absolute;
@@ -296,6 +332,7 @@
 			font-size: 11px;
 			top: 260px;
 			color: #1FCC7C;
+			text-align: right;
 		}
 		.level-3 {
 			position: absolute;
@@ -317,6 +354,7 @@
 			font-size: 11px;
 			top: 410px;
 			color: #1FCC7C;
+			text-align: right;
 		}
 		.score-time {
 			font-size: 9px;
@@ -404,7 +442,6 @@
 			border-radius: 50%;
 			float: left;
 		}
-		
 		.score-text {
 			float: left;
 		}

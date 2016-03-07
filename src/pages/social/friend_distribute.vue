@@ -1,29 +1,29 @@
 <!--
 	作者：zuosjob@gmail.com
-	时间：2016-03-06
-	描述：好友总分
+	时间：2016-03-07
+	描述：好友分布
 -->
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title">好友总分</h1>
+		<h1 class="mui-title">好友分布</h1>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="up-score">
 				<div id="graph_wraper">
-					<p style="text-align: left;">好友总分代表您身边的潜在资源，根据好友总分高低，我们会按一下标准给予您一定的成就评分</p>
+					<p style="text-align: left;">海内存知己，天涯若比邻，根据好友分布，我们会按一下标准给予您一定的成就评分</p>
 					<div id="graph"></div>
 					<div class="score_relation">
 						<div id="total_score">
-							<div>{{item.friend_score}}</div>
-							<div>好友总分</div>
+							<div>{{item.distribute.length}}</div>
+							<div>地理分布</div>
 						</div>
 						<div id="rank">
 							<div id="add_score">+{{item.attainment_score}}</div>
 							<div>成就分数</div>
 						</div>
-						<div id="score_bottom">好友总分在好友中的排名: <span>{{item.num}}</span></div>
+						<div id="score_bottom">此项成就在好友中的排名: <span>{{item.num}}</span></div>
 					</div>
 
 				</div>
@@ -32,32 +32,32 @@
 			<div class="split"></div>
 			<div class="down-score">
 				<div id="line"></div>
-				<div id="tip">与友荣焉</div>
+				<div id="tip">天下谁人不识君</div>
 				<div id="v_line">
 					<div id="level_1">
 						<div>10</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-1">好友总分达到5000分 +</span>
+					<span class="score-tip-1">好友分布在10个省市 +</span>
 					<div id="level_2">
 						<div>20</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-2">好友总分达到20000分 +</span>
+					<span class="score-tip-2">好友分布在20个省市 +</span>
 					<div id="level_3">
 						<div>30</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-3">好友总分达50000分 +</span>
+					<span class="score-tip-3">好友分布在30个省市 +</span>
 				</div>
 				<div id="self_score" class="{{level}}">
 					<img :src="logo" />
 					<div class="score-text">
-						<div class="score-value">我的好友总分{{item.friend_score}}</div>
+						<div class="score-value">我的好友分布{{item.distribute.length}}个省市</div>
 						<div class="score-time">评分时间：{{item.created_at}}</div>
 					</div>
 				</div>
-				<div id="detail">查看详情</div>
+				<div id="detail" @tap="detail">查看详情</div>
 			</div>
 		</div>
 
@@ -78,71 +78,66 @@
 			mui.init();
 			mui.plusReady(function() {
 				self.logo = you.getStore("logo");
-				you.authenGet("/socials/friend_score", {}, function(result) {
+				you.authenGet("/socials/friend_distribute", {}, function(result) {
 					self.item = result;
-					if (self.item.friend_score < 5000) {
+					if (self.item.distribute.length < 10) {
 						self.level = 'level-1';
-					} else if (self.item.friend_score < 20000) {
+					} else if (self.item.distribute.length < 20) {
 						self.level = 'level-2';
-					} else if(self.item.friend_score < 50000) {
+					} else if(self.item.distribute.length < 30) {
 						self.level = 'level-3';
 					} else {
 						self.level = 'level-4';
 					}
-					var users = [];
-					var data = [];
-					mui.each(result.users, function(i, d) {
-						users.push(d.name);
-						data.push({
-							value: d.score,
-							name: d.name
-						});
-					});
-					self.graph(users, data);
+					var city = [];
+					mui.each(self.item.distribute, function(i, d) {
+						city.push({name: you.getCity(d) , selected: true});
+					})
+					self.graph(city);
 					setTimeout(function() {
 						mui(".mui-scroll-wrapper").scroll();
 					}, 150)
 				})
 			})
-			document.getElementById("detail").addEventListener("tap", function() {
-				mui.openWindow({
-					url: '../rank.html',
-					id: 'rank'
-				})
-			})
 		},
 		methods: {
-			graph: function(titles, data) {
+			detail: function() {
+				mui.openWindow({
+					url: 'detail_distribute.html',
+					id: 'detail_distribute'
+				})
+			},
+			graph: function(city) {
 				var chart = echarts.init(document.getElementById('graph'));
 				var option = {
-					title: {
-						text: '',
-						show: false
-					},
 					tooltip: {
 						trigger: 'item',
-						formatter: "{a} <br/>{b} : {c}({d}%)"
-					},
-					legend: {
 						show: false,
-						x: 'center',
-						y: 'bottom',
-						data: titles
+						formatter: '{b}'
 					},
-					toolbox: {
-						show: false
-					},
-					calculable: true,
 					series: [{
-						name: '好友总分',
-						type: 'pie',
-						radius: [30, 60],
-						center: ['50%', 150],
-						roseType: 'area',
-						x: '50%',
-						max: 40,
-						sort: 'ascending',
-						data: data
+						name: '中国',
+						type: 'map',
+						mapType: 'china',
+						mapLocation: {
+							x: 'center',
+							y: '20',
+							width: '100%'
+						},
+						hoverable: false,
+						itemStyle: {
+							normal: {
+								label: {
+									show: false
+								}
+							},
+							emphasis: {
+								label: {
+									show: true
+								}
+							}
+						},
+						data: city
 					}]
 				};
 				chart.setOption(option);
