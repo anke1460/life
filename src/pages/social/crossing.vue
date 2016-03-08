@@ -1,18 +1,18 @@
 <!--
 	作者：zuosjob@gmail.com
-	时间：2016-03-06
-	描述：年龄星座
+	时间：2016-03-07
+	描述：互补同趣
 -->
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title">数量性别</h1>
+		<h1 class="mui-title">互补同趣</h1>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="up-score">
 				<div id="graph_wraper">
-					<p style="text-align: left;">俗话说“朋友多了路好走”，根据您好友的数量，我们会按一下标准给予您一定的成就评分</p>
+					<p style="text-align: left;">它山之石可以攻玉，朋友有即是我有。根据您和您好友涉猎的兴趣范围，我们会按一下标准给予您一定的成就评分</p>
 					<div id="graph"></div>
 					<div class="score_relation">
 						<div id="total_score">
@@ -36,55 +36,55 @@
 			<div class="split"></div>
 			<div class="down-score">
 				<div id="line"></div>
-				
+
 				<div id="v_line_1">
-					<div id="tip_1">高朋满座</div>
-				  <div class="v-line-1"></div>
+					<div id="tip_1">良师益友</div>
+					<div class="v-line-1"></div>
 					<div class="level-1">
 						<div>10</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-1">好友数量10个 +</span>
+					<span class="score-tip-1">我和好友共同完成60%成就组合 +</span>
 					<div class="level-2">
 						<div>20</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-2">好友数量20个 +</span>
+					<span class="score-tip-2">我和好友共同完成70%成就组合 +</span>
 					<div class="level-3">
 						<div>30</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-3">好友数量50个 +</span>
+					<span class="score-tip-3">我和好友共同完成80%成就组合 +</span>
 					<div id="self_score" class="{{level}}">
 						<img :src="logo" />
 						<div class="score-text">
-							<div class="score-value">好友数量{{item.friends_count}}个</div>
+							<div class="score-value">共同完成{{item.total_finished}}%</div>
 							<div class="score-time">评分时间：{{item.created_at}}</div>
 						</div>
 					</div>
 				</div>
 				<div id="v_line_2">
-				  <div id="tip_2">异性相吸</div>
-				  <div class="v-line-2"></div>
+					<div id="tip_2">默契伙伴</div>
+					<div class="v-line-2"></div>
 					<div class="level-1">
 						<div>10</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-1">+异性好友2个</span>
+					<span class="score-tip-1">+有5位好友和我完成10个相同组合</span>
 					<div class="level-2">
 						<div>20</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-2">+异性好友5个</span>
+					<span class="score-tip-2">+有10位好友和我完成10个相同组合</span>
 					<div class="level-3">
 						<div>30</div>
 						<div>成就分</div>
 					</div>
-					<span class="score-tip-3">+异性好友10个</span>
+					<span class="score-tip-3">+有15位好友和我完成10个相同组合</span>
 					<div id="self_sex_score" class="{{level}}">
 						<img :src="logo" />
 						<div class="score-text">
-							<div class="score-value">异性好友{{item.opposite_sex}}个</div>
+							<div class="score-value">{{item.friends}}位默契伙伴</div>
 							<div class="score-time">评分时间：{{item.created_at}}</div>
 						</div>
 					</div>
@@ -110,27 +110,26 @@
 			mui.init();
 			mui.plusReady(function() {
 				self.logo = you.getStore("logo");
-				you.authenGet("/socials/friend_sex", {}, function(result) {
+				you.authenGet("/socials/crossing", {}, function(result) {
 					self.item = result;
-					if (self.item.friends_count < 5) {
+					if (self.item.total_finished < 60) {
 						self.level = 'level1';
-					} else if (self.item.friends_count < 20) {
+					} else if (self.item.total_finished < 70) {
 						self.level = 'level2';
-					} else if (self.item.friends_count < 50) {
+					} else if (self.item.total_finished < 80) {
 						self.level = 'level3';
 					} else {
 						self.level = 'level4';
 					}
-					if (self.item.opposite_sex < 2) {
+					if (self.item.friends < 5) {
 						self.sex_level = 'level1';
 					} else if (5) {
 						self.sex_level = 'level2';
-					} else if (self.item.opposite_sex < 10) {
+					} else if (self.item.friends < 10) {
 						self.sex_level = 'level3';
 					} else {
 						self.sex_level = 'level4';
 					}
-					
 					self.graph(self.item);
 					setTimeout(function() {
 						mui(".mui-scroll-wrapper").scroll();
@@ -142,34 +141,37 @@
 			graph: function(item) {
 				var chart = echarts.init(document.getElementById('graph'));
 				var option = {
+					title: {
+						show: false
+					},
 					tooltip: {
 						trigger: 'item',
 						formatter: "{a} <br/>{b} : {c} ({d}%)"
 					},
+					legend: {
+						show: false
+					},
 					toolbox: {
 						show: false
 					},
-					calculable: false,
+					calculable: true,
 					series: [{
-						name: '好友',
+						name: '',
 						type: 'pie',
-						radius: ['50%', '70%'],
-						itemStyle: {
-							normal: {
-								label: {
-									show: false
-								},
-								labelLine: {
-									show: false
-								}
-							}
-						},
+						radius: '55%',
+						center: ['50%', '60%'],
 						data: [{
-							value: item.friends_count - item.opposite_sex,
-							name: '同性'
+							value: 335,
+							name: '好友拥有的'
 						}, {
-							value: item.opposite_sex,
-							name: '异性'
+							value: 310,
+							name: '我拥有的'
+						}, {
+							value: 234,
+							name: '同趣'
+						}, {
+							value: 135,
+							name: '都不具有的'
 						}]
 					}]
 				};
@@ -186,9 +188,11 @@
 		width: 100px;
 		font-size: 14px;
 	}
+	
 	.level1 {
 		top: 50px;
 	}
+	
 	.level2 {
 		top: 180px;
 	}
@@ -404,7 +408,6 @@
 			border-radius: 50%;
 			float: left;
 		}
-		
 		.score-text {
 			float: left;
 		}

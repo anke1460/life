@@ -30,7 +30,10 @@ module.exports = {
 		"medal":                 ["./src/pages/medal.js"],
 		"system_msg":            ["./src/pages/system_msg.js"],
 		"social_friend_score":   ["./src/pages/social/friend_score.js"],
-		"social_friend_sex":     ["./src/pages/social/friend_sex.js"]
+		"social_friend_sex":     ["./src/pages/social/friend_sex.js"],
+		"social_distribute":     ["./src/pages/social/friend_distribute.js"],
+		"social_constellation":  ["./src/pages/social/age_constellation.js"],
+		"social_crossing":       ["./src/pages/social/crossing.js"]
 	},
 	output: {
 		path: './build',

@@ -196,6 +196,7 @@
 				self.trends = [];
 				self.loadMsg();
 				self.loadClassify();
+				self.current_active = "default";
 			})
 		},
 		methods: {
@@ -263,7 +264,6 @@
 				})
 			},
 			goAttainment: function(item) {
-				console.log(JSON.stringify(item));
 				if (item.category_alias == 'social') {
 					mui.openWindow({
 						url: "social/" + item.alias +".html",
