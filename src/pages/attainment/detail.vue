@@ -50,14 +50,14 @@
 									</div>
 								</div>
 								<div class="user-photo">
-									<img :src="u" v-for="u in finished.user"/>
-									{{finished.count > 0 ? '等' : aspiration.count }} 人已完成
-									<a>查看</a>
+									<img :src="f" v-for="f in finished.user" track-by="$index"/>
+									{{ finished.count > 0 ? '等' : finished.count }} 人已完成
+									<a @tap="detail('finish')">查看</a>
 								</div>
 								<div class="user-photo">
-									<img :src="u" v-for="u in aspiration.user"/>
-									{{aspiration.count > 0 ? '等' : aspiration.count}} 人加入心愿
-									<a>查看</a>
+									<img :src="s" v-for="s in aspiration.user" track-by="$index"/>
+									{{ aspiration.count > 0 ? '等' : aspiration.count }} 人加入心愿
+									<a @tap="detail('wish')">查看</a>
 								</div>
 							</li>
 						</ul>
@@ -76,11 +76,12 @@
 
 				<div id="infos">
 					<div id="baner">
-						<a class="active">推荐</a>
-						<a>朋友</a>
-						<a>我</a>
+						<a @tap="load('default')" :class="{'active':current_active == 'default'}">推荐</a>
+						<a @tap="load('concern')" :class="{'active':current_active == 'concern'}">关注</a>
+						<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
+						<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
 					</div>
-					<div id="all" class="">
+					<div id="all">
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell mui-media" v-for="item in trends">
 								<img class="mui-media-object mui-pull-left" :src="item.avatar">
@@ -144,7 +145,8 @@
 				page: 1,
 				per_page: 20,
 				aspiration: '',
-				finished: ''
+				finished: '',
+				current_active: 'default'
 			}
 		},
 		watch: {
@@ -165,7 +167,7 @@
 						auto: true,
 						contentrefresh: "上拉加载动态",
 						contentnomore: '没有数据',
-						callback: self.loadMsg
+						callback: self.loadMsg('default')
 					}
 				}
 			});
@@ -189,8 +191,8 @@
 				}
 				
 				you.authenGet("/detail_classifies/" + self.detail_classify.id +"/joined_user", {}, function(result) {
-					console.log(4555, JSON.stringify(result));
 					self.finished = result.finished;
+					console.log(3344,JSON.stringify(result.aspiration));
 					self.aspiration = result.aspiration;
 				})
 				
@@ -203,19 +205,24 @@
 				self.loadData();
 				self.trends = [];
 				self.page = 1;
-				self.loadMsg();
+				self.loadMsg('default');
 			})
 		},
 		methods: {
-			loadMsg: function() {
+			load: function(type) {
+				this.page = 1;
+				this.trends = [];
+				this.loadMsg(type);
+				this.current_active = type;
+			},
+			loadMsg: function(type) {
 				if (this.page == 1) {
 					// fix 初始化滚动问题
-					mui('#refreshContainer').pullRefresh().scrollTo(0, 0, 100);
+//					mui('#refreshContainer').pullRefresh().scrollTo(0, 0, 100);
 				}
 				var self = this;
 				mui.plusReady(function() {
-					you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/trend", {}, function(result) {
-						console.log(JSON.stringify(result));
+					you.authenGet("/detail_classifies/" + you.current_page.detail_classify.id + "/trend", {type: type}, function(result) {
 						self.trends = self.trends.concat(result.stories);
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
@@ -297,19 +304,11 @@
 				
 			},
 			addWish: function() {
-//				var options = {
-//					type: "date",
-//					beginYear: (new Date).getFullYear()
-//				};
-//				var picker = new mui.DtPicker(options);
-//				picker.show(function(rs) {
-					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {
-//						date: rs.text
-					}, function(result) {
-						you.alert("已添加到我的心愿清单");
-//						picker.dispose();
-					})
-//				})
+				var self = this;
+				you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {}, function(result) {
+					you.alert("已添加到我的心愿清单");
+					self.detail_classify.is_aspiration = true;
+				})
 			},
 			change: function() {
 				this.is_text = !this.is_text;
@@ -364,6 +363,17 @@
 			},
 			comment: function() {
 				console.log('comment')
+			},
+			detail: function(type) {
+				//查看详情
+				mui.openWindow({
+					url: '../detail.html',
+					id: 'detail',
+					extras: {
+						title:  this.title + (type == 'finish' ? "完成情况" : '心愿名单'),
+						request_url: type == 'finish' ? '/detail_classifies/'+ you.current_page.detail_classify.id +'/finished_user' : '/detail_classifies/' + you.current_page.detail_classify.id +'/wished_user'
+					}
+				})
 			}
 		}
 	}
@@ -528,6 +538,9 @@
 		background-color: #e9feea;
 	}
 	
+	a.mui-navigate-right.group-cos {
+		padding-bottom: 1px;
+	}
 	.group-content {
 		background-color: #e9feea;
 		overflow: hidden;
@@ -536,6 +549,7 @@
 		img {
 			width: 24px;
 			vertical-align: bottom;
+			margin-right: 2px;
 		}
 		.user-photo {
 			font-size: 14px;

@@ -40,14 +40,14 @@
             '        </div>'+
             '        <div class="ui-MPreview-view">'+
             '            <div class="ui-MPreview-imgbox">'+
-            '                <ul class="ui-MPreview-imglist"></ul>'+
+            '                <ul class="ui-MPreview-imglist"><img src="../touchPhotos.preloader.gif"/></ul>'+
             '            </div>'+
             '            <div class="ui-MPreview-loading"></div>'+
             '            <div class="ui-MPreview-description"></div>'+
             '        </div>'+
             '   </div>'+
             '</div>';
-
+    var is_double = false;
     /**
      * @name      将默认配置和选项合并
      * @param     options     {Object}     默认用户的参数
@@ -586,9 +586,14 @@
                //添加关闭事件     
                DOM.imgbox.on('tap', function(e) {
                   e.preventDefault();
-                  if (e.target.tagName == 'LI') {
-                  	 _this.destroy();
-                  }
+                  setTimeout(function() {
+	                  if (e.target.tagName == 'LI' || is_double == false) {
+	                  	 _this.destroy();
+	                  } else {
+	                  	is_double = false;
+	                  }
+                  }, 200)
+                  
                 })
 
                 DOM.imgbox.on('touchstart', function(e) {
@@ -686,6 +691,7 @@
 
                 // 双击图片放大，缩小
                 DOM.imglist.on('doubleTap', 'li', function(e) {
+                	  is_double = true;
                     _this.publish(_this.isScale ? 'zoomOut' : 'zoomIn', e);
                 });
 
