@@ -6,21 +6,8 @@
 <template>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
-			<div class="mui-slider">
-				<div class="mui-slider-group mui-slider-loop">
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<img :src="images[images.length-1].url" />
-					</div>
-					<div class="mui-slider-item" v-for="image in images">
-						<img :src="image.url" />
-					</div>
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<img :src="images[0].url" />
-					</div>
-				</div>
-				<div class="mui-slider-indicator">
-					<div class="mui-indicator" v-for="image in images" :class="{'mui-active': $index == 0}"></div>
-				</div>
+			<div class="news" @tap="news">
+				<img :src="images[0].url" />
 			</div>
 			<div class=" mui-content-padded">
 
@@ -94,6 +81,12 @@
 					}
 				})
 			},
+			news: function() {
+				mui.openWindow({
+					url: 'news.html',
+					id: 'news'
+				})
+			},
 			finishScale: function(v, t) {
 				return (v / t * 100).toFixed(1)
 			},
@@ -108,6 +101,9 @@
 	}
 </script>
 <style lang="sass">
+  .news {
+  	  height: 150px;
+  }
 	.progress-bar {
 		height: 10px;
 		padding: 1px;

@@ -159,6 +159,7 @@
 					document.getElementById("menu").style.display = "none";
 					mui.fire(plus.webview.getWebviewById("growth.html"), "reloadData");
 				} else if (targetTab == 'message.html') {
+					mui.fire(plus.webview.getWebviewById("message.html"), "reloadData");
 					document.getElementById("chat").style.display = "none";
 				} else if (targetTab == 'dashbord.html') {
 					mui.fire(plus.webview.getWebviewById("dashbord.html"), "reloadData");

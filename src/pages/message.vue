@@ -38,7 +38,7 @@
 			</ul>
 			<div class="mui-table-view-divider">
 			</div>
-			<ul class="mui-table-view mui-table-view-chevron">
+			<ul class="mui-table-view mui-table-view-chevron" id="message">
 				<li class="mui-table-view-cell mui-media" @tap="open('zhi.html')">
 					<a class="mui-navigate-right">
 						<img class="mui-media-object mui-pull-left" :src="img4">
@@ -47,16 +47,19 @@
 						</div>
 					</a>
 				</li>
-				<!--<li class="mui-table-view-cell mui-media">
-					<a class="mui-navigate-right">
-						<img class="mui-media-object mui-pull-left" :src="img1">
+				<li class="mui-table-view-cell msg mui-disabled" v-for="message in messages" @tap="detail(message, $event)">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red" @tap="del(message)">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<img class="mui-media-object mui-pull-left" :src="message.logo">
 						<div class="mui-media-body">
-							CBD
-							<p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+							{{message.name}}
+							<p class="mui-ellipsis">{{message.content}}</p>
 						</div>
-						<span class="time-ago">16:00</span>
-					</a>
-				</li>-->
+						<span class="time-ago">{{message.created_at | time}}</span>
+					</div>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -69,15 +72,60 @@
 				img1: 'images/haoyou.png',
 				img2: 'images/concern.png',
 				img3: 'images/fans.png',
-				img4: 'images/zhi.png'
+				img4: 'images/zhi.png',
+				messages: ''
 			}
 		},
-		ready: function() {},
+		ready: function() {
+			mui.init();
+			var self = this;
+			mui.plusReady(function() {
+				self.load();
+			})
+			window.addEventListener("reloadData", function() {
+				self.load();
+			})
+		},
 		methods: {
+			load: function() {
+				var self = this;
+				you.authenGet("/messages", {}, function(result) {
+					console.log(JSON.stringify(result));
+					self.messages = result.messages;
+				})
+			},
 			open: function(url) {
 				mui.openWindow({
 					url: url,
 					id: url
+				});
+			},
+			detail: function(message, el) {
+				console.log(el.target.tagName);
+				if (el.target.tagName == "A") {
+					return true;
+				}
+				var url = message.msg_type == 'request_friend' ? 'new_friends.html' : 'chat.html';
+				mui.openWindow({
+					url: url,
+					id: url,
+					extras: {
+						message: message
+					}
+				});
+			},
+			del: function(message) {
+				var self = this;
+				mui.confirm('确认删除？', '提示', ['确认', '取消'], function(e) {
+					if (e.index == 0) {
+						you.authenDelete("/message/" + message.id, {}, function(result) {
+							you.removeItem(self.messages, message);
+						})
+					} else {
+						setTimeout(function() {
+							mui.swipeoutClose(li);
+						}, 0);
+					}
 				});
 			}
 		}
