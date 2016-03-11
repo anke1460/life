@@ -7,20 +7,19 @@
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="news" @tap="news">
-				<img :src="images[0].url" />
+				<div :style="{ backgroundImage: strategy }" class="strategy"></div>
 			</div>
 			<div class=" mui-content-padded">
-
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li class="mui-table-view-divider" v-show="$index != 0"></li>
 						<li class="mui-table-view-cell wish">
 							<div class="mui-slider-cell">
-								<div class="wish_content" @click="go(item, $event)">
+								<div class="wish_content" @tap="go(item, $event)">
 									<h6>
 									<span class="mui-pull-left">许愿{{item.wish_day}}天</span>
 									<span class="mui-pull-right">成就分值: {{item.score}}</span>
-								</h6>
+								  </h6>
 									<div class="oa-contact-cell mui-table">
 										<div class="oa-contact-avatar mui-table-cell">
 											<img :src="item.img_url" class="mui-media-object mui-pull-left" />
@@ -52,9 +51,7 @@
 		data: function() {
 			return {
 				items: [],
-				images: [{
-					url: 'http://www.youyou.help/uploads/node_image/image/181/large___.jpg'
-				}]
+				strategy: ''
 			}
 		},
 		ready: function() {
@@ -65,6 +62,13 @@
 			mui.plusReady(function() {
 				you.loading();
 				this.load();
+				setTimeout(function() {
+					you.get("/system/latest_strategy", {}, function(result) {
+						console.log(JSON.stringify(result));
+						self.strategy = result.logo;
+						mui(".mui-scroll-wrapper").scroll();
+					})
+				})
 				window.addEventListener("reloadData", function() {
 					self.load();
 				} )
@@ -92,7 +96,6 @@
 			},
 			load: function() {
 				you.authenGet("/aspiration", {}, function(result) {
-					console.log(JSON.stringify(result))
 					this.items = result.aspirations;
 					you.endLoding();
 				}.bind(this));
