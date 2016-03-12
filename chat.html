@@ -372,7 +372,7 @@
 				<button id='msg-sound' type="button" class='input-sound'>按住说话</button>
 			</div>
 			<label for="" class="footer-right">
-				<i id='msg-type' class="mui-icon mui-icon-mic"></i>
+				<i id='msg-type' class="mui-icon mui-icon-mic mui-icon-paperplane"></i>
 			</label>
 		</footer>
 		<div id='sound-alert' class="rprogress">
@@ -810,7 +810,7 @@
 						e.preventDefault();
 					});
 					ui.boxMsgText.addEventListener('input', function(event) {
-						ui.btnMsgType.classList[ui.boxMsgText.value == '' ? 'remove' : 'add']('mui-icon-paperplane');
+//						ui.btnMsgType.classList[ui.boxMsgText.value == '' ? 'remove' : 'add']('mui-icon-paperplane');
 						ui.btnMsgType.setAttribute("for", ui.boxMsgText.value == '' ? '' : 'msg-text');
 						ui.h.innerText = ui.boxMsgText.value.replace(new RegExp('\n', 'gm'), '\n-') || '-';
 						ui.footer.style.height = (ui.h.offsetHeight + footerPadding) + 'px';

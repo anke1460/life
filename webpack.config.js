@@ -34,7 +34,9 @@ module.exports = {
 		"social_distribute":     ["./src/pages/social/friend_distribute.js"],
 		"social_constellation":  ["./src/pages/social/age_constellation.js"],
 		"social_crossing":       ["./src/pages/social/crossing.js"],
-		"detail":                ["./src/pages/detail.js"]
+		"detail":                ["./src/pages/detail.js"],
+		"news":                  ["./src/pages/news.js"],
+		"news_detail":           ["./src/pages/news_detail.js"]
 	},
 	output: {
 		path: './build',

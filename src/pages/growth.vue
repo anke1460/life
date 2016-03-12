@@ -4,10 +4,10 @@
 	描述：成长
 -->
 <template>
-	<div class="mui-content mui-scroll-wrapper">
+	<div class="mui-content mui-scroll-wrapper" id="content">
 		<div class="mui-scroll">
 			<div class="news" @tap="news">
-				<div :style="{ backgroundImage: strategy }" class="strategy"></div>
+				<div :style="strategy" class="strategy"></div>
 			</div>
 			<div class=" mui-content-padded">
 				<ul class="mui-table-view">
@@ -57,21 +57,16 @@
 		ready: function() {
 			var self = this;
 			mui.init({
-				swipeBack: false
+				swipeBack: false,
+				pullRefresh: {
+					container: '#content',
+					down: {
+						callback: this.load
+					}
+				}
 			});
 			mui.plusReady(function() {
-				you.loading();
 				this.load();
-				setTimeout(function() {
-					you.get("/system/latest_strategy", {}, function(result) {
-						console.log(JSON.stringify(result));
-						self.strategy = result.logo;
-						mui(".mui-scroll-wrapper").scroll();
-					})
-				})
-				window.addEventListener("reloadData", function() {
-					self.load();
-				} )
 			}.bind(this))
 		},
 		methods: {
@@ -97,7 +92,9 @@
 			load: function() {
 				you.authenGet("/aspiration", {}, function(result) {
 					this.items = result.aspirations;
+					this.strategy = {backgroundImage: 'url(' + result.logo + ')'};
 					you.endLoding();
+					mui('#content').pullRefresh().endPulldownToRefresh();
 				}.bind(this));
 			}
 		}
@@ -188,5 +185,10 @@
 	
 	.wish {
 		padding: 0px;
+	}
+	
+	.strategy {
+		height: 150px;
+		background-size: cover;
 	}
 </style>
