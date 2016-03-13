@@ -521,9 +521,10 @@
 	
 	#close {
 		position: absolute;
-		right: 0px;
-		width: 40px;
-		height: 40px;
+		top: 5px;
+		width: 30px;
+		height: 30px;
+		right: 5px
 	}
 	
 	.bg-img {
