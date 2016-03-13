@@ -36,7 +36,8 @@ module.exports = {
 		"social_crossing":       ["./src/pages/social/crossing.js"],
 		"detail":                ["./src/pages/detail.js"],
 		"news":                  ["./src/pages/news.js"],
-		"news_detail":           ["./src/pages/news_detail.js"]
+		"news_detail":           ["./src/pages/news_detail.js"],
+		"friend_list":           ["./src/pages/friend_list.js"]
 	},
 	output: {
 		path: './build',
