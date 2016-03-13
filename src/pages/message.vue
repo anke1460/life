@@ -118,7 +118,7 @@
 				var self = this;
 				mui.confirm('确认删除？', '提示', ['确认', '取消'], function(e) {
 					if (e.index == 0) {
-						you.authenDelete("/message/" + message.id, {}, function(result) {
+						you.authenDelete("/messages/" + message.id, {}, function(result) {
 							you.removeItem(self.messages, message);
 						})
 					} else {
