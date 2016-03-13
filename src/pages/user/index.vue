@@ -332,10 +332,11 @@
 	
 	#send_btn {
 		margin: 0 auto;
-		line-height: 30px;
-  	  height: 30px;
-    background: #1FCC7C;
-    width: 150px;
-    border-radius: 15px;
+		line-height: 40px;
+		height: 40px;
+		background: #1FCC7C;
+		width: 90%;
+		border-radius: 10px;
+		font-size: 20px
 	}
 </style>

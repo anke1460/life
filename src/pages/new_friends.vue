@@ -136,4 +136,8 @@
 			background-color: #FFFFFF;
 		}
 	}
+	
+	p.mui-ellipsis {
+		padding-right: 60px;
+	}
 </style>

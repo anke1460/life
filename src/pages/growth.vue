@@ -10,6 +10,7 @@
 				<div :style="strategy" class="strategy"></div>
 			</div>
 			<div class=" mui-content-padded">
+				<h5 class="no-tip">您的心愿清单空空如也<br/>快去成就组合页面添加吧</h5>
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li class="mui-table-view-divider" v-show="$index != 0"></li>
@@ -190,5 +191,11 @@
 	.strategy {
 		height: 150px;
 		background-size: cover;
+	}
+	
+	.no-tip {
+		margin-top: 100px;
+		text-align: center;
+		line-height: 30px
 	}
 </style>

@@ -81,6 +81,9 @@
 			var self = this;
 			mui.plusReady(function() {
 				self.load();
+				setTimeout(function() {
+					mui(".mui-scroll-wrapper").scroll();
+				}, 200)
 			})
 			window.addEventListener("reloadData", function() {
 				self.load();
@@ -101,7 +104,6 @@
 				});
 			},
 			detail: function(message, el) {
-				console.log(el.target.tagName);
 				if (el.target.tagName == "A") {
 					return true;
 				}
