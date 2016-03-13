@@ -15,9 +15,7 @@
 					</p>
 				</div>
 				<div class="list" style="width: 20%;">
-					<div class="vs">
-						PK
-					</div>
+					<div class="vs"></div>
 					<span id="ptitle" @tap="begin" :class="{'select': user_1.id && user_2.id}">开始对比</span>
 				</div>
 				<div class="list" style="width: 40%;">
@@ -85,10 +83,10 @@
 				skill: 'images/skill.png',
 				social: 'images/social.png',
 				user_1: {
-					logo: 'images/add.png'
+					logo: 'images/pk_add.png'
 				},
 				user_2: {
-					logo: 'images/add.png'
+					logo: 'images/pk_add.png'
 				},
 				score_1: "",
 				score_2: ''
@@ -156,7 +154,7 @@
 	
 	.vs-classify {
 		float: left;
-		width: 25%;
+		width: 30%;
 		img {
 			width: 40px;
 			border-radius: 50%;
@@ -172,7 +170,6 @@
 	
 	#ptitle {
 		font-size: 16px;
-		margin-top: 45px;
 		display: block;
 		height: 30px;
 		line-height: 30px;
@@ -198,8 +195,8 @@
 	}
 	
 	.vs {
-		height: 30px;
-		line-height: 30px;
+		height: 70px;
 		font-size: 24px;
+		background-size: cover;
 	}
 </style>

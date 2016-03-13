@@ -32,9 +32,9 @@
 		</li>
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" @tap="showSysNo">
-				<label>有友号</label>
+				<label>知趣号</label>
 				<span class="mui-pull-right">
-			   	{{user_info.sys_no || '绑定有友号'}}
+			   	{{user_info.sys_no || '绑定知趣号'}}
 			   </span>
 			</a>
 		</li>

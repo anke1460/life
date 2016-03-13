@@ -6,11 +6,18 @@
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title">PK</h1>
+		<h1 class="mui-title">好友列表</h1>
 	</header>
 	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a>
+						<img class="mui-media-object mui-pull-left" :src="user.logo" track-by="$index"/>
+						<div class="name">{{user.name}}</div>
+						<div class="select" @tap="select(user)">选择</div>
+					</a>
+				</li>
 				<li class="mui-table-view-cell" v-for="item in items">
 					<a>
 						<img class="mui-media-object mui-pull-left" :src="item.logo" track-by="$index"/>
@@ -28,13 +35,15 @@
 		el: "#app",
 		data: function() {
 			return {
-				items: []
+				items: [],
+				user: ''
 			}
 		},
 		ready: function() {
 			var self = this;
 			mui.plusReady(function() {
-				you.authenGet("/users/friend", {}, function(result) {
+				you.authenGet("/users/vs_list", {}, function(result) {
+					self.user = result.user;
 					self.items = result.friends;
 				})
 			});

@@ -64,7 +64,7 @@
 					</li>
 				</ul>
 				<p id="attainment_tip">
-					<strong>包含以下成就点</strong>
+					<strong>点击以下成就点确认完成</strong>
 					<span id="change_view" @tap="change" v-show="classify.is_mark">点击切换文字</span>
 				</p>
 				<div v-show="is_text" class="city-wraper">
@@ -192,7 +192,6 @@
 				
 				you.authenGet("/detail_classifies/" + self.detail_classify.id +"/joined_user", {}, function(result) {
 					self.finished = result.finished;
-					console.log(3344,JSON.stringify(result.aspiration));
 					self.aspiration = result.aspiration;
 				})
 				

@@ -116,7 +116,6 @@
 				if (user.current_relation == null) {
 					you.authenPost("/users/"+ user.id + "/add_friend", {}, function(result) {
 						user.current_relation = 0;
-						console.log(JSON.stringify(result));
 					})
 				}
 			}
