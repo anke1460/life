@@ -42,16 +42,6 @@
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social" @tap="goAttainment(item)">
-								<a href="#">
-									<img :src="item.img" class="img" />
-									<div class="mui-media-body">{{item.name}}</div>
-								</a>
-							</li>
-						</ul>
-					</div>
-					<div class="mui-slider-item">
-						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in hobby" @tap="goAttainment(item)">
 								<a>
 									<img :src="item.img" class="img" />
@@ -64,6 +54,16 @@
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill" @tap="goAttainment(item)">
 								<a>
+									<img :src="item.img" class="img" />
+									<div class="mui-media-body">{{item.name}}</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social" @tap="goAttainment(item)">
+								<a href="#">
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
 								</a>
@@ -185,7 +185,7 @@
 				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
            self.current_score = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_score"];
            self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
-           self.classify_name = ["旅行", "美食", "爱好", "社交", "技能"][event.detail.slideNumber];
+           self.classify_name = ["旅行", "美食", "爱好", "技能", "社交"][event.detail.slideNumber];
   				})
 				self.uid = you.getStore("uid");
 				self.loadClassify();

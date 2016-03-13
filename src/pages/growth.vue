@@ -4,36 +4,22 @@
 	描述：成长
 -->
 <template>
-	<div class="mui-content mui-scroll-wrapper">
+	<div class="mui-content mui-scroll-wrapper" id="content">
 		<div class="mui-scroll">
-			<div class="mui-slider">
-				<div class="mui-slider-group mui-slider-loop">
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<img :src="images[images.length-1].url" />
-					</div>
-					<div class="mui-slider-item" v-for="image in images">
-						<img :src="image.url" />
-					</div>
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<img :src="images[0].url" />
-					</div>
-				</div>
-				<div class="mui-slider-indicator">
-					<div class="mui-indicator" v-for="image in images" :class="{'mui-active': $index == 0}"></div>
-				</div>
+			<div class="news" @tap="news">
+				<div :style="strategy" class="strategy"></div>
 			</div>
 			<div class=" mui-content-padded">
-
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li class="mui-table-view-divider" v-show="$index != 0"></li>
 						<li class="mui-table-view-cell wish">
 							<div class="mui-slider-cell">
-								<div class="wish_content" @click="go(item, $event)">
+								<div class="wish_content" @tap="go(item, $event)">
 									<h6>
 									<span class="mui-pull-left">许愿{{item.wish_day}}天</span>
 									<span class="mui-pull-right">成就分值: {{item.score}}</span>
-								</h6>
+								  </h6>
 									<div class="oa-contact-cell mui-table">
 										<div class="oa-contact-avatar mui-table-cell">
 											<img :src="item.img_url" class="mui-media-object mui-pull-left" />
@@ -65,22 +51,22 @@
 		data: function() {
 			return {
 				items: [],
-				images: [{
-					url: 'http://www.youyou.help/uploads/node_image/image/181/large___.jpg'
-				}]
+				strategy: ''
 			}
 		},
 		ready: function() {
 			var self = this;
 			mui.init({
-				swipeBack: false
+				swipeBack: false,
+				pullRefresh: {
+					container: '#content',
+					down: {
+						callback: this.load
+					}
+				}
 			});
 			mui.plusReady(function() {
-				you.loading();
 				this.load();
-				window.addEventListener("reloadData", function() {
-					self.load();
-				} )
 			}.bind(this))
 		},
 		methods: {
@@ -94,20 +80,30 @@
 					}
 				})
 			},
+			news: function() {
+				mui.openWindow({
+					url: 'news.html',
+					id: 'news'
+				})
+			},
 			finishScale: function(v, t) {
 				return (v / t * 100).toFixed(1)
 			},
 			load: function() {
 				you.authenGet("/aspiration", {}, function(result) {
-					console.log(JSON.stringify(result))
 					this.items = result.aspirations;
+					this.strategy = {backgroundImage: 'url(' + result.logo + ')'};
 					you.endLoding();
+					mui('#content').pullRefresh().endPulldownToRefresh();
 				}.bind(this));
 			}
 		}
 	}
 </script>
 <style lang="sass">
+  .news {
+  	  height: 150px;
+  }
 	.progress-bar {
 		height: 10px;
 		padding: 1px;
@@ -189,5 +185,10 @@
 	
 	.wish {
 		padding: 0px;
+	}
+	
+	.strategy {
+		height: 150px;
+		background-size: cover;
 	}
 </style>

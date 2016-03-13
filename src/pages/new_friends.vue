@@ -62,20 +62,20 @@
 			
 			}.bind(this));
 			mui('#list').on('tap', '.mui-btn', function(event) {
-					var elem = this;
-					var li = elem.parentNode.parentNode;
-					mui.confirm('确认删除该条记录？', '提示', ['确认', '取消'], function(e) {
-						if (e.index == 0) {
-							you.authenDelete("/users/" + li.dataset.id + "/request", {}, function(result) {
-								li.parentNode.removeChild(li);
-							})
-						} else {
-							setTimeout(function() {
-								mui.swipeoutClose(li);
-							}, 0);
-						}
-					});
+				var elem = this;
+				var li = elem.parentNode.parentNode;
+				mui.confirm('确认删除该条记录？', '提示', ['确认', '取消'], function(e) {
+					if (e.index == 0) {
+						you.authenDelete("/users/" + li.dataset.id + "/request", {}, function(result) {
+							li.parentNode.removeChild(li);
+						})
+					} else {
+						setTimeout(function() {
+							mui.swipeoutClose(li);
+						}, 0);
+					}
 				});
+			});
 		},
 		methods: {
 			addUser: function() {

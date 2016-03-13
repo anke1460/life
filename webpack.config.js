@@ -33,7 +33,11 @@ module.exports = {
 		"social_friend_sex":     ["./src/pages/social/friend_sex.js"],
 		"social_distribute":     ["./src/pages/social/friend_distribute.js"],
 		"social_constellation":  ["./src/pages/social/age_constellation.js"],
-		"social_crossing":       ["./src/pages/social/crossing.js"]
+		"social_crossing":       ["./src/pages/social/crossing.js"],
+		"detail":                ["./src/pages/detail.js"],
+		"news":                  ["./src/pages/news.js"],
+		"news_detail":           ["./src/pages/news_detail.js"],
+		"friend_list":           ["./src/pages/friend_list.js"]
 	},
 	output: {
 		path: './build',

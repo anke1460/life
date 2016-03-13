@@ -54,8 +54,16 @@
 			   </span>
 			</a>
 		</li>
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right" id="place_select">
+				<label>地址</label>
+				<span class="mui-pull-right">
+			   	{{address || '未填写'}}
+			   </span>
+			</a>
+		</li>
 	</ul>
-	<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 15px;">
+	<!--<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 15px;">
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" id="hometown_select">
 				<label>家乡</label>
@@ -66,13 +74,13 @@
 		</li>
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" id="place_select">
-				<label>现居地</label>
+				<label>地址</label>
 				<span class="mui-pull-right">
 			   	{{address || '未填写'}}
 			   </span>
 			</a>
 		</li>
-	</ul>
+	</ul>-->
 
 </template>
 <script>
@@ -116,15 +124,15 @@
 				layer: 2
 			});
 			hometown_pop.setData(cityData);
-			var hometown_select = document.getElementById('hometown_select');
-			hometown_select.addEventListener('tap', function(event) {
-				hometown_pop.show(function(items) {
-					this.updateValue({value: items[1].value, type: 'home_town_id'}, function(result) {
-						this.home_town = items[0].text + items[1].text;
-						this.home_town_id = items[1].value;
-					}.bind(this));
-				}.bind(this));
-			}.bind(this), false);
+//			var hometown_select = document.getElementById('hometown_select');
+//			hometown_select.addEventListener('tap', function(event) {
+//				hometown_pop.show(function(items) {
+//					this.updateValue({value: items[1].value, type: 'home_town_id'}, function(result) {
+//						this.home_town = items[0].text + items[1].text;
+//						this.home_town_id = items[1].value;
+//					}.bind(this));
+//				}.bind(this));
+//			}.bind(this), false);
 			var place_pop = new mui.PopPicker({
 				layer: 2
 			});
@@ -147,7 +155,9 @@
 				this.openWindow("user_name.html", "user_name");
 			},
 			uploadLogo: function() {
-				you.popActionSheet("上传头像", {}, mui.noop);
+				you.popActionSheet("上传头像", {}, function(result) {
+					console.log(2222, JSON.stringify(result));
+				});
 			},
 			selectSex: function() {
 				var actionbuttons = [{

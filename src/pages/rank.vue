@@ -17,7 +17,7 @@
 					</td>
 				</tr>
 			</table>
-			<ul class="sub-menu mui-hidden" id="category">
+			<ul class="sub-menu menu-item mui-hidden" id="category">
 				<li @tap="category('clear', '全部')">全部</li>
 				<li @tap="category('travel', '旅行')">旅行</li>
 				<li @tap="category('food', '美食')">美食</li>
@@ -25,7 +25,7 @@
 				<li @tap="category('hobby', '爱好')">爱好</li>
 				<li @tap="category('skill', '技能')">技能</li>
 			</ul>
-			<ul class="sub-menu mui-hidden" id="scope">
+			<ul class="sub-menu mui-hidden scope-item" id="scope">
 				<li @tap="scoped('clear', '全部')">全部</li>
 				<li @tap="scoped('', '好友')">好友</li>
 			</ul>
@@ -65,6 +65,7 @@
 		el: "#app",
 		data: function() {
 			return {
+				mark: '',
 				items: [],
 				page: 1,
 				per_page: 20,
