@@ -77,7 +77,7 @@
 			}
 		},
 		ready: function() {
-			mui.init();
+			mui.init({swipeBack: false});
 			var self = this;
 			mui.plusReady(function() {
 				self.load();

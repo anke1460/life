@@ -9,7 +9,7 @@
 	   <h1 class="mui-title">评分总览</h1>
 	   <button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @tap="rule">评分规则</button>
 	</header>
-	<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+	<div id="refreshContainer" class="mui-scroll-wrapper mui-content">
 		<div class="mui-scroll">
 			<div class="graph">
 				<div id="graph">
@@ -107,7 +107,6 @@
 		},
 		ready: function() {
 			var self = this;
-			var self = this;
 			mui.init({
 				pullRefresh: {
 					container: "#refreshContainer",
@@ -115,7 +114,7 @@
 						auto: true,
 						contentrefresh: "上拉加载更多",
 						contentnomore: '已加载完',
-						callback: self.load({page: self.page})
+						callback: self.load
 					}
 				}
 			});
@@ -193,20 +192,18 @@
 			load: function(params) {
 				var self = this;
 				mui.plusReady(function() {
-					setTimeout(function() {
-						you.authenGet("/users/score_recordes", params, function(result) {
-							console.log(JSON.stringify(result));
-							self.recordes = result.recordes;
-							self.time_range = result.time_range;
-							if (self.page * self.per_page > result.total_count) {
-								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
-							} else {
-								mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
-							}
-							self.page = self.page + 1;
-							you.endLoding();
-						})
-					}, 150)
+					you.authenGet("/users/score_recordes", {page: self.page}, function(result) {
+						console.log(JSON.stringify(result));
+						self.recordes = result.recordes;
+						self.time_range = result.time_range;
+						if (self.page * self.per_page > result.total_count) {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+						} else {
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(false);
+						}
+						self.page = self.page + 1;
+						you.endLoding();
+					})
 				})
 			},
 			rule: function() {

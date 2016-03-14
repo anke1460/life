@@ -133,7 +133,7 @@
 								</p>
 								<span class="time">{{item.created_at | time}}</span>
 								<div class="mui-pull-right">
-									<span class="mui-icon praise" @tap="praise(item)" v-show="item.user_id != uid"></span>
+									<span class="mui-icon praise" @tap="praise(item)"></span>
 									<span class="mui-icon note" @tap="comment(item)"></span>
 								</div>
 							</div>
@@ -171,6 +171,7 @@
 		ready: function() {
 			var self = this;
 			mui.init({
+				swipeBack: false,
 				pullRefresh: {
 					container: "#refreshContainer",
 					up: {

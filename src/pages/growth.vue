@@ -10,35 +10,42 @@
 				<div :style="strategy" class="strategy"></div>
 			</div>
 			<div class=" mui-content-padded">
-				<h5 class="no-tip">您的心愿清单空空如也<br/>快去成就组合页面添加吧</h5>
+				<h5 class="no-tip" v-show="items.length == 0">您的心愿清单空空如也<br/>快去成就组合页面添加吧</h5>
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li class="mui-table-view-divider" v-show="$index != 0"></li>
 						<li class="mui-table-view-cell wish">
-							<div class="mui-slider-cell">
-								<div class="wish_content" @tap="go(item, $event)">
-									<h6>
+
+							<div class="mui-slider-right mui-disabled">
+								<a class="mui-btn mui-btn-red" @tap="delete(item)">删除</a>
+							</div>
+							<div class="mui-slider-handle">
+								<div class="mui-slider-cell">
+									<div class="wish_content" @tap="go(item, $event)">
+										<h6>
 									<span class="mui-pull-left">许愿{{item.wish_day}}天</span>
 									<span class="mui-pull-right">成就分值: {{item.score}}</span>
 								  </h6>
-									<div class="oa-contact-cell mui-table">
-										<div class="oa-contact-avatar mui-table-cell">
-											<img :src="item.img_url" class="mui-media-object mui-pull-left" />
-											<div class="mui-media-body">
-												{{item.name}}
-												<p> {{item.description}}</p>
-												<p>
-													<h5 class="mui-pull-left">完成进度：</h5>
-													<div class="progress-bar orange shine">
-														<span :style="{width: finishScale(item.finish_num, item.total_num) + '%'}"></span>
-													</div>
-													<span class="finished-text">{{item.finish_num}}/{{item.total_num}}</span>
-												</p>
+										<div class="oa-contact-cell mui-table">
+											<div class="oa-contact-avatar mui-table-cell">
+												<img :src="item.img_url" class="mui-media-object mui-pull-left" />
+												<div class="mui-media-body">
+													{{item.name}}
+													<p> {{item.description}}</p>
+													<p>
+														<h5 class="mui-pull-left">完成进度：</h5>
+														<div class="progress-bar orange shine">
+															<span :style="{width: finishScale(item.finish_num, item.total_num) + '%'}"></span>
+														</div>
+														<span class="finished-text">{{item.finish_num}}/{{item.total_num}}</span>
+													</p>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+
 						</li>
 					</template>
 				</ul>
@@ -93,18 +100,24 @@
 			load: function() {
 				you.authenGet("/aspiration", {}, function(result) {
 					this.items = result.aspirations;
-					this.strategy = {backgroundImage: 'url(' + result.logo + ')'};
+					this.strategy = {
+						backgroundImage: 'url(' + result.logo + ')'
+					};
 					you.endLoding();
 					mui('#content').pullRefresh().endPulldownToRefresh();
 				}.bind(this));
+			},
+			delete: function(item) {
+				you.removeItem(this.items, item);
 			}
 		}
 	}
 </script>
 <style lang="sass">
-  .news {
-  	  height: 150px;
-  }
+	.news {
+		height: 150px;
+	}
+	
 	.progress-bar {
 		height: 10px;
 		padding: 1px;
