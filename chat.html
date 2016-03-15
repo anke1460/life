@@ -331,7 +331,7 @@
 	<body contextmenu="return false;">
 		<header class="mui-bar mui-bar-nav header">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title"></h1>
+			<h1 class="mui-title" id="title"></h1>
 		</header>
 		<pre id='h'></pre>
 		<script id='msg-template' type="text/template">
@@ -359,8 +359,10 @@
 				</div>
 				<% } %>
 		</script>
-		<div class="mui-content">
-			<div id='msg-list'>
+		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+			<div class="mui-scroll">
+				<div id='msg-list'>
+			  </div>
 			</div>
 		</div>
 		<footer>
@@ -405,7 +407,9 @@
 				});
 				template.config('escape', false);
 				//$.plusReady=function(fn){fn();};
+				var page = 1;
 				$.plusReady(function() {
+					document.getElementById("title").innerText = you.current_page.user.name;
 					var user_logo = plus.webview.currentWebview().user.logo;
 					var self_logo = plus.storage.getItem("logo");
 					plus.webview.currentWebview().setStyle({
@@ -429,6 +433,21 @@
 						}
 					};
 					var record = [];
+					you.authenGet("/users/" + plus.webview.currentWebview().user.id + "/chat_recordes", {page: page}, function(result) {
+						console.log(JSON.stringify(result));
+						result.chat_recordes.forEach( function(i) {
+							record.push({
+								sender: i.is_self,
+								type: i.content.type == 'img' ? 'image' : 'text',
+								logo: i.logo,
+								content:  (i.content.type == 'text' ? i.content.msg : i.content.url)
+							})
+							bindMsgList();
+							console.log(JSON.stringify(record));
+							 mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+						})
+				  })
+					
 					var ui = {
 						body: doc.querySelector('body'),
 						footer: doc.querySelector('footer'),

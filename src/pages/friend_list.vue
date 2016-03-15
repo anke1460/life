@@ -11,18 +11,18 @@
 	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" @tap="select(user)">
 					<a>
 						<img class="mui-media-object mui-pull-left" :src="user.logo" track-by="$index"/>
 						<div class="name">{{user.name}}</div>
-						<div class="select" @tap="select(user)">选择</div>
+						<div class="select">选择</div>
 					</a>
 				</li>
-				<li class="mui-table-view-cell" v-for="item in items">
+				<li class="mui-table-view-cell" v-for="item in items" @tap="select(item)">
 					<a>
 						<img class="mui-media-object mui-pull-left" :src="item.logo" track-by="$index"/>
 						<div class="name">{{item.name}}</div>
-						<div class="select" @tap="select(item)">选择</div>
+						<div class="select">选择</div>
 					</a>
 				</li>
 			</ul>

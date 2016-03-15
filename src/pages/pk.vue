@@ -191,6 +191,7 @@
 			height: 30px;
 			font-size: 20px;
 			line-height: 30px;
+			margin-bottom: 0px;
 		}
 	}
 	

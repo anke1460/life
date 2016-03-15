@@ -7,7 +7,7 @@
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title">详细资料</h1>
-		<a class="mui-pull-right" @tap="more"><span id="menu"></span></a>
+		<a class="mui-pull-right" @tap="more" v-if="!is_self"><span id="menu"></span></a>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">

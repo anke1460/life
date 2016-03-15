@@ -51,12 +51,6 @@
 							勋章墙
 						</a>
 					</li>
-					<!--<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
-							<img src="images/custom.png" class="icon"/>
-							我的自定义成就
-						</a>
-					</li>-->
 				</ul>
 				<ul class="mui-table-view" style="margin-top: 25px;">
 					<li class="mui-table-view-cell open" href="feedback.html">
@@ -79,7 +73,7 @@
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init({
-			swipeBack:true
+			swipeBack: false
 		});
 		mui.plusReady(function() {
 			mui("#user_name")[0].innerText = you.getStore("name");

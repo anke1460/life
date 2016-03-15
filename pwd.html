@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <style type="text/css">
+			.mui-content{
+				margin-top: 0px;
+				background-color: #F8F8F8;
+				text-align: center;
+			}
+			#login_form{
+				background-color: #ECEEEA;
+			}
+			
+			.mui-btn-login{
+				width: 200px;
+			}
+			
+			#login_btn {
+				width: 100%;
+				height: 40px;
+   			font-size: 20px;
+			}
+			
+			.margin-t-30 {
+				margin-top: 30px;
+			}
+			
+    </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav header">
+	  <button class="mui-btn mui-btn-link mui-action-back mui-btn-nav mui-pull-left">
+	    <span class="mui-icon mui-icon-left-nav"></span>返回
+	  </button>
+	  <span class="mui-title">设置新密码</span>
+	</header>
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content-padded margin-t-30">
+		    <div class="mui-input-row">
+					<input type="password" placeholder="输入不少于六位字符的新密码" id="password" name="password" value="">
+				</div>
+				<div class="mui-button-row margin-t-30">
+					<button  class="mui-btn mui-btn-default" id="login_btn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+ 
+	<script src="js/mui.min.js"></script>
+	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    mui.init();
+    var is_login = false;
+    mui("#login_btn")[0].addEventListener("tap", function() {
+    	  if (is_login == false) {
+    	    	is_login = true;
+	    		if (mui("#password")[0].value != "" && mui("#password")[0].value.length >= 6) {
+	    		  you.loading();
+	    		  you.authenPut("/users/password", {pwd: mui("#password")[0].value}, function(result) {
+	    		  	  mui.toast("设置成功!");
+	    		  	  you.endLoding();
+	    		  	  mui.back();
+	    		  })
+	    		}
+    	 }
+    })
+   
+  
+    
+  </script>
+</body>
+</html>

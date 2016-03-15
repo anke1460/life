@@ -11,7 +11,7 @@
 				<div id="slider" class="mui-slider">
 					<div class="mui-slider-group">
 						<div class="mui-slider-item" v-for="node in nodes">
-							<a href="#">
+							<a>
 								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node.imgs[0] +')'}" class="bg-img" />
 							</a>
 						</div>
@@ -27,7 +27,7 @@
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right group-cos">
 				 		{{title}}
-				 		<span id="add_wish" @tap.stop="addWish" v-show="!detail_classify.is_aspiration"></span>
+				 		<span id="add_wish" @tap.stop="addWish"></span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="group-content">
@@ -95,8 +95,8 @@
 									</p>
 									<span class="time">{{item.created_at | time}}</span>
 									<div class="mui-pull-right">
-										<span class="mui-icon mui-icon-checkmarkempty"></span>
-										<span class="mui-icon mui-icon-chatboxes" @tap="comment"></span>
+										<span class="mui-icon praise" @tap="praise(item)"></span>
+									  <span class="mui-icon note" @tap="comment(item)"></span>
 									</div>
 								</div>
 							</li>
@@ -145,6 +145,7 @@
 				page: 1,
 				per_page: 20,
 				aspiration: '',
+				aspiration_id: '',
 				finished: '',
 				current_active: 'default'
 			}
@@ -173,6 +174,7 @@
 			});
 			mui.plusReady(function() {
 				self.detail_classify = you.current_page.detail_classify;
+				self.aspiration_id = you.current_page.aspiration_id;
 				self.classify = you.current_page.classify;
 				self.title = self.detail_classify.name;
 				self.loadData();
@@ -304,10 +306,27 @@
 			},
 			addWish: function() {
 				var self = this;
-				you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {}, function(result) {
-					you.alert("已添加到我的心愿清单");
-					self.detail_classify.is_aspiration = true;
-				})
+				if (self.detail_classify.is_aspiration) {
+					plus.nativeUI.confirm("确定取消该心愿吗?", function(e) {
+						if (e.index == 0) {
+							you.authenDelete("/aspiration/" + self.aspiration_id, {}, function() {
+								self.detail_classify.is_aspiration = false;
+								mui.toast("已取消");
+								mui.fire(plus.webview.getWebviewById("growth.html"), "reset");
+							})
+						}
+					})
+					
+				} else {
+					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {}, function(result) {
+						mui.totast("已添加到我的心愿清单");
+						self.detail_classify.is_aspiration = true;
+						self.aspiration_id = result.id;
+						mui.fire(plus.webview.getWebviewById("growth.html"), "reset");
+					})
+				}
+				
+				
 			},
 			change: function() {
 				this.is_text = !this.is_text;
@@ -360,8 +379,19 @@
 				};
 				this.echart.setOption(this.options);
 			},
-			comment: function() {
-				console.log('comment')
+			comment: function(item) {
+				mui.openWindow({
+					url: '../comment.html',
+					id: 'comment',
+					extras: {
+						item: item
+					}
+				})
+			},
+			praise: function(item) {
+				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
+					console.log(JSON.stringify(result));
+				})
 			},
 			detail: function(type) {
 				//查看详情
@@ -423,6 +453,7 @@
 	
 	#attainment_tip {
 		padding: 10px;
+		margin-top: 10px;
 		strong {
 			color: #444;
 			font-size: 16px
@@ -535,14 +566,18 @@
 	.group-cos {
 		height: 59px;
 		padding-top: 20px !important;
-		background-color: #e9feea;
+		background-color: #F7F7F7;
+	}
+	
+	.mui-table-view:before, .mui-table-view:after, .mui-table-view.mui-table-view-chevron :before {
+		height: 0px;
 	}
 	
 	a.mui-navigate-right.group-cos {
 		padding-bottom: 1px;
 	}
 	.group-content {
-		background-color: #e9feea;
+		background-color: #F7F7F7;
 		overflow: hidden;
 		color: #999;
 		padding: 0 15px;
@@ -562,14 +597,19 @@
     right: 0;
     bottom: 0;
     left: 0;
-    height: 1px !important;
+    height: 0px !important;
     content: '';
     -webkit-transform: scaleY(.5);
     transform: scaleY(.5);
     background-color: #c8c7cc;
 	}
 	
+	
 	.score-cal {
 		overflow: hidden;
+	}
+	
+	.mui-table-view-cell.mui-collapse>.mui-navigate-right:after, .mui-table-view-cell.mui-collapse>.mui-push-right:after, .mui-table-view-cell.mui-collapse.mui-active>.mui-navigate-right:after, .mui-table-view-cell.mui-collapse.mui-active>.mui-push-right:after {
+		color: #1FCC7C;
 	}
 </style>

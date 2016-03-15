@@ -46,7 +46,7 @@
 				<h5>完成组合内所有组合点+20%</h5>
 			</div>
 			<div class="title-bar">
-				包含成就
+				包含成就组合
 			</div>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell" v-for="detail_classify in detail_classifies" @tap="goDetail(detail_classify)">
@@ -60,6 +60,7 @@
 							<p>{{detail_classify.attainments_count}}人完成</p>
 						</div>
 						<span class="tag">{{detail_classify.marks_count}}/{{detail_classify.nodes_count}}</span>
+						<img :src="'../images/finished.png'" class="finished" v-show="detail_classify.is_finished"/>
 					</a>
 				</li>
 			</ul>
