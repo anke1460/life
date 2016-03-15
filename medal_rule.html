@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>头衔勋章规则</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<style type="text/css">
+			i {
+				margin-right: 5px;
+				color: #1FCC7C;
+			}
+			
+			p {
+				color: #666;
+			}
+			
+			.padding-5 {
+				padding: 5px 5px 0px 0px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">头衔勋章规则</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll padding-5">
+				<ol>
+					<li>头衔定义
+						<p>用户在完成部分指定成就组合时系统授予的称号，头衔能鲜明的反映出该成就组合的群体特征，头衔名称、和成就组合对应关系由知趣人生确定。
+						</p>
+					</li>
+					<li>
+						获封头衔标准
+						<p>完成成就组合内的所有成就点，就可以获得对应的头衔，但不是所有的成就组合都有对应头衔；删除已完成成就有可能造成成就组合恢复到未完成状态，已获得的头衔也会消失</p>
+					</li>
+					<li>
+						头衔与勋章的关系
+						<p>头衔以勋章的形式进行陈列展示，未来，知趣将设计增加更多勋章样式，和头衔属性一一对应。现阶段，勋章只分为三种，金牌、银牌、和铜牌，依据头衔获得者的比例，进行调整，即勋章等级只反映头衔的稀有性。</p>
+					</li>
+					<li>
+						勋章等级规则
+						<p>小于等于5%用户拥有的头衔，对应金牌勋章;</p>
+						<p>小于等于10%用户拥有的头衔，对应银牌勋章;</p>
+						<p>小于等于20%用户拥有的头衔，对应铜牌勋章。</p>
+
+					</li>
+					<li>
+						勋章墙规则：
+						<p>勋章墙应展示目前所有可获得勋章（头衔）；</p>
+						<p>用户已获得的头衔勋章点亮为绿色，其他为灰色；</p>
+						<p>点击勋章进入即是成就组合页面，显示盖戳全部完成。</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script>
+		mui.init();
+		mui.plusReady(function() {
+			mui(".mui-scroll-wrapper").scroll();
+		})
+	</script>
+
+</html>

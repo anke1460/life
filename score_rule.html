@@ -9,33 +9,78 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style type="text/css">
 			i {
-		    margin-right: 5px;
-		    color: #1FCC7C;
+				margin-right: 5px;
+				color: #1FCC7C;
 			}
+			
 			p {
 				color: #666;
 			}
-		</style>
 			
+			.padding-5 {
+				padding: 5px 5px 0px 0px;
+			}
+		</style>
+
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav header">
-		   <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		   <h1 class="mui-title">评分规则</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">评分规则</h1>
 		</header>
-		<div class="mui-content mui-content-padded">
-			<h5>亲爱的用户，欢迎您的到来！</h5>
-			<h5>在这里我们将回答您的一切问题</h5>
-			<p><i>Q</i>知趣是什么，有什么作用</p>
-			<p><i>A</i>知趣是一款基于个人成就的评分软件。我们归纳整理了数百个评分模版，代表生活兴趣</p>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll padding-5">
+				<ol>
+					<li>定义
+						<p>成就：即“取得的成绩”，让人有满足感的业绩。</p>
+						<p>成就点：知趣官方从生活兴趣领域选取了丰富的成就点模板，代表生活兴趣领域最广泛最受认可的成就事项，用户可以根据实际情况标记完成。</p>
+						<p>成就组合：一些具有相似特性成就点的集合。</p>
+						<p>成就点基础分：每个成就点都根据难易程度被赋予相应的分数，以后台为准。</p>
+						<p>成就点加分：成就点基础分之外的分数，用来奖励用户。根据用户额外的行为，如添加图片、好友点赞及定位等来计算分数，确认用户成就完成的真实度和完整度。</p>
+						<p>成就组合加分：完成单个组合内的所有成就点即可获得成就组合加分。</p>
+						<p>成就组合完成要求：将成就组合内所有成就点标记为完成即视作成就组合完成，部分组合完成后还会获得相应头衔。
+						</p>
+					</li>
+					<li>
+						成就分算分规则
+						<p>成就点基础分：用户在完成相应的成就点后会得到该成就的基础分。</p>
+						<p>成就点加分：成就点加分是成就点基础分的补充，加分最多不超过成就点基础分的100%。（其中：添加照片+60% 好友点赞+20% 定位+20%，标记为绿色的为已实现）</p>
+						<p>成就组合加分：完成成就组合里所有成就点，可获得额外奖励的分数——成就组合基础分总分的20% 。
+						</p>
+					</li>
+					<li>
+						特殊情况
+						<p>因社交维度具有特殊性，系统会自动统计用户的好友属性并依据设定的规则给予用户分数，不需要用户主动操作</p>
+					</li>
+					<li>
+						分数更新
+						<p>用户完成或删除成就所引起的分数变动会实时显示，因朋友分数变动而引起的分数变动会在每日定时更新。</p>
+
+					</li>
+					<li>
+						分数调整
+						<p>为了让每个成就模板都能不断完善，向着最受用户广泛认可的形式演变，我们会在版本迭代时采取包括但不限于以下形式的平衡性调整措施：
+							<br/> 增添更多更丰富的评分模板；
+							<br/> 修改或删除部分不够完善的评分模板；
+							<br/> 修改评分规则。
+						</p>
+						<strong>未尽说明，请查看“帮助”，或发邮件至
+						<a href="mailto:kefu@zhiqu.life">kefu@zhiqu.life</a> 咨询。</strong>
+					</li>
+				</ol>
+			</div>
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script>
-	  mui.init();
+		mui.init();
+		mui.plusReady(function() {
+			mui(".mui-scroll-wrapper").scroll();
+		})
 	</script>
+
 </html>

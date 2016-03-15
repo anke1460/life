@@ -76,6 +76,9 @@
 			mui.plusReady(function() {
 				this.load();
 			}.bind(this))
+			window.addEventListener("reset", function() {
+				self.load();
+			})
 		},
 		methods: {
 			go: function(item) {
@@ -84,7 +87,8 @@
 					id: 'attainment_detail',
 					extras: {
 						detail_classify: item.detail_classify,
-						classify: item.classify
+						classify: item.classify,
+						aspiration_id: item.id
 					}
 				})
 			},
@@ -108,7 +112,10 @@
 				}.bind(this));
 			},
 			delete: function(item) {
-				you.removeItem(this.items, item);
+				var self = this;
+				you.authenDelete("/aspiration/" + item.id, {}, function() {
+					you.removeItem(self.items, item);
+				})
 			}
 		}
 	}

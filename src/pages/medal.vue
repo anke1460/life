@@ -7,6 +7,7 @@
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title">勋章墙</h1>
+		<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @tap="rule">头衔勋章规则</button>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
@@ -28,7 +29,7 @@
 											<p>
 												<h5 class="mui-pull-left">
 													<span v-for="p in item.finished_people.users">{{p.name}}</span>
-													{{item.finished_people.user_count == 0 ? '' : item.finished_people.user_count + '等'}}人获得
+													{{item.finished_people.user_count == 0 ? '' :  '等' + item.finished_people.user_count + '人获得'}}
 												</h5>
 												<span class="score-text">分数:{{item.total_score}}</span>
 											</p>
@@ -62,6 +63,14 @@
 					}, 150)
 				})
 			})
+		},
+		methods: {
+			rule: function() {
+				mui.openWindow({
+					url: 'medal_rule.html',
+					id: 'medal_rule'
+				})
+			}
 		}
 	}
 </script>

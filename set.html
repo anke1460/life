@@ -21,7 +21,7 @@
 		<div class="mui-content">
 			<ul class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a id="about" class="mui-navigate-right">
+					<a id="pwd" class="mui-navigate-right">
 						密码修改
 					</a>
 				</li>
@@ -54,6 +54,18 @@
       	  you.endLoding();
 			});
 		});
+		document.getElementById("about").addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'about.html',
+				id: 'about'
+			})
+		})
+		document.getElementById("pwd").addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'pwd.html',
+				id: 'pwd'
+			})
+		})
 		
 	</script>
 </html>

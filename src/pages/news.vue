@@ -21,7 +21,7 @@
 					</div>
 					<div class="content" @tap="detail(item)">
 						<div class="show-img" :style="item.img"></div>
-						<h4>{{item.title}}</h4>
+						<h4 class="article-title">{{item.title}}</h4>
 						<p>{{{item.content}}}</p>
 					</div>
 				</div>
