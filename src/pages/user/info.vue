@@ -50,7 +50,7 @@
 			<a class="mui-navigate-right" @tap="showRank">
 				<label>我的头衔</label>
 				<span class="mui-pull-right mui-ellipsis">
-			   {{rank || '未填写'}}
+			   {{user_info.rank || '未填写'}}
 			   </span>
 			</a>
 		</li>
@@ -92,6 +92,7 @@
 				sex: '',
 				birth_on: '',
 				sign: '',
+				rank: '',
 				rank_id: '',
 				sys_no: '',
 				home_town_id: '',
@@ -99,11 +100,11 @@
 				logo: ''
 			},
 			sex_name: '',
-			rank: '',
 			home_town: '',
 			address: ''
 		},
 		ready: function() {
+			var self = this;
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
@@ -123,16 +124,10 @@
 			var hometown_pop = new mui.PopPicker({
 				layer: 2
 			});
+			window.addEventListener("change_rank", function(e) {
+				self.user_info.rank = e.detail.rank;
+			})
 			hometown_pop.setData(cityData);
-//			var hometown_select = document.getElementById('hometown_select');
-//			hometown_select.addEventListener('tap', function(event) {
-//				hometown_pop.show(function(items) {
-//					this.updateValue({value: items[1].value, type: 'home_town_id'}, function(result) {
-//						this.home_town = items[0].text + items[1].text;
-//						this.home_town_id = items[1].value;
-//					}.bind(this));
-//				}.bind(this));
-//			}.bind(this), false);
 			var place_pop = new mui.PopPicker({
 				layer: 2
 			});

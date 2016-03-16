@@ -37,7 +37,8 @@ module.exports = {
 		"detail":                ["./src/pages/detail.js"],
 		"news":                  ["./src/pages/news.js"],
 		"news_detail":           ["./src/pages/news_detail.js"],
-		"friend_list":           ["./src/pages/friend_list.js"]
+		"friend_list":           ["./src/pages/friend_list.js"],
+		"user_rank":             ["./src/pages/user/rank.js"]
 	},
 	output: {
 		path: './build',
