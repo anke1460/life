@@ -100,13 +100,13 @@
 				<img :src="'images/advert.png'" />
 			</div>
 			<div id="three_module">
-				<div class="mui-col-xs-4 mui-pull-left">
+				<div class="mui-col-xs-4 mui-pull-left ">
 					<img :src="'images/rank.png'" @tap="go('rank.html')"/>
 				</div>
-				<div class="mui-col-xs-4 mui-pull-left">
+				<div class="mui-col-xs-4 mui-pull-left vs">
 					<img :src="'images/vs.png'" @tap="go('pk.html')" />
 				</div>
-				<div class="mui-col-xs-4 mui-pull-left" @tap="go('user/add_user.html')">
+				<div class="mui-col-xs-4 mui-pull-right" @tap="go('user/add_user.html')">
 					<img :src="'images/find_friend.png'" />
 				</div>
 			</div>
@@ -133,7 +133,7 @@
 								</p>
 								<span class="time">{{item.created_at | time}}</span>
 								<div class="mui-pull-right">
-									<span class="mui-icon praise" @tap="praise(item)"></span>
+									<span class="mui-icon praise" @tap="praise(item, $event)"></span>
 									<span class="mui-icon note" @tap="comment(item)"></span>
 								</div>
 							</div>
@@ -193,6 +193,7 @@
 			}.bind(this));
 			
 			window.addEventListener("reloadData", function() {
+				mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0);
 				self.page = 1;
 				self.trends = [];
 				self.loadMsg();
@@ -259,9 +260,11 @@
 					})
 				}
 			},
-			praise: function(item) {
+			praise: function(item, e) {
 				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
 					console.log(JSON.stringify(result));
+					e.target.classList.add("animated");
+					e.target.classList.add("fadeInDown");
 				})
 			},
 			goAttainment: function(item) {
@@ -339,16 +342,14 @@
 	
 	#three_module {
 		overflow: hidden;
-		div {
-			text-align: center;
-		}
+		margin-top: 5px;
 		img {
 			max-width: 100px;
 		}
 	}
 	
 	#baner {
-		margin-top: 10px;
+		margin-top: 5px;
 		border-top: 1px solid #F3F3F3;
 		border-bottom: 1px solid #F3F3F3;
 		padding: 10px;
@@ -366,6 +367,9 @@
 			width: 200px;
 			height: 82px;
 		}
+	}
+	.vs {
+		text-align: center;
 	}
 	
 	.col-2 {
@@ -431,7 +435,6 @@
 			position: absolute;
 			right: 0;
 			left: 0;
-			height: 1px;
 			content: '';
 			-webkit-transform: scaleY(.5);
 			transform: scaleY(.5);
@@ -486,5 +489,9 @@
     .h-g {
     	 margin-left: 30px;
     }
+  }
+  
+  .mui-grid-view.mui-grid-9 {
+  	  border: none;
   }
 </style>
