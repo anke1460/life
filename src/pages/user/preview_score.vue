@@ -133,7 +133,7 @@
 			})
 		},
 		methods: {
-			generateGraph: function() {
+			generateGraph: function(value) {
 				var self = this;
 				var score = echarts.init(document.getElementById('radar_graph'));
 				var option = {
@@ -155,19 +155,19 @@
 						name: false,
 						indicator: [{
 							text: '旅行',
-							max: score.travel
+							max: value.travel
 						}, {
 							text: '美食',
-							max: score.food
+							max: value.food
 						}, {
 							text: '社交',
-							max: score.social
+							max: value.social
 						}, {
 							text: '技能',
-							max: score.skill
+							max: value.skill
 						}, {
 							text: '爱好',
-							max: score.hobby
+							max: value.hobby
 						}],
 						radius: 45
 					}],

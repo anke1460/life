@@ -63,24 +63,6 @@
 			</a>
 		</li>
 	</ul>
-	<!--<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 15px;">
-		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" id="hometown_select">
-				<label>家乡</label>
-				<span class="mui-pull-right">
-			   	{{home_town || '未填写'}}
-			   </span>
-			</a>
-		</li>
-		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" id="place_select">
-				<label>地址</label>
-				<span class="mui-pull-right">
-			   	{{address || '未填写'}}
-			   </span>
-			</a>
-		</li>
-	</ul>-->
 
 </template>
 <script>
@@ -215,7 +197,6 @@
 				});
 			},
 			updateValue: function(data, callback) {
-				console.log(JSON.stringify(data));
 				you.authenPut("/users/info", data, function(result) {
 					callback(result);
 				}.bind(this));

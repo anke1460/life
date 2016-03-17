@@ -6,12 +6,12 @@
 	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media" v-for="item in items">
+				<li class="mui-table-view-cell mui-media mui-disabled" v-for="item in items">
 					<a>
-						<img class="mui-media-object mui-pull-left logo" :src="item.avatar" />
+						<img class="mui-media-object mui-pull-left logo" :src="item.avatar"  @tap="goUser(item)"/>
 						<div class="mui-media-body">
 							{{item.name}}
-							<p class="rank-name">头衔：{{user.honor_nam}}</p>
+							<p class="rank-name">头衔：{{user.honor_name}}</p>
 						</div>
 					</a>
 					<div class="mui-media-body" style="margin: 0px;">
@@ -21,9 +21,9 @@
 						</p>
 						<span class="time">{{item.created_at | time}}</span>
 						<div class="mui-pull-right">
-							<span class="mui-icon mui-icon-redo"></span>
-							<span class="mui-icon mui-icon-checkmarkempty"></span>
-							<span class="mui-icon mui-icon-chatboxes" @tap="detail"></span>
+							<!--<span class="mui-icon mui-icon-redo"></span>-->
+							<span class="mui-icon praise" @tap="praise(item, $event)"></span>
+							<span class="mui-icon note" @tap="comment(item)"></span>
 						</div>
 					</div>
 				</li>
@@ -74,7 +74,34 @@
 				self.user = you.current_page.user;
 			})
 		},
-		methods: {}
+		methods: {
+			praise: function(item, e) {
+				you.authenPost("/stories/" + item.detail_classify_id + "/praise", {}, function(result) {
+					e.target.classList.add("animated");
+					e.target.classList.add("fadeInDown");
+				})
+			},
+			comment: function(item) {
+				mui.openWindow({
+					url: '../comment.html',
+					id: 'comment',
+					extras: {
+						item: item
+					}
+				})
+			},
+			goUser: function(item) {
+				mui.openWindow({
+					url: '../user/index.html',
+					id: 'user_index',
+					extras: {
+						user: {
+							id: item.user_id
+						}
+					}
+				})
+			}
+		}
 	}
 </script>
 <style lang="sass">

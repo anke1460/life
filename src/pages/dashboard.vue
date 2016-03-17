@@ -23,7 +23,7 @@
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel" @tap="goAttainment(item)">
-								<a href="#">
+								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
 								</a>
@@ -33,7 +33,7 @@
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in food" @tap="goAttainment(item)">
-								<a href="#">
+								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
 								</a>
@@ -63,7 +63,7 @@
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in social" @tap="goAttainment(item)">
-								<a href="#">
+								<a>
 									<img :src="item.img" class="img" />
 									<div class="mui-media-body">{{item.name}}</div>
 								</a>
@@ -74,7 +74,7 @@
 						<div class="mui-slider-item">
 							<ul class="mui-table-view mui-grid-view mui-grid-9">
 								<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in travel" @tap="goAttainment(item)">
-									<a href="#">
+									<a>
 										<img :src="item.img" class="img" />
 										<div class="mui-media-body">{{item.name}}</div>
 									</a>
@@ -96,9 +96,10 @@
 					<div class="mui-indicator"></div>
 				</div>
 			</div>
-			<div id="advert-wraper">
+			<!--<div id="advert-wraper">
 				<img :src="'images/advert.png'" />
-			</div>
+			</div>-->
+			<div id="advert_baner" :style="advert_img"></div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left ">
 					<img :src="'images/rank.png'" @tap="go('rank.html')"/>
@@ -151,6 +152,8 @@
 		data: function() {
 			return {
 				items: '',
+				advert: '',
+				advert_img: '',
 				travel: [],
 				hobby: [],
 				social: [],
@@ -226,6 +229,8 @@
 			loadClassify: function() {
 				var self = this;
 				you.authenGet("/classifies", {}, function(result) {
+					self.advert = result.advert;
+					self.advert_img = {backgroundImage: "url("+ result.advert.img + ")"};
 					self.user_score = result.user_score;
 					self.current_score = self.user_score.travel_score;
 					self.current_rank = self.user_score.travel_num;
@@ -262,7 +267,6 @@
 			},
 			praise: function(item, e) {
 				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
-					console.log(JSON.stringify(result));
 					e.target.classList.add("animated");
 					e.target.classList.add("fadeInDown");
 				})
@@ -326,6 +330,12 @@
 	.mui-content {
 		height: 100%;
 		background: #fff;
+	}
+	
+	#advert_baner {
+		height: 70px;
+		width: 100%;
+		background-size: cover;
 	}
 	
 	.mui-slider-indicator .mui-active.mui-indicator {
