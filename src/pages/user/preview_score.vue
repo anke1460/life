@@ -60,7 +60,7 @@
 	    	  	 <span>{{record.score_type}}</span>
 	    	   <span>{{record.node}}</span>
 	    	  </p>
-	    	  <span class="recored-score">{{record.score > 0 ? '+' + record.score : record.score}}分</span>
+	    	  <span class="recored-score">{{record.other_type | to_text}} {{record.score > 0 ? '+' + record.score : record.score}}分</span>
 	    	  <span class="recored-date">{{record.created_at}}</span>
 	    	</div>
 		</div>
@@ -89,7 +89,7 @@
 				},
 				user_logo: '../images/skill.png',
 				time_range: '',
-				recordes: ''
+				recordes: []
 			}
 		},
 		watch: {
@@ -194,7 +194,7 @@
 				mui.plusReady(function() {
 					you.authenGet("/users/score_recordes", {page: self.page}, function(result) {
 						console.log(JSON.stringify(result));
-						self.recordes = result.recordes;
+						self.recordes = self.recordes.concat(result.recordes);
 						self.time_range = result.time_range;
 						if (self.page * self.per_page > result.total_count) {
 							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
@@ -286,13 +286,14 @@
     p {
     	  position: absolute;
 	    top: 18px;
-	    left: 84px;
+	    left: 68px;
     }
     .recored-score {
     	  position: absolute;
 	    right: 10px;
 	    top: 10px;
 	    color: #333;
+	    font-size: 14px;
     }
     .recored-date {
     	  position: absolute;

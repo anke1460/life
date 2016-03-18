@@ -9,7 +9,7 @@
 			<div class="mui-slider">
 				<div class="mui-slider-group mui-slider-loop">
 					<div class="mui-slider-item mui-slider-item-duplicate">
-						<div class="mui-slider-item">
+						<!--<div class="mui-slider-item">-->
 							<ul class="mui-table-view mui-grid-view mui-grid-9">
 								<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
 									<a>
@@ -18,7 +18,7 @@
 									</a>
 								</li>
 							</ul>
-						</div>
+						<!--</div>-->
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -84,8 +84,8 @@
 					</div>
 				</div>
 				<div class="graph-wraper">
-					<div class="class-bg"><div>{{current_score}}</div></div>
-					<div class="score-bg"><div>{{current_rank}}</div></div>
+					<div class="class-bg"><div id="c_score">{{current_score}}</div></div>
+					<div class="score-bg"><div id="c_rank">{{current_rank}}</div></div>
 					<p class="score-text"><span class="c-g">{{classify_name}}成绩</span><span class="h-g">好友排名</span></p>
 				</div>
 				<div class="mui-slider-indicator">
@@ -99,7 +99,7 @@
 			<!--<div id="advert-wraper">
 				<img :src="'images/advert.png'" />
 			</div>-->
-			<div id="advert_baner" :style="advert_img"></div>
+			<div id="advert_baner" :style="advert_img" @tap="goAdvert"></div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left ">
 					<img :src="'images/rank.png'" @tap="go('rank.html')"/>
@@ -190,6 +190,11 @@
            self.current_score = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_score"];
            self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
            self.classify_name = ["旅行", "美食", "爱好", "技能", "社交"][event.detail.slideNumber];
+           var options = { useEasing : true, useGrouping : true};
+					 var c_score = new CountUp("c_score", 0, self.current_score, 0, 0, options);
+					 c_score.start();
+					 var c_rank = new CountUp("c_rank", 0, self.current_rank, 0, 0, options);
+					 c_rank.start();
   				})
 				self.uid = you.getStore("uid");
 				self.loadClassify();
@@ -205,6 +210,12 @@
 			})
 		},
 		methods: {
+			goAdvert: function() {
+				mui.openWindow({
+					url: 'advert.html',
+					id: 'advert'
+				})
+			},
 			load: function(type) {
 				this.page = 1;
 				this.trends = [];
