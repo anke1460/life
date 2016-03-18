@@ -99,6 +99,7 @@
 				if (user.status == 2) {
 					you.authenPost("/users/" + user.request_id + "/accept", {}, function(resullt) {
 						user.status = 3;
+						mui.toast("添加成功");
 					})
 				}
 			},

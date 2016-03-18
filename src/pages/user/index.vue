@@ -72,6 +72,7 @@
 			return {
 				area: '',
 				is_self: false,
+				user_score: '',
 				user: {
 					follows: 0,
 					fans: 0,
@@ -91,18 +92,32 @@
 			mui.init();
 			mui.plusReady(function() {
 				mui("mui-scroll-wrapper").scroll();
-				self.user = you.current_page.user;
-				self.is_self = (plus.storage.getItem("uid") == self.user.id);
+//				self.user = you.current_page.user;
+				self.is_self = (plus.storage.getItem("uid") == you.current_page.user.id);
 				if (!self.is_self) {
 					mui("#send")[0].style.display = "";
 				}
-				you.authenGet("/users/"+ self.user.id + "/relation", {}, function(result) {
+				you.authenGet("/users/"+ you.current_page.user.id + "/relation", {}, function(result) {
 					self.user = result;
 					if (self.user.residence_id) {
 						self.area = you.getCity(self.user.residence_id	);
 					}
 				})
-				
+				setTimeout(function() {
+					you.authenGet("/users/score", {}, function(result) {
+						var score = {};
+					  self.user_score = result.user;
+						mui.each(result.categories, function(i, d) {
+							score[d.alias] = d.score;
+						})
+						self.generateGraph(score);
+					})
+				}, 100)
+			})
+		},
+		methods: {
+			generateGraph: function(value) {
+				var self = this;
 				var score = echarts.init(document.getElementById('radar_graph'));
 				var option = {
 					title: {
@@ -123,19 +138,19 @@
 						name: false,
 						indicator: [{
 							text: '旅行',
-							max: 10000
+							max: value.travel
 						}, {
 							text: '美食',
-							max: 10000
+							max: value.food
 						}, {
 							text: '社交',
-							max: 10000
+							max: value.social
 						}, {
 							text: '技能',
-							max: 10000
+							max: value.skill
 						}, {
 							text: '爱好',
-							max: 10000
+							max: value.hobby
 						}],
 						radius: 45
 					}],
@@ -150,15 +165,13 @@
 							}
 						},
 						data: [{
-							value: [self.user.travel_score,self.user.food_score, self.user.social_core, self.user.skill_score, self.user.hobby_score],
+							value: [self.user_score.travel_score,self.user_score.food_score, self.user_score.social_core, self.user_score.skill_score, self.user_score.hobby_score],
 							name: ''
 						}]
 					}]
 				};
 				score.setOption(option);
-			})
-		},
-		methods: {
+			},
 			sendMsg: function(user) {
 				mui.openWindow({
 					url: '../chat.html',
@@ -176,7 +189,7 @@
 						user: {
 						  id:	this.user.id,
 						  name: this.user.name,
-						  honor_nam: this.user.honor_nam
+						  honor_name: this.user.honor_name
 						}
 					}
 				})
@@ -185,16 +198,19 @@
 				var self = this;
 				you.authenDelete("/users/" + this.user.id + "/friend", {}, function(result) {
 					self.user.is_friend = false;
+					mui.toast("已删除好友关系");
 				})
 			},
 			cancelConcern: function() {
 				var self = this;
 				you.authenDelete("/users/" + this.user.id + "/concern", {}, function(result) {
 					self.user.is_concerned = false;
+					mui.toast("已取消关注");
 				})
 			},
 			sendRequest: function() {
 				you.authenPost("/users/" + this.user.id + "/add_friend", {}, function(result) {
+					mui.toast("已发送好友请求");
 				})
 			},
 			concern: function() {
@@ -202,6 +218,7 @@
 				if (this.user.is_concerned == false) {
 					you.authenPost("/users/"+ this.user.id + "/concern", {}, function(result) {
 						self.user.is_concerned = true;
+						mui.toast("已关注");
 					})
 				}
 			},
@@ -221,10 +238,8 @@
 				  }]
 				};
 				plus.nativeUI.actionSheet(actionstyle, function(e) {
-					console.log(e.index);
 					if (e.index == 3) {
 						if (self.user.is_concerned) {
-							console.log('ccen');
 							self.cancelConcern();
 						} else {
 							self.concern();

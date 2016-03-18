@@ -9,12 +9,22 @@
 		<div class="mui-scroll">
 			<div class="mui-content">
 				<div id="slider" class="mui-slider">
-					<div class="mui-slider-group">
+					<div class="mui-slider-group mui-slider-loop">
+						 <div class="mui-slider-item mui-slider-item-duplicate">
+						 	<a>
+								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ nodes[nodes.length-1].imgs[0] +')'}" class="bg-img" />
+							</a>
+						 </div>
 						<div class="mui-slider-item" v-for="node in nodes">
 							<a>
 								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node.imgs[0] +')'}" class="bg-img" />
 							</a>
 						</div>
+						<div class="mui-slider-item mui-slider-item-duplicate">
+						 	<a>
+								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ nodes[0].imgs[0] +')'}" class="bg-img" />
+							</a>
+						 </div>
 					</div>
 					<div class="description-bar">
 						<strong>{{current_node.name}}</strong>
@@ -26,7 +36,7 @@
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right group-cos">
-				 		{{title}}
+				 		{{title}} {{finish_counts}}
 				 		<span id="add_wish" @tap.stop="addWish"></span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
@@ -51,12 +61,12 @@
 								</div>
 								<div class="user-photo">
 									<img :src="f" v-for="f in finished.user" track-by="$index"/>
-									{{ finished.count > 0 ? '等' : finished.count }} 人已完成
+									{{ finished.count > 0 ? '等' : '暂无' }} 人完成
 									<a @tap="detail('finish')">查看</a>
 								</div>
 								<div class="user-photo">
 									<img :src="s" v-for="s in aspiration.user" track-by="$index"/>
-									{{ aspiration.count > 0 ? '等' : aspiration.count }} 人加入心愿
+									{{ aspiration.count > 0 ? '等' : '暂无' }} 人加入心愿
 									<a @tap="detail('wish')">查看</a>
 								</div>
 							</li>
@@ -137,7 +147,8 @@
 				has_photo: false,
 				map_type: '',
 				detail_classify: {
-					is_aspiration: true
+					is_aspiration: true,
+					marks_count: 0
 				},
 				classify: {
 					is_mark: false
@@ -147,7 +158,8 @@
 				aspiration: '',
 				aspiration_id: '',
 				finished: '',
-				current_active: 'default'
+				current_active: 'default',
+				finish_counts: ''
 			}
 		},
 		watch: {
@@ -157,6 +169,9 @@
 				} else {
 					mui(".mbsc-mobiscroll")[0].style.display = "";
 				}
+			},
+			'detail_classify.marks_count': function() {
+				this.finish_counts = this.detail_classify.marks_count + '/' + this.detail_classify.nodes_count;
 			}
 		},
 		ready: function() {
@@ -174,6 +189,7 @@
 			});
 			mui.plusReady(function() {
 				self.detail_classify = you.current_page.detail_classify;
+				self.finish_counts = self.detail_classify.marks_count + '/' + self.detail_classify.nodes_count;
 				self.aspiration_id = you.current_page.aspiration_id;
 				self.classify = you.current_page.classify;
 				self.title = self.detail_classify.name;
@@ -248,6 +264,7 @@
 						});
 					})
 					self.city = city;
+					self.current_node = self.nodes[0];
 					setTimeout(function() {
 						mui('.mui-slider').slider();
 					}, 100);
@@ -276,8 +293,10 @@
 					function(result) {
 						self.current_item.selected = true;
 						mui('.mui-popover').popover('toggle');
+						self.detail_classify.marks_count += 1;
 						you.endLoding();
 						mui.fire(you.webview("attainment_list"), "reloadData");
+						
 					},
 					function(xhr) {
 						mui.toast(JSON.parse(xhr.responseText).error);
@@ -293,6 +312,7 @@
 							self.current_item.selected = false;
 							mui('.mui-popover').popover('toggle');
 							mui.fire(you.webview("attainment_list"), "reloadData");
+							self.detail_classify.marks_count -= 1;
 							you.endLoding();
 						}, function(xhr) {
 							mui.toast(JSON.parse(xhr.responseText).error);

@@ -23,7 +23,7 @@
 			<div class="description">
 				{{classify.description}}
 			</div>
-			<div class="title-bar">
+			<div class="title-bar i-top">
 				评分规则
 			</div>
 			<div class="tip">
@@ -41,11 +41,12 @@
 				</div>
 				<div class="mui-col-xs-3 mui-pull-left">
 					<p class="no-open">定位认证</p>
-					<span>尚未开通</span>
+					<span>20%</span>
 				</div>
+				<div class="mui-item-clear"></div>
 				<h5>完成组合内所有组合点+20%</h5>
 			</div>
-			<div class="title-bar">
+			<div class="title-bar i-btm">
 				包含成就组合
 			</div>
 			<ul class="mui-table-view">
@@ -128,6 +129,14 @@
 		}
 	}
 	
+	.i-top {
+		border-top: 1px solid #CCCCCC;
+	}
+	
+	.i-btm {
+		border-bottom: 1px solid #CCCCCC;
+	}
+	
 	.tag {
 		position: absolute;
 		top: 5px;
@@ -150,13 +159,13 @@
 		font-size: 12px;
 		line-height: 30px;
 		color: #333;
-		border-top: 1px solid #CCCCCC;
-		border-bottom: 1px solid #CCCCCC;
+		/*border-top: 1px solid #CCCCCC;
+		border-bottom: 1px solid #CCCCCC;*/
 	}
 	
 	.tip {
 		text-align: center;
-		margin: 10px 0px;
+		/*margin: 10px 0px;*/
 		overflow: hidden;
 		p {
 			color: #1FCC7C;
