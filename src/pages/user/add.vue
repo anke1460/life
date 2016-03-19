@@ -31,11 +31,13 @@
 				</ul>
 				<ul class="mui-table-view" v-show="!findUser">
 					<li class="mui-table-view-cell">
-						<img class="mui-media-object mui-pull-left" :src="logo" />
-						<div class="mui-media-body">
-							通讯录导入
-							<p>添加或邀请通讯录中好友</p>
-						</div>
+					  <a class="mui-navigate-right" @tap="addressList">
+							<img class="mui-media-object mui-pull-left" :src="logo" />
+							<div class="mui-media-body">
+								通讯录导入
+								<p>添加或邀请通讯录中好友</p>
+							</div>
+						</a>
 					</li>
 				</ul>
 				<h5 class="no-tip" v-show="findUser && users.length == 0 && loaded">没有该用户</h5>
@@ -58,7 +60,8 @@
 				findUser: false,
 				current_relation_name: '',
 				loaded: false,
-				sys_no: ''
+				sys_no: '',
+				address: false
 			}
 		},
 		ready: function() {
@@ -79,6 +82,9 @@
 			});
 			mui.plusReady(function() {
 				self.sys_no = you.getStore("sys_no");
+				you.authenGet("/system/check_address", {}, function(result) {
+					self.address = result.address;
+				})
 			})
 		},
 		methods: {
@@ -118,6 +124,20 @@
 						user.current_relation = 0;
 					})
 				}
+			},
+			addressList: function() {
+				if (this.address) {
+					mui.openWindow({
+						url: 'contacts.html',
+						id: 'contacts',
+					})
+				} else {
+					mui.openWindow({
+						url: 'address_list.html',
+						id: 'address_list',
+					})
+				}
+				
 			}
 		}
 	}
