@@ -89,12 +89,9 @@
 				$.plusReady(function() {
 					plus.screen.lockOrientation("portrait-primary");
 					plus.webview.currentWebview().show();
-//					var settings = app.getSettings();
-//					var state = app.getState();
-//					var mainPage = $.preload({
-//						"id": 'main',
-//						"url": 'main.html'
-//					});
+					plus.webview.currentWebview().setStyle({
+						popGesture: 'none'
+					})
 					var toMain = function() {
 						setTimeout(function() {
 							$.openWindow({
