@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+		</style>
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			mui.plusReady(function() {
+				if (plus.storage.getItem('token')) {
+					you.authenPost("/login", {}, function(result) {
+						plus.storage.setItem("token", result.authen_token);
+						plus.storage.setItem("name", result.name);
+						plus.storage.setItem("uid", "" + result.uid);
+						plus.storage.setItem('logo', result.logo);
+						plus.storage.setItem('sys_no', result.sys_no);
+						plus.storage.setItem('client_key', result.client_key);
+						plus.storage.setItem('client_name', result.client_name);
+						console.log(11111);
+						mui.openWindow({
+							id: 'main',
+							url: 'main.html',
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, function() {
+						you.clearStore();
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								autoShow: false
+							}
+						});
+					});
+					
+				} else {
+					console.log(2222);
+					mui.openWindow({
+						url: 'login.html',
+						id: 'login',
+						show: {
+							autoShow: false
+						}
+					});
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>
