@@ -108,7 +108,7 @@
 					<img :src="'images/vs.png'" @tap="go('pk.html')" />
 				</div>
 				<div class="mui-col-xs-4 mui-pull-right" @tap="go('user/add_user.html')">
-					<img :src="'images/find_friend.png'" />
+					<img :src="'images/find_friend.png'" style="float: right;" />
 				</div>
 			</div>
 			<div id="infos">
@@ -364,6 +364,7 @@
 	#three_module {
 		overflow: hidden;
 		margin-top: 5px;
+		padding: 0 5px;
 		img {
 			max-width: 100px;
 		}

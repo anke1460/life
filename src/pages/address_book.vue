@@ -68,7 +68,6 @@
 		ready: function() {
 			mui.init();
 			mui.plusReady(function() {
-				you.loading();
 				you.authenGet("/users/friend", {}, function(result) {
 					you.endLoding();
 					var friends = [];
@@ -94,13 +93,13 @@
 						return a.name > b.name
 					})
 					this.items = friends;
-//					this.total = friends.length;
+					this.total = friends.length;
 					setTimeout(function() {
 						var header = document.querySelector('header.mui-bar');
 						var list = mui("#list")[0];
 						list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
 						window.indexedList = new mui.IndexedList(list);
-					}, 50)
+					}, 100)
 				}.bind(this))
 			
 			}.bind(this))

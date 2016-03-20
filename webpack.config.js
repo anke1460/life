@@ -40,7 +40,9 @@ module.exports = {
 		"friend_list":           ["./src/pages/friend_list.js"],
 		"user_rank":             ["./src/pages/user/rank.js"],
 		"advert":                ["./src/pages/advert.js"],
-		"advert_detail":         ["./src/pages/advert_detail.js"]
+		"advert_detail":         ["./src/pages/advert_detail.js"],
+		"address_list":          ["./src/pages/user/address_list.js"],
+		"contacts":              ["./src/pages/user/contacts.js"]
 	},
 	output: {
 		path: './build',
