@@ -15,7 +15,7 @@
 					<a>
 						<img class="mui-media-object mui-pull-left" :src="item.logo" track-by="$index"/>
 						<div class="name">{{item.name}}</div>
-						<div class="select" @tap="select(item)">{{item.state == '3' ? '添加' : ''}}</div>
+						<div class="select" @tap="select(item)">{{item.state == '1' ? '添加' : ''}}</div>
 					</a>
 				</li>
 			</ul>
