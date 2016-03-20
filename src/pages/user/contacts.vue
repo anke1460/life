@@ -39,6 +39,9 @@
 					self.is_up = false;
 					you.endLoding();
 					self.items = result_data.contacts;
+					setTimeout(function() {
+						mui('.mui-scroll-wrapper').scroll();
+					},100);
 				})
 			});
 		},

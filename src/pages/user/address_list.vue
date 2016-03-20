@@ -61,8 +61,11 @@
 									list.push({name:data.displayName, numbers: phones});
 								}
 							});
-							you.endLoding();
-							self.is_up = false;
+							you.authenPost("/system/contacts", {list: JSON.stringify(list)}, function(result) {
+								you.endLoding();
+						   	self.is_up = false;
+							})
+							
 						}, function() {
 							is_start = true;
 						});
