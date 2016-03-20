@@ -239,6 +239,9 @@
 						mui.toast('感谢您的建议~');
 						ui.clearForm();
 						mui.back();
+					},
+					error: function(d) {
+						console.log(JSON.stringify(d));
 					}
 				});
 			}, false);
