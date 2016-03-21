@@ -363,7 +363,7 @@
 		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
 			<div class="mui-scroll">
 				<div id='msg-list'>
-			  </div>
+				</div>
 			</div>
 		</div>
 		<footer>
@@ -409,6 +409,7 @@
 				template.config('escape', false);
 				//$.plusReady=function(fn){fn();};
 				var page = 1;
+				var img_path = "";
 				$.plusReady(function() {
 					document.getElementById("title").innerText = you.current_page.user.name;
 					var user_logo = plus.webview.currentWebview().user.logo;
@@ -434,21 +435,22 @@
 						}
 					};
 					var record = [];
-					you.authenGet("/users/" + plus.webview.currentWebview().user.id + "/chat_recordes", {page: page}, function(result) {
+					you.authenGet("/users/" + plus.webview.currentWebview().user.id + "/chat_recordes", {
+						page: page
+					}, function(result) {
 						console.log(JSON.stringify(result));
-						result.chat_recordes.forEach( function(i) {
+						result.chat_recordes.forEach(function(i) {
 							record.push({
 								sender: i.is_self,
 								type: i.content.type == 'img' ? 'image' : 'text',
 								logo: i.logo,
-								content:  (i.content.type == 'text' ? i.content.msg : i.content.url)
+								content: (i.content.type == 'text' ? i.content.msg : i.content.url)
 							})
 							bindMsgList();
 							console.log(JSON.stringify(record));
-							 mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+							mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
 						})
-				  })
-					
+					})
 					var ui = {
 						body: doc.querySelector('body'),
 						footer: doc.querySelector('footer'),
@@ -478,8 +480,6 @@
 							}, function(e) {
 								playState.innerText = '点击播放';
 							});
-							
-							
 						}
 					};
 					var imageViewer = new $.ImageViewer('.msg-content-image', {
@@ -508,14 +508,38 @@
 					window.addEventListener('resize', function() {
 						ui.areaMsgList.scrollTop = ui.areaMsgList.scrollHeight + ui.areaMsgList.offsetHeight;
 					}, false);
-					
-					//发送
+					var db = openDatabase('youyou', '1.0', 'youyou db', 5 * 1024 * 1024);
+					db.transaction(function(tx) {
+						tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id unique, content, type, sender, logo)');
+					});
+					db.transaction(function(x) {
+							x.executeSql('SELECT * FROM messages', [], function(tx, results) {
+								var len = results.rows.length,
+									i;
+								console.log(3334, results.rows.length);
+								for (i = 0; i < len; i++) {
+									console.log(JSON.stringify(results.rows.item(i)))
+									record.push({
+										sender: results.rows.item(i).sender,
+										content: results.rows.item(i).content,
+										type: results.rows.item(i).type,
+										logo: results.rows.item(i).logo,
+									});
+									bindMsgList();
+									console.log(JSON.stringify({
+										content: results.rows.item(i).content,
+										type: results.rows.item(i).type
+									}));
+								}
+							})
+						})
+						//发送
 					var send = function(msg) {
 						record.push(msg);
 						bindMsgList();
-						sendMessage(msg)
+						sendMessage(msg);
 					};
-//					初始化连接
+					//					初始化连接
 					var conn = null;
 					var access_token = ""
 					conn = new Easemob.im.Connection();
@@ -531,28 +555,29 @@
 								logo: user_logo,
 								content: message.url
 							});
+							db.transaction(function(tx) {
+								tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + message.url  + "', 'image','zs', '" + user_logo + "')");
+							});
 							bindMsgList();
 						},
 						onAudioMessage: function(message) {
-							var dtask = plus.downloader.createDownload(  message.url, {}, function ( d, status ) {
+							var dtask = plus.downloader.createDownload(message.url, {}, function(d, status) {
 								// 下载完成
-									if ( status == 200 ) { 
+								if (status == 200) {
 									var path = d.filename;
-										record.push({
+									record.push({
 										sender: 'zs',
 										type: 'sound',
 										logo: user_logo,
 										content: path
 									});
 									bindMsgList();
-									
-									} else {
-										console.info( "Download failed: " + status ); 
-										plus.nativeUI.toast('下载失败'+status);
-									} 
-								});
-								dtask.start();
-							
+								} else {
+									console.info("Download failed: " + status);
+									plus.nativeUI.toast('下载失败' + status);
+								}
+							});
+							dtask.start();
 						},
 						onTextMessage: function(message) {
 							record.push({
@@ -560,6 +585,9 @@
 								type: 'text',
 								logo: user_logo,
 								content: message.data
+							});
+							db.transaction(function(tx) {
+								tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + message.data  + "', 'text','zs', '" + user_logo + "')");
 							});
 							bindMsgList();
 						}
@@ -569,7 +597,7 @@
 						pwd: plus.storage.getItem("client_key"),
 						appKey: 'zhiqulife#zhiqulife'
 					});
-//					发送消息
+					//					发送消息
 					var sendMessage = function(msg) {
 						if (msg.type == 'text') {
 							var options = {
@@ -578,6 +606,9 @@
 								type: msg.type,
 								logo: self_logo
 							};
+							db.transaction(function(tx) {
+								tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + msg.content + "', '" + msg.type + "','self',' " + options.logo + "')");
+							});
 							conn.sendTextMessage(options);
 						} else if (msg.type == 'image') {
 							var task = plus.uploader.createUpload('http://a1.easemob.com/zhiqulife/zhiqulife/chatfiles', {},
@@ -597,6 +628,9 @@
 										}
 									}
 									options["uuid"] = data.entities[0].uuid;
+									db.transaction(function(tx) {
+										tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + img_path  + "', 'image','self', '" + self_logo + "')");
+									});
 									conn.sendPictureMessage(options);
 								})
 							task.addFile(msg.content, {
@@ -719,6 +753,7 @@
 								case 1:
 									var cmr = plus.camera.getCamera();
 									cmr.captureImage(function(path) {
+										img_path = "file://" + plus.io.convertLocalFileSystemURL(path);
 										send({
 											sender: 'self',
 											type: 'image',
@@ -730,6 +765,7 @@
 									break;
 								case 2:
 									plus.gallery.pick(function(path) {
+										img_path = path;
 										send({
 											sender: 'self',
 											type: 'image',
@@ -830,7 +866,7 @@
 						e.preventDefault();
 					});
 					ui.boxMsgText.addEventListener('input', function(event) {
-//						ui.btnMsgType.classList[ui.boxMsgText.value == '' ? 'remove' : 'add']('mui-icon-paperplane');
+						//						ui.btnMsgType.classList[ui.boxMsgText.value == '' ? 'remove' : 'add']('mui-icon-paperplane');
 						ui.btnMsgType.setAttribute("for", ui.boxMsgText.value == '' ? '' : 'msg-text');
 						ui.h.innerText = ui.boxMsgText.value.replace(new RegExp('\n', 'gm'), '\n-') || '-';
 						ui.footer.style.height = (ui.h.offsetHeight + footerPadding) + 'px';

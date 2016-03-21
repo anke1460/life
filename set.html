@@ -25,6 +25,13 @@
 						密码修改
 					</a>
 				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 25px;">
+				<li class="mui-table-view-cell">
+					<a id="help" class="mui-navigate-right">
+						帮助
+					</a>
+				</li>
 				<li class="mui-table-view-cell">
 					<a id="about" class="mui-navigate-right">
 						关于知趣
@@ -33,7 +40,7 @@
 			</ul>
 			<ul class="mui-table-view" style="margin-top: 25px;">
 				<li class="mui-table-view-cell">
-					<a style="text-align: center;color: #FF3B30;" id="logout">
+					<a style="text-align: center;" id="logout">
 						退出登录
 					</a>
 				</li>
@@ -58,6 +65,13 @@
 			mui.openWindow({
 				url: 'about.html',
 				id: 'about'
+			})
+		})
+		
+		document.getElementById("help").addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'help.html',
+				id: 'help'
 			})
 		})
 		document.getElementById("pwd").addEventListener("tap", function() {

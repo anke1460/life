@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<style type="text/css">
+			li {
+				padding: 2em;
+				border-bottom: 1px solid #eaeaea;
+				background: #fafafa;
+				font-size: 12px;
+			}
+			
+			li:active {
+				background: #f4f4f4;
+			}
+			
+			.logo {
+				text-align: center;
+			}
+			
+			footer {
+				width: 100%;
+				text-align: center;
+				color: #c6c6c6;
+				font-size: 12px;
+			}
+			
+			.tip {
+				margin-top: 40%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">帮助</h1>
+		</header>
+		<div id="content" class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" id="question">热点问题Q&A</a>
+				</li>
+			</ul>
+			<div class="tip mui-text-center">
+				<p>更多疑问请咨询</p>
+				<p>Chappy@zhiqu.life</p>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			document.getElementById("question").addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'question.html',
+				id: 'question'
+			})
+		})
+		</script>
+	</body>
+
+</html>

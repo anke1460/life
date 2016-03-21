@@ -21,7 +21,6 @@
 						</p>
 						<span class="time">{{item.created_at | time}}</span>
 						<div class="mui-pull-right">
-							<!--<span class="mui-icon mui-icon-redo"></span>-->
 							<span class="mui-icon praise" @tap="praise(item, $event)"></span>
 							<span class="mui-icon note" @tap="comment(item)"></span>
 						</div>
@@ -76,7 +75,7 @@
 		},
 		methods: {
 			praise: function(item, e) {
-				you.authenPost("/stories/" + item.detail_classify_id + "/praise", {}, function(result) {
+				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
 					e.target.classList.add("animated");
 					e.target.classList.add("fadeInDown");
 				})

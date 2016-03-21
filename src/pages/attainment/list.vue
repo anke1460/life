@@ -11,10 +11,20 @@
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="mui-slider">
-				<div class="mui-slider-group">
+				<div class="mui-slider-group mui-slider-loop">
+					 <div class="mui-slider-item mui-slider-item-duplicate">
+					 	<a>
+							<img :src="images[images.length-1].image_url" />
+						</a>
+					 </div>
 					<div class="mui-slider-item" v-for="image in images">
 						<img :src="image.image_url" class="img" />
 					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+					 	<a>
+							<img :src="images[0].image_url" />
+						</a>
+					 </div>
 				</div>
 				<div class="mui-slider-indicator">
 					<div class="mui-indicator" v-for="image in images" :class="{'mui-active': $index == 0}"></div>
@@ -122,6 +132,7 @@
 	}
 </script>
 <style lang="sass">
+
 	.mui-slider {
 		height: 140px;
 		img {

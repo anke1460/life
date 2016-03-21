@@ -37,7 +37,7 @@
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right group-cos">
 				 		{{title}} {{finish_counts}}
-				 		<span id="add_wish" @tap.stop="addWish"></span>
+				 		<span id="add_wish" @tap.stop="addWish" class="is_spiration-{{detail_classify.is_aspiration}}"></span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="group-content">
@@ -329,20 +329,23 @@
 				if (self.detail_classify.is_aspiration) {
 					plus.nativeUI.confirm("确定取消该心愿吗?", function(e) {
 						if (e.index == 0) {
-							you.authenDelete("/aspiration/" + self.aspiration_id, {}, function() {
+							var id = self.aspiration_id ? self.aspiration_id : you.current_page.detail_classify.aspiration_id;
+							you.authenDelete("/aspiration/" + id, {}, function() {
 								self.detail_classify.is_aspiration = false;
 								mui.toast("已取消");
 								mui.fire(plus.webview.getWebviewById("growth.html"), "reset");
+								mui.fire(you.webview("attainment_list"), "reloadData");
 							})
 						}
 					})
 					
 				} else {
 					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {}, function(result) {
-						mui.totast("已添加到我的心愿清单");
+						mui.toast("已添加到我的心愿清单");
 						self.detail_classify.is_aspiration = true;
 						self.aspiration_id = result.id;
 						mui.fire(plus.webview.getWebviewById("growth.html"), "reset");
+						mui.fire(you.webview("attainment_list"), "reloadData");
 					})
 				}
 				
@@ -461,7 +464,8 @@
 	}
 	
 	#add_wish {
-		float: right;
+		position: absolute;
+	  right: 45px;
 	}
 	
 	#slider {
