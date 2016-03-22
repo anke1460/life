@@ -7,6 +7,7 @@
 	<div class="mui-content mui-scroll-wrapper" id="content">
 		<div class="mui-scroll">
 			<div class="news" @tap="news">
+				<p class="new-title">{{title}}</p>
 				<div :style="strategy" class="strategy"></div>
 			</div>
 			<div class=" mui-content-padded">
@@ -59,7 +60,8 @@
 		data: function() {
 			return {
 				items: [],
-				strategy: ''
+				strategy: '',
+				title: ''
 			}
 		},
 		ready: function() {
@@ -104,6 +106,7 @@
 			load: function() {
 				you.authenGet("/aspiration", {}, function(result) {
 					this.items = result.aspirations;
+					this.title = result.title;
 					this.strategy = {
 						backgroundImage: 'url(' + result.logo + ')'
 					};
@@ -123,8 +126,16 @@
 <style lang="sass">
 	.news {
 		height: 150px;
+		position: relative;
 	}
 	
+	.new-title {
+		position: absolute;
+		bottom: 5px;
+		left: 10px;
+		color: #000;
+		font-size: 18px
+	}
 	.progress-bar {
 		height: 10px;
 		padding: 1px;

@@ -9,7 +9,6 @@
 			<div class="mui-slider">
 				<div class="mui-slider-group mui-slider-loop">
 					<div class="mui-slider-item mui-slider-item-duplicate">
-						<!--<div class="mui-slider-item">-->
 							<ul class="mui-table-view mui-grid-view mui-grid-9">
 								<li class="mui-table-view-cell mui-media mui-col-xs-4 col-2" v-for="item in skill">
 									<a>
@@ -18,7 +17,6 @@
 									</a>
 								</li>
 							</ul>
-						<!--</div>-->
 					</div>
 					<div class="mui-slider-item">
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -96,9 +94,6 @@
 					<div class="mui-indicator"></div>
 				</div>
 			</div>
-			<!--<div id="advert-wraper">
-				<img :src="'images/advert.png'" />
-			</div>-->
 			<div id="advert_baner" :style="advert_img" @tap="goAdvert"></div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left ">
@@ -134,7 +129,7 @@
 								</p>
 								<span class="time">{{item.created_at | time}}</span>
 								<div class="mui-pull-right">
-									<span class="mui-icon praise" @tap="praise(item, $event)"></span>
+									<span class="mui-icon praise" @tap="praise(item, $event)" :class="{'is_praise': item.is_praise}"></span>
 									<span class="mui-icon note" @tap="comment(item)"></span>
 								</div>
 							</div>
@@ -168,7 +163,8 @@
 				current_score: '',
 				current_rank: '',
 				loadedPage: false,
-				classify_name: '旅游'
+				classify_name: '旅游',
+				friends_count: 0
 			}
 		},
 		ready: function() {
@@ -188,20 +184,26 @@
 			mui.plusReady(function() {
 				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
            self.current_score = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_score"];
-           self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
+           if (self.friends_count == 0) {
+           	  self.current_rank = "N/A";
+           } else {
+           	  self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
+           }
+         
            self.classify_name = ["旅行", "美食", "爱好", "技能", "社交"][event.detail.slideNumber];
            var options = { useEasing : true, useGrouping : true};
 					 var c_score = new CountUp("c_score", 0, self.current_score, 0, 0, options);
 					 c_score.start();
-					 var c_rank = new CountUp("c_rank", 0, self.current_rank, 0, 0, options);
-					 c_rank.start();
+					 if (self.friends_count != 0) {
+						 var c_rank = new CountUp("c_rank", 100, self.current_rank, 0, 0, options);
+						 c_rank.start();
+					 }
   				})
 				self.uid = you.getStore("uid");
 				self.loadClassify();
 			}.bind(this));
 			
 			window.addEventListener("reloadData", function() {
-				mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0);
 				self.page = 1;
 				self.trends = [];
 				self.loadMsg();
@@ -243,8 +245,14 @@
 					self.advert = result.advert;
 					self.advert_img = {backgroundImage: "url("+ result.advert.img + ")"};
 					self.user_score = result.user_score;
+					self.friends_count = result.friends;
 					self.current_score = self.user_score.travel_score;
-					self.current_rank = self.user_score.travel_num;
+					if (self.friends_count == 0) {
+           	 self.current_rank = "N/A";
+           } else {
+           	self.current_rank = self.user_score.travel_num;
+           }
+					
 					 if (!self.loadedPage) {
 					 	mui.each(result.classifies, function(i, d) {
 							this[d.category_alias].push(d);
@@ -254,6 +262,9 @@
 						}.bind(this))
 					 }
 					 self.loadedPage = true;
+					 setTimeout(function() {
+					 	 mui("#refreshContainer").pullRefresh().scrollTo(0, 0, 100);
+					 },300)
 				}.bind(this))
 			},
 			comment: function(item) {
@@ -278,8 +289,13 @@
 			},
 			praise: function(item, e) {
 				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
-					e.target.classList.add("animated");
-					e.target.classList.add("fadeInDown");
+//					e.target.classList.add("animated");
+//					e.target.classList.add("fadeInDown");
+					if (result.ok == 1) {
+						item.is_praise = false;
+					} else if (result.ok == 2) {
+						item.is_praise = true;
+					}
 				})
 			},
 			goAttainment: function(item) {

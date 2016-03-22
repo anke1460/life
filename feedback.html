@@ -213,8 +213,7 @@
 			ui.newPlaceholder();
 			ui.submit.addEventListener('click', function(event) {
 				if (ui.question.value == '' ||
-					(ui.contact.value != '' &&
-						ui.contact.value.search(/^(\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+)|([1-9]\d{4,9})$/) != 0)) {
+					(ui.contact.value != '')) {
 					return mui.toast('信息填写不符合规范');
 				}
 				//		plus.nativeUI.showWaiting();

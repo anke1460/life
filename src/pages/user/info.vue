@@ -56,7 +56,7 @@
 		</li>
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" id="place_select">
-				<label>常住地</label>
+				<label>现居地</label>
 				<span class="mui-pull-right">
 			   	{{address || '未填写'}}
 			   </span>

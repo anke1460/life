@@ -14,7 +14,7 @@
 						{{score_1.state}}
 					</p>
 				</div>
-				<div class="list" style="width: 20%;">
+				<div class="list" style="width: 20%;position: relative;">
 					<div class="vs"></div>
 					<span id="ptitle" @tap="begin" :class="{'select': user_1.id && user_2.id}">开始对比</span>
 				</div>
@@ -28,44 +28,44 @@
 			</div>
 			<div class="mui-table-view" id="vs_wraper">
 				<div class="mui-table-view-cell">
-					<div class="score">{{score_1.travel_score}}</div>
+					<div class="score" id="t_1">{{score_1.travel_score}}</div>
 					<div class="vs-classify">
 						<img :src="travel" />
 						<p>旅游</p>
 					</div>
-					<div class="score">{{score_2.travel_score}}</div>
+					<div class="score" id="d_1">{{score_2.travel_score}}</div>
 				</div>
 				<div class="mui-table-view-cell">
-					<div class="score">{{score_1.food_score}}</div>
+					<div class="score" id="t_2">{{score_1.food_score}}</div>
 					<div class="vs-classify">
 						<img :src="food" />
 						<p>美食</p>
 					</div>
-					<div class="score">{{score_2.food_score}}</div>
+					<div class="score" id="d_2">{{score_2.food_score}}</div>
 				</div>
 				<div class="mui-table-view-cell">
-					<div class="score">{{score_1.hobby_score}}</div>
+					<div class="score" id="t_3">{{score_1.hobby_score}}</div>
 					<div class="vs-classify">
 						<img :src="hobby" />
 						<p>爱好</p>
 					</div>
-					<div class="score">{{score_2.hobby_score}}</div>
+					<div class="score" id="d_3">{{score_2.hobby_score}}</div>
 				</div>
 				<div class="mui-table-view-cell">
-					<div class="score">{{score_1.skill_score}}</div>
+					<div class="score" id="t_4">{{score_1.skill_score}}</div>
 					<div class="vs-classify">
 						<img :src="skill" />
 						<p>技能</p>
 					</div>
-					<div class="score">{{score_2.skill_score}}</div>
+					<div class="score" id="d_4">{{score_2.skill_score}}</div>
 				</div>
 				<div class="mui-table-view-cell">
-					<div class="score">{{score_1.social_score}}</div>
+					<div class="score" id="t_5">{{score_1.social_score}}</div>
 					<div class="vs-classify">
 						<img :src="social" />
 						<p>社交</p>
 					</div>
-					<div class="score">{{score_2.social_score}}</div>
+					<div class="score" id="d_5">{{score_2.social_score}}</div>
 				</div>
 
 			</div>
@@ -88,8 +88,8 @@
 				user_2: {
 					logo: 'images/pk_add.png'
 				},
-				score_1: "",
-				score_2: ''
+				score_1: {state: ""},
+				score_2: {state: ""}
 			}
 		},
 		ready: function() {
@@ -119,22 +119,31 @@
 				})
 			},
 			begin: function() {
-				var self = this;
 				if (this.user_1.id && this.user_2.id) {
 					you.authenGet("/users/pk", {users: [this.user_1.id, this.user_2.id]}, function(result) {
-						self.score_1 = result.score_1;
-						self.score_2 = result.score_2;
-						if (result.state == "=") {
-							self.score_1.state = "平局";
-							self.score_2.state = "平局";
-						} else if (result.state == true) {
-							self.score_1.state = "胜";
-							self.score_2.state = "败";
-						} else {
-							self.score_1.state = "败";
-							self.score_2.state = "胜";
-						}
-					})
+						["travel_score", "food_score", "hobby_score", "skill_score", "social_score"].forEach(function(d, i) {
+						  var a = new CountUp("t_" + (i+1), 0, result.score_1[d], 0, 0);
+						  a.start();
+						  var c = new CountUp("d_" + (i+1), 0, result.score_2[d], 0, 0);
+						  if (d=='social_score') {
+						  	  c.start(function() {
+								 	if (result.state == "=") {
+										this.score_1.state = "平局";
+										this.score_2.state = "平局";
+									} else if (result.state == true) {
+										this.score_1.state = "胜";
+										this.score_2.state = "败";
+									} else {
+										this.score_1.state = "败";
+										this.score_2.state = "胜";
+									}
+							  	}.bind(this))
+						  } else {
+						   	c.start();
+						  }
+						}.bind(this))
+						
+					}.bind(this))
 				}
 			}
 		}
@@ -174,6 +183,8 @@
 		height: 30px;
 		line-height: 30px;
 		color: #989898;
+		position: absolute;
+		bottom: 10px;
 	}
 	#ptitle.select {
 		color: #1FCC7C;
@@ -186,6 +197,7 @@
 			float: left;
 			text-align: center;
 			color: #1FCC7C;
+			height: 125px;
 		}
 		p {
 			height: 30px;

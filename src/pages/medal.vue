@@ -7,7 +7,7 @@
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title">勋章墙</h1>
-		<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @tap="rule">头衔勋章规则</button>
+		<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @tap="rule">规则</button>
 	</header>
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">

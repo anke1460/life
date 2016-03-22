@@ -6,7 +6,7 @@
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title">攻略</h1>
+		<h1 class="mui-title">成长记</h1>
 	</header>
 	<div class="mui-content mui-scroll-wrapper" id="content">
 		<div class="mui-scroll">
