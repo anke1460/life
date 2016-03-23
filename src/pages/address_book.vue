@@ -37,14 +37,19 @@
 				<ul class="mui-table-view">
 					<template v-for="item in items">
 						<li data-group="{{item.name}}" class="mui-table-view-divider mui-indexed-list-group">{{item.name}}</li>
-						<li data-value="{{group.pinyin}}" data-tags="{{group.pinyin}}" class="mui-table-view-cell mui-indexed-list-item mui-media" @tap="user(group)" v-for="group in item.groups">
-							<img class="mui-media-object mui-pull-left" :src="group.logo">
-							<div class="mui-media-body">
-								{{group.name}}
-								<span class="honor-name">{{group.honor_nam}}</span>
-								<p class="mui-ellipsis">知趣分：{{group.score}}</p>
+						<li data-value="{{group.pinyin}}" data-tags="{{group.pinyin}}" class="mui-table-view-cell mui-indexed-list-item mui-media  mui-disabled" @tap="user(group, $event)" v-for="group in item.groups">
+							<div class="mui-slider-right mui-disabled">
+								<a class="mui-btn mui-btn-red" @tap="del(item.groups, group, $event)">删除</a>
 							</div>
-							<span class="rank">知趣排行: <strong>{{group.rank_num}}</strong></span>
+							<div class="mui-slider-handle">
+								<img class="mui-media-object mui-pull-left" :src="group.logo">
+								<div class="mui-media-body">
+									{{group.name}}
+									<span class="honor-name">{{group.honor_nam}}</span>
+									<p class="mui-ellipsis">知趣分：{{group.score}}</p>
+								</div>
+								<span class="rank">知趣排行: <strong>{{group.rank_num}}</strong></span>
+							</div>
 						</li>
 					</template>
 				</ul>
@@ -105,13 +110,32 @@
 			}.bind(this))
 		},
 		methods: {
+			del: function(group, item, el) {
+				var self = this;
+				var li = el.target.parentNode.parentNode;
+				mui.confirm('确认删除？', '提示', ['确认', '取消'], function(e) {
+					if (e.index == 0) {
+						you.authenDelete("/users/" + item.id + "/friend", {}, function(result) {
+							you.removeItem(group, item);
+						  self.total -= 1;
+						})
+					} else {
+						setTimeout(function() {
+							mui.swipeoutClose(li);
+						}, 0);
+					}
+			 });
+			},
 			addUser: function() {
 				mui.openWindow({
 					url: 'user/add_user.html',
 					id: 'add_user'
 				})
 			},
-			user: function(user) {
+			user: function(user, el) {
+				if (el.target.tagName == "A") {
+					return true;
+				}
 				mui.openWindow({
 					url: 'user/index.html',
 					id: 'user_index',

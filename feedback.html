@@ -212,8 +212,7 @@
 			};
 			ui.newPlaceholder();
 			ui.submit.addEventListener('click', function(event) {
-				if (ui.question.value == '' ||
-					(ui.contact.value != '')) {
+				if (ui.question.value == '') {
 					return mui.toast('信息填写不符合规范');
 				}
 				//		plus.nativeUI.showWaiting();
@@ -226,7 +225,6 @@
 				fd.append('question', ui.question.value);
 				fd.append('contact', ui.contact.value)
 				fd.append('token', you.getStore('token'))
-				console.log(3444, JSON.stringify(fd));
 				$.ajax({
 					url: you.app_base + '/system/feedback',
 					data: fd,

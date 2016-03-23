@@ -132,8 +132,11 @@
 				this.openWindow("user_name.html", "user_name");
 			},
 			uploadLogo: function() {
+				var self = this;
 				you.popActionSheet("上传头像", {}, function(result) {
-					console.log(2222, JSON.stringify(result));
+					self.user_info.logo = JSON.parse(result.responseText).url;
+					you.setStore("logo", self.user_info.logo)
+					mui.fire(plus.webview.getWebviewById("setting.html"), 'reload')
 				});
 			},
 			selectSex: function() {

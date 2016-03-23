@@ -174,7 +174,7 @@
   	  margin-bottom: 5px;
   }
   #refreshContainer {
-  		top: 97px;
+  		top: 100px;
   }
 	.sub-menu {
 		margin: 0px;
@@ -188,19 +188,20 @@
 		li {
 			padding: 10px;
 			border-bottom: 1px #eee solid;
-			font-size: 14px;
+			font-size: 16px;
 		}
 	}
 	
 	table {
-		height: 34px;
+		height: 40px;
+		line-height: 40px;
 		width: 100%;
 		position: fixed;
 		top: 64px;
 		z-index: 2;
 		background: #fff;
 		border-bottom: 1px #eee solid;
-		font-size: 14px;
+		font-size: 18px;
 		text-align: center;
 		.mui-icon-arrowdown {
 			color: #A0A0A0;

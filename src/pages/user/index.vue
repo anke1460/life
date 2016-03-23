@@ -227,11 +227,13 @@
 				var actionstyle = {
 					title: "更多",
 					cancel:"取消",
-					buttons:  [{
-					 title: "设置备注"
-				  }, {
-					 title: "推荐给朋友"
-				  }, {
+					buttons:  [
+//					{
+//					 title: "设置备注"
+//				  }, {
+//					 title: "推荐给朋友"
+//				  }
+				  , {
 					 title: self.user.is_concerned ? "取消关注" : "关注动态"
 				  }, {
 					 title: self.user.is_friend ? "删除好友" : '添加好友'

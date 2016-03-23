@@ -94,7 +94,9 @@
 					<div class="mui-indicator"></div>
 				</div>
 			</div>
-			<div id="advert_baner" :style="advert_img" @tap="goAdvert"></div>
+			<div id="advert_baner" :style="advert_img" @tap="goAdvert">
+				<p class="new-title">{{advert.title}}</p>
+			</div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left ">
 					<img :src="'images/rank.png'" @tap="go('rank.html')"/>
@@ -117,7 +119,7 @@
 					<ul class="table-view">
 						<li class="table-view-cell" v-for="item in trends">
 							<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
-							<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item, $event)">
+							<div class="mui-media-body" style="margin: 0px;">
 								<span class="user-name">
 									{{item.name}}
 								</span>
@@ -164,7 +166,8 @@
 				current_rank: '',
 				loadedPage: false,
 				classify_name: '旅游',
-				friends_count: 0
+				friends_count: 0,
+				title: ''
 			}
 		},
 		ready: function() {
@@ -277,7 +280,7 @@
 				})
 			},
 			detailTrend: function(item, e) {
-				if (e.target.className.includes("mui-icon") == false && e.target.className.includes("thumb-img") == false) {
+				if (e.target.className.includes("mui-icon") == false && e.target.className.includes("thumb-img") == false && e.target.className.includes("mui-pull-right") == false) {
 				  mui.openWindow({
 						url: 'comment.html',
 						id: 'comment',
@@ -360,9 +363,24 @@
 	}
 	
 	#advert_baner {
-		height: 70px;
+		height: 80px;
 		width: 100%;
 		background-size: cover;
+		position: relative;
+	}
+	
+	.new-title {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+		padding: 0 5px;
+		background: #000;
+		opacity: 0.5;
+		margin-bottom: 0px;
+		height: 30px;
+		line-height: 30px;
+		color: #fff;
 	}
 	
 	.mui-slider-indicator .mui-active.mui-indicator {

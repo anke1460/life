@@ -510,10 +510,10 @@
 					}, false);
 					var db = openDatabase('youyou', '1.0', 'youyou db', 5 * 1024 * 1024);
 					db.transaction(function(tx) {
-						tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id unique, content, type, sender, logo)');
+						tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id unique, content, type, sender, logo, user_name, receive_name)');
 					});
 					db.transaction(function(x) {
-							x.executeSql('SELECT * FROM messages', [], function(tx, results) {
+							x.executeSql('SELECT * FROM messages where (user_name = ? AND receive_name = ?) OR (user_name = ? AND receive_name = ?)', [plus.webview.currentWebview().user.client_name, plus.storage.getItem("client_name"),plus.webview.currentWebview().user.client_name,plus.storage.getItem("client_name") ], function(tx, results) {
 								var len = results.rows.length,
 									i;
 								console.log(3334, results.rows.length);
@@ -556,7 +556,7 @@
 								content: message.url
 							});
 							db.transaction(function(tx) {
-								tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + message.url  + "', 'image','zs', '" + user_logo + "')");
+								tx.executeSql("INSERT INTO messages (content, type, sender, logo, user_name, receive_name) VALUES ('" + message.url  + "', 'image','zs', '" + user_logo + "', '"+ plus.webview.currentWebview().user.client_name +"', '"+  plus.storage.getItem("client_name")+ "')");
 							});
 							bindMsgList();
 						},
@@ -587,7 +587,7 @@
 								content: message.data
 							});
 							db.transaction(function(tx) {
-								tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + message.data  + "', 'text','zs', '" + user_logo + "')");
+								tx.executeSql("INSERT INTO messages (content, type, sender, logo, user_name, receive_name) VALUES ('" + message.data  + "', 'text','zs', '" + user_logo + "', '"+ plus.webview.currentWebview().user.client_name +"', '"+  plus.storage.getItem("client_name") +"')");
 							});
 							bindMsgList();
 						}
@@ -607,7 +607,7 @@
 								logo: self_logo
 							};
 							db.transaction(function(tx) {
-								tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + msg.content + "', '" + msg.type + "','self',' " + options.logo + "')");
+								tx.executeSql("INSERT INTO messages (content, type, sender, logo, user_name, receive_name) VALUES ('" + msg.content + "', '" + msg.type + "','self',' " + options.logo + "', '"+ plus.storage.getItem("client_name")+"', '"+  plus.webview.currentWebview().user.client_name +"')");
 							});
 							conn.sendTextMessage(options);
 						} else if (msg.type == 'image') {
@@ -629,7 +629,7 @@
 									}
 									options["uuid"] = data.entities[0].uuid;
 									db.transaction(function(tx) {
-										tx.executeSql("INSERT INTO messages (content, type, sender, logo) VALUES ('" + img_path  + "', 'image','self', '" + self_logo + "')");
+										tx.executeSql("INSERT INTO messages (content, type, sender, logo, user_name, receive_name) VALUES ('" + img_path  + "', 'image','self', '" + self_logo + "','"+ plus.storage.getItem("client_name")+"', '"+ plus.webview.currentWebview().user.client_name+"')");
 									});
 									conn.sendPictureMessage(options);
 								})
