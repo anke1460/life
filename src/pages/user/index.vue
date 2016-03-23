@@ -240,13 +240,13 @@
 				  }]
 				};
 				plus.nativeUI.actionSheet(actionstyle, function(e) {
-					if (e.index == 3) {
+					if (e.index == 1) {
 						if (self.user.is_concerned) {
 							self.cancelConcern();
 						} else {
 							self.concern();
 						}
-					} else if (e.index == 4) {
+					} else if (e.index == 2) {
 						if (self.user.is_friend) {
 							self.cancelFriend();
 						} else {
