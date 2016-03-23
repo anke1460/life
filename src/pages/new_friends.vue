@@ -31,7 +31,6 @@
 							<span class="add-user" @tap="add(user)" :class="{'accept': user.status == 2}">{{user.status | state}}</span>
 						</div>
 					</div>
-					
 				</li>
 			</ul>
 		</div>

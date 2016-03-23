@@ -40,6 +40,7 @@
 														</div>
 														<span class="finished-text">{{item.finish_num}}/{{item.total_num}}</span>
 													</p>
+													<img :src="'images/finished.png'" class="finished" v-show="item.finish_num == item.total_num"/>
 												</div>
 											</div>
 										</div>
@@ -131,10 +132,17 @@
 	
 	.new-title {
 		position: absolute;
-		bottom: 5px;
-		left: 10px;
-		color: #000;
-		font-size: 18px
+		bottom: 0px;
+		left: 0px;
+		color: #fff;
+		font-size: 18px;
+		right: 0px;
+		background: #000;
+		opacity: 0.5;
+		margin-bottom: 0px;
+		line-height: 35px;
+		padding: 0 5px;
+		height: 35px;
 	}
 	.progress-bar {
 		height: 10px;
@@ -229,4 +237,11 @@
 		text-align: center;
 		line-height: 30px
 	}
+	
+  .finished {
+  		width: 50px;
+		position: absolute;
+		right: 10px;
+		top: 20px;
+  }
 </style>

@@ -37,7 +37,7 @@
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right group-cos">
 				 		{{title}} {{finish_counts}}
-				 		<span id="add_wish" @tap.stop="addWish" class="is_spiration-{{detail_classify.is_aspiration}}"></span>
+				 		<span id="add_wish" @tap.stop="addWish" class="{{wish_img}}"></span>
 						</a>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="group-content">
@@ -94,19 +94,19 @@
 					<div id="all">
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell mui-media" v-for="item in trends">
-								<img class="mui-media-object mui-pull-left" :src="item.avatar">
+								<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
 								<div class="mui-media-body" style="margin: 0px;">
 									<span class="user-name">
 									{{item.name}}
 								</span>
 									<div class="info-content">{{item.content}}</div>
 									<p>
-										<img :src="img.thumb" v-for="img in item.photos" class="thumb-img" />
+										<img :src="img.thumb" v-for="img in item.photos" class="thumb-img" @tap="viewPhoto(item.photos)" />
 									</p>
 									<span class="time">{{item.created_at | time}}</span>
 									<div class="mui-pull-right">
-										<span class="mui-icon praise" @tap="praise(item)"></span>
-									  <span class="mui-icon note" @tap="comment(item)"></span>
+										<span class="mui-icon praise" @tap="praise(item, $event)" :class="{'is_praise': item.is_praise}"></span>
+								   	<span class="mui-icon note" @tap="comment(item)"></span>
 									</div>
 								</div>
 							</li>
@@ -134,6 +134,7 @@
 			return {
 				nodes: [],
 				title: '',
+				wish_img: '',
 				is_selected: false,
 				is_text: false,
 				haved_at: new Date().Format("yyyy-MM-dd"),
@@ -193,6 +194,7 @@
 				self.aspiration_id = you.current_page.aspiration_id;
 				self.classify = you.current_page.classify;
 				self.title = self.detail_classify.name;
+				self.wish_img = 'is_spiration-' + (self.detail_classify.is_aspiration ? 2 : 1);
 				self.loadData();
 				if (self.classify.is_mark) {
 					self.echart = echarts.init(document.getElementById('map'));
@@ -305,7 +307,7 @@
 			},
 			cancelMark: function() {
 				var self = this;
-				plus.nativeUI.confirm("确定删除记录吗，这将会减去您的成就分数", function(e) {
+				plus.nativeUI.confirm("删除记录会减去相应成就分数", function(e) {
 					if (e.index == 0) {
 						you.loading();
 						you.authenDelete("/nodes/" + this.current_item.id + "/mark", {}, function() {
@@ -332,6 +334,7 @@
 							var id = self.aspiration_id ? self.aspiration_id : you.current_page.detail_classify.aspiration_id;
 							you.authenDelete("/aspiration/" + id, {}, function() {
 								self.detail_classify.is_aspiration = false;
+								self.wish_img = 'is_spiration-' + (self.detail_classify.is_aspiration ? 2 : 1)
 								mui.toast("已取消");
 								mui.fire(plus.webview.getWebviewById("growth.html"), "reset");
 								mui.fire(you.webview("attainment_list"), "reloadData");
@@ -343,6 +346,7 @@
 					you.authenPost("/detail_classifies/" + you.current_page.detail_classify.id + "/aspiration", {}, function(result) {
 						mui.toast("已添加到我的心愿清单");
 						self.detail_classify.is_aspiration = true;
+						self.wish_img = 'is_spiration-' + (self.detail_classify.is_aspiration ? 2 : 1)
 						self.aspiration_id = result.id;
 						mui.fire(plus.webview.getWebviewById("growth.html"), "reset");
 						mui.fire(you.webview("attainment_list"), "reloadData");
@@ -414,6 +418,11 @@
 			praise: function(item) {
 				you.authenPost("/stories/" + item.id + "/praise", {}, function(result) {
 					console.log(JSON.stringify(result));
+					if (result.ok == 1) {
+						item.is_praise = false;
+					} else if (result.ok == 2) {
+						item.is_praise = true;
+					}
 				})
 			},
 			detail: function(type) {
@@ -424,6 +433,29 @@
 					extras: {
 						title:  this.title + (type == 'finish' ? "完成情况" : '心愿名单'),
 						request_url: type == 'finish' ? '/detail_classifies/'+ you.current_page.detail_classify.id +'/finished_user' : '/detail_classifies/' + you.current_page.detail_classify.id +'/wished_user'
+					}
+				})
+			},
+			viewPhoto: function(photos) {
+				mui.openWindow({
+					url: '../preview.html',
+					id: 'preview',
+					extras: {
+						photos: photos
+					},
+					show: {
+						aniShow: 'fade-in'
+					}
+				})
+			},
+			viewUser: function(item) {
+				mui.openWindow({
+					url: "../user/index.html",
+					id: 'user_index',
+					extras: {
+						user: {
+							id: item.user_id
+						}
 					}
 				})
 			}

@@ -170,13 +170,10 @@
 		font-size: 12px;
 		line-height: 30px;
 		color: #333;
-		/*border-top: 1px solid #CCCCCC;
-		border-bottom: 1px solid #CCCCCC;*/
 	}
 	
 	.tip {
 		text-align: center;
-		/*margin: 10px 0px;*/
 		overflow: hidden;
 		p {
 			color: #1FCC7C;

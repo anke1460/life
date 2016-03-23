@@ -49,7 +49,7 @@
 				</li>
 				<li class="mui-table-view-cell msg mui-disabled" v-for="message in messages" @tap="detail(message, $event)">
 					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red" @tap="del(message)">删除</a>
+						<a class="mui-btn mui-btn-red" @tap="del(message, $event)">删除</a>
 					</div>
 					<div class="mui-slider-handle">
 						<img class="mui-media-object mui-pull-left" :src="message.logo">
@@ -116,8 +116,9 @@
 					}
 				});
 			},
-			del: function(message) {
+			del: function(message, el) {
 				var self = this;
+				var li = el.target.parentNode.parentNode;
 				mui.confirm('确认删除？', '提示', ['确认', '取消'], function(e) {
 					if (e.index == 0) {
 						you.authenDelete("/messages/" + message.id, {}, function(result) {
