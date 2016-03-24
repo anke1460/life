@@ -105,3 +105,13 @@ img.thumb-img {
 	margin-right: 5px;
 	width: 100px;
 }
+
+.msg-dot {
+	position: absolute;
+	right: 40px;
+	top: 28px;
+	background: red;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+}
