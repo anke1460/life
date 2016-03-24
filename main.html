@@ -77,7 +77,11 @@
 				left: 0px;
    			right: 60px;
 			}
-			
+			.msg-dot {
+				left: 50%;
+				top: 5px;
+				margin-left: 10px;
+			}
 		</style>
 	</head>
 
@@ -105,6 +109,7 @@
 			<a class="mui-tab-item" href="message.html">
 				<span class="mui-icon friends"></span>
 				<span class="mui-tab-label">互动</span>
+				<i class="msg-dot" style="display: none;" id="msg_dot"></i>
 			</a>
 			<a class="mui-tab-item" href="setting.html">
 				<span class="mui-icon find"></span>
@@ -135,17 +140,21 @@
 				console.log(JSON.stringify(info.clientid));
 				plus.push.addEventListener( "receive", function( msg ) {
 					console.log('receive', JSON.stringify(msg));
-					if ( msg.aps ) {  // Apple APNS message
-						console.log( "接收到在线APNS消息：" );
-					} else {
-						console.log( "接收到在线透传消息：" );
+					if (msg.payload) {
+						switch (msg.payload.type) {
+							case 'request_friend': 
+								you.setItem("request_friend", true);
+								mui.fire(plus.webview.getWebviewById("message.html"), 'add_friend');
+								document.getElementById("msg_dot").style.display = "";
+								break;
+							case 'fans':
+							  you.setItem("fans", true);
+								mui.fire(plus.webview.getWebviewById("message.html"), 'add_fans');
+								document.getElementById("msg_dot").style.display = "";
+							  break;
+						}
 					}
 				}, false );
-				plus.push.addEventListener( "click", function ( msg ) {
-					// 分析msg.payload处理业务逻辑 
-					console.log('click', JSON.stringify(msg));
-					alert( "You clicked: " + msg.content ); 
-				}, false ); 
 				var self = plus.webview.currentWebview();
 				for (var i = 0; i < 4; i++) {
 					var temp = {};
@@ -185,6 +194,7 @@
 				} else if (targetTab == 'message.html') {
 					mui.fire(plus.webview.getWebviewById("message.html"), "reloadData");
 					document.getElementById("chat").style.display = "none";
+					document.getElementById("msg_dot").style.display = "none";
 				} else if (targetTab == 'dashbord.html') {
 					mui.fire(plus.webview.getWebviewById("dashbord.html"), "reloadData");
 				}

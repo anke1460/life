@@ -34,6 +34,7 @@
 						<div class="sys">
 							粉丝
 						</div>
+						<i :class="{'msg-dot': fans_msg}"></i>
 					</a>
 				</li>
 			</ul>
@@ -75,7 +76,8 @@
 				img3: 'images/fans.png',
 				img4: 'images/zhi.png',
 				messages: '',
-				friend_msg: false
+				friend_msg: false,
+				fans_msg: false
 			}
 		},
 		ready: function() {
@@ -87,20 +89,12 @@
 					mui(".mui-scroll-wrapper").scroll();
 				}, 200)
 				
-				var info = plus.push.getClientInfo();
-				console.log(1111,JSON.stringify(info.clientid));
-				plus.push.addEventListener( "receive", function( msg ) {
-					if ( msg.aps ) {  // Apple APNS message
-						console.log( "接收到在线APNS消息：" );
-					} else {
-						console.log( "接收到在线透传消息：" );
-					}
-				}, false );
-				plus.push.addEventListener( "click", function ( msg ) {
-					// 分析msg.payload处理业务逻辑 
-					console.log('click5555', JSON.stringify(msg));
-					alert( "You clicked: " + msg.content ); 
-				}, false ); 
+				window.addEventListener("add_friend", function() {
+					self.friend_msg = true;
+				})
+				window.addEventListener("add_fans", function() {
+					self.fans_msg = true;
+				})
 			})
 			window.addEventListener("reloadData", function() {
 				self.load();
@@ -110,11 +104,16 @@
 			load: function() {
 				var self = this;
 				you.authenGet("/messages", {}, function(result) {
-					console.log(JSON.stringify(result));
 					self.messages = result.messages;
 				})
 			},
 			open: function(url) {
+				if (url == 'address_book.html') {
+				  this.friend_msg = false;
+				}
+				if (url == 'fans.html') {
+				  this.fans_msg = false;
+				}
 				mui.openWindow({
 					url: url,
 					id: url
