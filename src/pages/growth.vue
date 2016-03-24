@@ -18,7 +18,7 @@
 						<li class="mui-table-view-cell wish">
 
 							<div class="mui-slider-right mui-disabled">
-								<a class="mui-btn mui-btn-red" @tap="delete(item)">删除</a>
+								<a class="mui-btn mui-btn-red" @tap="del(item)">删除</a>
 							</div>
 							<div class="mui-slider-handle">
 								<div class="mui-slider-cell">
@@ -115,7 +115,7 @@
 					mui('#content').pullRefresh().endPulldownToRefresh();
 				}.bind(this));
 			},
-			delete: function(item) {
+			del: function(item) {
 				var self = this;
 				you.authenDelete("/aspiration/" + item.id, {}, function() {
 					you.removeItem(self.items, item);

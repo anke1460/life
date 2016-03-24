@@ -134,15 +134,19 @@
 				var info = plus.push.getClientInfo();
 				console.log(JSON.stringify(info.clientid));
 				plus.push.addEventListener( "receive", function( msg ) {
+					console.log('receive', JSON.stringify(msg));
 					if ( msg.aps ) {  // Apple APNS message
 						console.log( "接收到在线APNS消息：" );
 					} else {
 						console.log( "接收到在线透传消息：" );
 					}
 				}, false );
+				plus.push.addEventListener( "click", function ( msg ) {
+					// 分析msg.payload处理业务逻辑 
+					console.log('click', JSON.stringify(msg));
+					alert( "You clicked: " + msg.content ); 
+				}, false ); 
 				var self = plus.webview.currentWebview();
-				plus.navigator.closeSplashscreen();
-				self.show();
 				for (var i = 0; i < 4; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
@@ -153,6 +157,10 @@
 						mui.extend(aniShow,temp);
 					}
 					self.append(sub);
+					setTimeout(function() {
+						plus.navigator.closeSplashscreen();
+					  self.show('pop-in');
+					}, 150)
 				}
 			});
 			 //当前激活选项

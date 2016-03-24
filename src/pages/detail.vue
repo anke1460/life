@@ -50,7 +50,6 @@
 									page: self.page,
 									per_page: self.per_page
 								}, function(result) {
-									console.log(222,JSON.stringify(result));
 									self.items = self.items.concat(result.users);
 									if (self.page * self.per_page > result.total_count) {
 										mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);

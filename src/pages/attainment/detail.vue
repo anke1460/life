@@ -214,7 +214,7 @@
 					self.finished = result.finished;
 					self.aspiration = result.aspiration;
 				})
-				
+         
 			});
 			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 				self.current_index = event.detail.slideNumber + 1;

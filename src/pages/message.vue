@@ -13,6 +13,7 @@
 						<div class="sys">
 							好友
 						</div>
+						<i :class="{'msg-dot': friend_msg}"></i>
 					</a>
 				</li>
 			</ul>
@@ -73,7 +74,8 @@
 				img2: 'images/concern.png',
 				img3: 'images/fans.png',
 				img4: 'images/zhi.png',
-				messages: ''
+				messages: '',
+				friend_msg: false
 			}
 		},
 		ready: function() {
@@ -84,6 +86,21 @@
 				setTimeout(function() {
 					mui(".mui-scroll-wrapper").scroll();
 				}, 200)
+				
+				var info = plus.push.getClientInfo();
+				console.log(1111,JSON.stringify(info.clientid));
+				plus.push.addEventListener( "receive", function( msg ) {
+					if ( msg.aps ) {  // Apple APNS message
+						console.log( "接收到在线APNS消息：" );
+					} else {
+						console.log( "接收到在线透传消息：" );
+					}
+				}, false );
+				plus.push.addEventListener( "click", function ( msg ) {
+					// 分析msg.payload处理业务逻辑 
+					console.log('click5555', JSON.stringify(msg));
+					alert( "You clicked: " + msg.content ); 
+				}, false ); 
 			})
 			window.addEventListener("reloadData", function() {
 				self.load();
