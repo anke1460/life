@@ -22,6 +22,7 @@
 							<div class="sys">
 								新的朋友
 							</div>
+							<i :class="{'msg-dot': msg_dot}"></i>
 						</a>
 					</li>
 				</ul>
@@ -68,11 +69,17 @@
 				items: [],
 				indexs: [],
 				total: 0,
+				msg_dot: false
 			}
 		},
 		ready: function() {
+			var self = this;
 			mui.init();
 			mui.plusReady(function() {
+				var uid = plus.storage.getItem("uid");
+				if (plus.storage.getItem(uid +"_request_new_friend")) {
+					self.msg_dot = true;
+				}
 				you.authenGet("/users/friend", {}, function(result) {
 					you.endLoding();
 					var friends = [];
@@ -145,6 +152,9 @@
 				})
 			},
 			newFriends: function() {
+				var uid = plus.storage.getItem("uid");
+				plus.storage.removeItem(uid +"_request_new_friend")
+				this.msg_dot = false;
 				mui.openWindow({
 					url: 'new_friends.html',
 					id: 'new_friends'

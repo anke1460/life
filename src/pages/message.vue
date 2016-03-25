@@ -47,6 +47,7 @@
 						<div class="sys">
 							知趣官方
 						</div>
+						<i :class="{'msg-dot': sys_msg}"></i>
 					</a>
 				</li>
 				<li class="mui-table-view-cell msg mui-disabled" v-for="message in messages" @tap="detail(message, $event)">
@@ -62,6 +63,19 @@
 						<span class="time-ago">{{message.created_at | time}}</span>
 					</div>
 				</li>
+				<!--<li class="mui-table-view-cell msg mui-disabled" v-for="message in chat_messages" @tap="chat_detail(message, $event)">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red" @tap="del_chat(message, $event)">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<img class="mui-media-object mui-pull-left" :src="message.logo">
+						<div class="mui-media-body">
+							{{message.name}}
+							<p class="mui-ellipsis">{{message.content}}</p>
+						</div>
+						<span class="time-ago">{{message.created_at | time}}</span>
+					</div>
+				</li>-->
 			</ul>
 		</div>
 	</div>
@@ -77,7 +91,9 @@
 				img4: 'images/zhi.png',
 				messages: '',
 				friend_msg: false,
-				fans_msg: false
+				fans_msg: false,
+				sys_msg: false,
+				chat_messages: []
 			}
 		},
 		ready: function() {
@@ -91,13 +107,13 @@
 				var uid = you.getStore("uid");
 				window.addEventListener("add_friend", function() {
 					self.friend_msg = true;
-					you.removeStore(uid + "_request_friend");
-					mui.fire(you.webview("main"), 'clear_msg');
+//					you.removeStore(uid + "_request_friend");
+//					mui.fire(you.webview("main"), 'clear_msg');
 				})
 				window.addEventListener("add_fans", function() {
-					you.removeStore(uid + "_fans")
 					self.fans_msg = true;
-					mui.fire(you.webview("main"), 'clear_msg');
+//					you.removeStore(uid + "_fans");
+//					mui.fire(you.webview("main"), 'clear_msg');
 				})
 			})
 			window.addEventListener("reloadData", function() {
