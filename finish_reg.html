@@ -48,6 +48,7 @@
 			(function($, doc) {
 				$.init();
 				$.plusReady(function() {
+					var info = plus.push.getClientInfo();
 					var settings = app.getSettings();
 					var regButton = doc.getElementById('reg');
 					var accountBox = doc.getElementById('name');
@@ -56,7 +57,8 @@
 					regButton.addEventListener('tap', function(event) {
 						var regInfo = {
 							name: accountBox.value.trim(),
-							password: passwordBox.value
+							password: passwordBox.value,
+							p_client_id: info.clientid
 						};
 						var passwordConfirm = passwordConfirmBox.value;
 						if (passwordConfirm != regInfo.password) {
@@ -79,6 +81,7 @@
 								you.setStore("name", accountBox.value.trim());
 								you.setStore("token", result.authen_token);
 							  you.setStore('logo', result.logo);
+							  plus.storage.setItem("push_name", result.push_name);
 								mui.openWindow({
 									url: 'main.html',
 									id: 'main',

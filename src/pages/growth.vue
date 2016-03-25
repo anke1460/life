@@ -137,8 +137,8 @@
 		color: #fff;
 		font-size: 18px;
 		right: 0px;
-		background: #000;
-		opacity: 0.5;
+		/*background: #000;
+		opacity: 0.5;*/
 		margin-bottom: 0px;
 		line-height: 35px;
 		padding: 0 5px;
