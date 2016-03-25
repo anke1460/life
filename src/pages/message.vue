@@ -88,12 +88,16 @@
 				setTimeout(function() {
 					mui(".mui-scroll-wrapper").scroll();
 				}, 200)
-				
+				var uid = you.getStore("uid");
 				window.addEventListener("add_friend", function() {
 					self.friend_msg = true;
+					you.removeStore(uid + "_request_friend");
+					mui.fire(you.webview("main"), 'clear_msg');
 				})
 				window.addEventListener("add_fans", function() {
+					you.removeStore(uid + "_fans")
 					self.fans_msg = true;
+					mui.fire(you.webview("main"), 'clear_msg');
 				})
 			})
 			window.addEventListener("reloadData", function() {
