@@ -95,7 +95,7 @@
 				</div>
 			</div>
 			<div id="advert_baner" :style="advert_img" @tap="goAdvert">
-				<p class="new-title">{{advert.title}}</p>
+				<!--<p class="new-title">{{advert.title}}</p>-->
 			</div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left ">
@@ -363,7 +363,7 @@
 	}
 	
 	#advert_baner {
-		height: 80px;
+		height: 70px;
 		width: 100%;
 		background-size: cover;
 		position: relative;
