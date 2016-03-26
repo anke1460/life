@@ -151,20 +151,32 @@
 					mui.fire(plus.webview.getWebviewById("message.html"), 'add_fans');
 					document.getElementById("msg_dot").style.display = "";
 				}
+				plus.push.addEventListener( "click", function( msg ) {
+          plus.runtime.setBadgeNumber(0);
+          mui.openWindow({
+            url: 'message.html',
+            id: 'message.html'
+          })
+         }, false );
+
 				plus.push.addEventListener( "receive", function( msg ) {
-					//plus.nativeUI.alert(111,JSON.stringify(result))
 					// 接受透传消息
 					if (msg.payload) {
 						switch (msg.payload.type) {
 							case 'request_friend': 
-								plus.storage.setItem( uid + "_request_friend", true);
-								plus.storage.setItem( uid + "_request_new_friend", true);
+								plus.storage.setItem( uid + "_request_friend", 'true');
+								plus.storage.setItem( uid + "_request_new_friend", 'true');
 								mui.fire(plus.webview.getWebviewById("message.html"), 'add_friend');
 								document.getElementById("msg_dot").style.display = "";
 								break;
 							case 'fans':
-							  plus.storage.setItem(uid + "_fans", true);
+							  plus.storage.setItem(uid + "_fans", 'true');
 								mui.fire(plus.webview.getWebviewById("message.html"), 'add_fans');
+								document.getElementById("msg_dot").style.display = "";
+							  break;
+							case 'sys_msg':
+						   	plus.storage.setItem(uid + "_sys_msg", 'true');
+								mui.fire(plus.webview.getWebviewById("message.html"), 'sys_msg');
 								document.getElementById("msg_dot").style.display = "";
 							  break;
 						}
@@ -209,8 +221,6 @@
 				} else if (targetTab == 'message.html') {
 					mui.fire(plus.webview.getWebviewById("message.html"), "reloadData");
 					document.getElementById("chat").style.display = "none";
-					plus.storage.removeItem(uid + "_request_friend");
-					plus.storage.removeItem(uid + "_fans");
 				} else if (targetTab == 'dashbord.html') {
 					mui.fire(plus.webview.getWebviewById("dashbord.html"), "reloadData");
 				}

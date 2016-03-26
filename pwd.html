@@ -42,8 +42,14 @@
 	<div class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<div class="mui-content-padded margin-t-30">
+				<div class="mui-input-row">
+					<input type="password" placeholder="原密码" id="old_password" name="old_password" value="" style="display: none;">
+				</div>
 		    <div class="mui-input-row">
-					<input type="password" placeholder="输入不少于六位字符的新密码" id="password" name="password" value="">
+					<input type="password" placeholder="输入新密码" id="password" name="password" value="">
+				</div>
+				<div class="mui-input-row">
+					<input type="password" placeholder="确认密码" id="confirm_password" name="confirm_password" value="">
 				</div>
 				<div class="mui-button-row margin-t-30">
 					<button  class="mui-btn mui-btn-default" id="login_btn">保存</button>
@@ -56,18 +62,42 @@
 	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
     mui.init();
+    mui.plusReady(function() {
+    	  if (you.getStore("pwd_login") != "true") {
+    	  	  document.getElementById("old_password").style.display = '';
+    	  }
+    })
     var is_login = false;
     mui("#login_btn")[0].addEventListener("tap", function() {
+    	  if (document.getElementById("old_password").style.display == '' && document.getElementById("old_password").value == '') {
+    	  	  mui.toast("请输入原密码");
+    	  	  return true;
+    	  }
+    	  if (document.getElementById("password").value == '') {
+    	    	mui.toast("请输入新密码");
+    	    	return true;
+    	  }
+    	  if (mui("#password")[0].value.length < 6) {
+    	  	 	mui.toast("密码不少于6位");
+    	    	return true;
+    	  }
+    	  if (document.getElementById("password") != document.getElementById("confirm_password")) {
+    	    	mui.toast("密码不一致");
+    	    	return true;
+    	  }
+    	  
     	  if (is_login == false) {
     	    	is_login = true;
-	    		if (mui("#password")[0].value != "" && mui("#password")[0].value.length >= 6) {
-	    		  you.loading();
-	    		  you.authenPut("/users/password", {pwd: mui("#password")[0].value}, function(result) {
-	    		  	  mui.toast("设置成功!");
-	    		  	  you.endLoding();
-	    		  	  mui.back();
-	    		  })
-	    		}
+    		  you.loading();
+    		  var params = {pwd: mui("#password")[0].value};
+    		  if (document.getElementById("old_password").style.display == '') {
+    		  	  params["old"] = document.getElementById("old_password").value;
+    		  }
+    		  you.authenPut("/users/password", params, function(result) {
+    		  	  mui.toast("设置成功!");
+    		  	  you.endLoding();
+    		  	  mui.back();
+    		  })
     	 }
     })
    

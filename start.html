@@ -17,6 +17,7 @@
 				var info = plus.push.getClientInfo();
 				if (plus.storage.getItem('token')) {
 					you.authenPost("/login", {p_client_id: info.clientid}, function(result) {
+						you.removeStore("pwd_login");
 						plus.storage.setItem("token", result.authen_token);
 						plus.storage.setItem("name", result.name);
 						plus.storage.setItem("uid", "" + result.uid);

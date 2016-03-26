@@ -36,8 +36,11 @@
 			mui.init();
 			mui.plusReady(function() {
 				you.get("/system/msg", {}, function(result) {
-					console.log(JSON.stringify(result));
 					self.item = result;
+				})
+				mui(".mui-content").on("tap",'a', function(e) {
+					plus.runtime.openURL(this.getAttribute('href'))
+					e.preventDefault();
 				})
 			})
 		}

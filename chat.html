@@ -514,9 +514,7 @@
 							x.executeSql('SELECT * FROM messages where (user_name = ? AND receive_name = ?) OR (receive_name = ? AND user_name = ?)', [plus.webview.currentWebview().user.client_name, plus.storage.getItem("client_name"),plus.webview.currentWebview().user.client_name,plus.storage.getItem("client_name") ], function(tx, results) {
 								var len = results.rows.length,
 									i;
-								console.log(3334, results.rows.length);
 								for (i = 0; i < len; i++) {
-									console.log(JSON.stringify(results.rows.item(i)))
 									record.push({
 										sender: results.rows.item(i).sender,
 										content: results.rows.item(i).content,
@@ -524,10 +522,6 @@
 										logo: results.rows.item(i).logo,
 									});
 									bindMsgList();
-									console.log(JSON.stringify({
-										content: results.rows.item(i).content,
-										type: results.rows.item(i).type
-									}));
 								}
 							})
 						})
@@ -536,6 +530,10 @@
 						record.push(msg);
 						bindMsgList();
 						sendMessage(msg);
+//						ui.boxMsgText.blur();
+//						setTimeout(function() {
+//							ui.boxMsgText.blur();
+//						}, 150);
 					};
 					//					初始化连接
 					var conn = null;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -7,12 +8,34 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<style type="text/css">
+
 		</style>
 	</head>
+
 	<body>
-		<div id="detail"></div>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"></h1>
+		</header>
 		<script src="js/mui.min.js"></script>
 		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
-		<script src="build/trend_detail.min.js"></script>
-		</body>
+		<script>
+			mui.plusReady(function() {
+				mui.init({
+					subpages: [{
+						url: 'comment_content.html',
+						id: 'comment_content',
+						styles: {
+							top: 64,
+							bottom: 0
+						},
+						extras: {
+							item: you.current_page.item
+						}
+					}]
+				})
+			})
+		</script>
+	</body>
+
 </html>

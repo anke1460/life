@@ -137,11 +137,9 @@
 		color: #fff;
 		font-size: 18px;
 		right: 0px;
-		/*background: #000;
-		opacity: 0.5;*/
+		padding-left: 10px;
 		margin-bottom: 0px;
 		line-height: 35px;
-		padding: 0 5px;
 		height: 35px;
 	}
 	.progress-bar {

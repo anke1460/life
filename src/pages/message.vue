@@ -93,7 +93,8 @@
 				friend_msg: false,
 				fans_msg: false,
 				sys_msg: false,
-				chat_messages: []
+				chat_messages: [],
+				uid: ''
 			}
 		},
 		ready: function() {
@@ -104,16 +105,24 @@
 				setTimeout(function() {
 					mui(".mui-scroll-wrapper").scroll();
 				}, 200)
-				var uid = you.getStore("uid");
+				self.uid = you.getStore("uid");
+				if (you.getStore(self.uid +"_request_new_friend")) {
+					self.friend_msg = true;
+				}
+				if (you.getStore(self.uid +"_fans")) {
+					self.fans_msg = true;
+				}
+				if (you.getStore(self.uid +"_sys_msg")) {
+					self.sys_msg = true;
+				}
 				window.addEventListener("add_friend", function() {
 					self.friend_msg = true;
-//					you.removeStore(uid + "_request_friend");
-//					mui.fire(you.webview("main"), 'clear_msg');
 				})
 				window.addEventListener("add_fans", function() {
 					self.fans_msg = true;
-//					you.removeStore(uid + "_fans");
-//					mui.fire(you.webview("main"), 'clear_msg');
+				})
+				window.addEventListener("sys_msg", function() {
+					self.sys_msg = true;
 				})
 			})
 			window.addEventListener("reloadData", function() {
@@ -130,10 +139,17 @@
 			open: function(url) {
 				if (url == 'address_book.html') {
 				  this.friend_msg = false;
+				  you.removeStore(this.uid +"_request_new_friend");
 				}
 				if (url == 'fans.html') {
 				  this.fans_msg = false;
+				  you.removeStore(this.uid +"_fans");
 				}
+				if (url =='zhi.html') {
+					this.sys_msg = false;
+					you.removeStore(this.uid +"_sys_msg")
+				}
+				mui.fire(you.webview("main"), 'clear_msg');
 				mui.openWindow({
 					url: url,
 					id: url

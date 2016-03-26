@@ -1,8 +1,4 @@
 <template>
-	<header class="mui-bar mui-bar-nav header">
-	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-	    <h1 class="mui-title"></h1>
-	</header>
 	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
 		<div class="mui-scroll">
 			<ul class="mui-table-view">
@@ -38,8 +34,9 @@
 						<div>
 							<template v-if="comment.reply_user.length > 0">
 								回复 
-								<strong>
-									{{comment.reply_user.length > 0 ? comment.reply_user[1] : ''}}
+								<strong v-for="reply in comment.reply_user">
+									{{reply[1]}}
+									<!--{{comment.reply_user.length > 0 ? comment.reply_user[1] : ''}}-->
 								</strong> 
 							</template>
 							
@@ -126,7 +123,7 @@
 			},
 			send: function() {
 				var self = this;
-				var content = "";
+				var content = self.content;
 				mui.each(this.reply_content, function(i, d) {
 					content = self.content.replace(d, "")
 				})

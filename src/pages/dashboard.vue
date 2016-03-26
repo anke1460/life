@@ -119,7 +119,7 @@
 					<ul class="table-view">
 						<li class="table-view-cell" v-for="item in trends">
 							<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
-							<div class="mui-media-body" style="margin: 0px;">
+							<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item, $event)">
 								<span class="user-name">
 									{{item.name}}
 								</span>

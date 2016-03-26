@@ -7,7 +7,7 @@
 	<header class="mui-bar mui-bar-nav header">
 	   <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	   <h1 class="mui-title">评分总览</h1>
-	   <button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @tap="rule">评分规则</button>
+	   <button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @tap="rule">规则</button>
 	</header>
 	<div id="refreshContainer" class="mui-scroll-wrapper mui-content">
 		<div class="mui-scroll">

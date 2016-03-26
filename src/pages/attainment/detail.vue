@@ -95,10 +95,10 @@
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell mui-media" v-for="item in trends">
 								<img class="mui-media-object mui-pull-left" :src="item.avatar" @tap="viewUser(item)">
-								<div class="mui-media-body" style="margin: 0px;">
+								<div class="mui-media-body" style="margin: 0px;" @tap="detailTrend(item, $event)">
 									<span class="user-name">
-									{{item.name}}
-								</span>
+										{{item.name}}
+									</span>
 									<div class="info-content">{{item.content}}</div>
 									<p>
 										<img :src="img.thumb" v-for="img in item.photos" class="thumb-img" @tap="viewPhoto(item.photos)" />
@@ -405,6 +405,17 @@
 					}]
 				};
 				this.echart.setOption(this.options);
+			},
+			detailTrend: function(item, e) {
+				if (e.target.className.includes("mui-icon") == false && e.target.className.includes("thumb-img") == false && e.target.className.includes("mui-pull-right") == false) {
+				  mui.openWindow({
+						url: '../comment.html',
+						id: 'comment',
+						extras: {
+							item: item
+						}
+					})
+				}
 			},
 			comment: function(item) {
 				mui.openWindow({

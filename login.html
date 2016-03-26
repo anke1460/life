@@ -135,6 +135,7 @@
 						document.activeElement.blur();
 						you.post("/login", loginInfo, function(result) {
 							you.endLoding();
+							you.setStore("pwd_login", "true");
 							plus.storage.setItem("token", result.authen_token);
 							plus.storage.setItem("name", result.name);
 							plus.storage.setItem("uid", "" + result.uid);
