@@ -12,17 +12,17 @@
 					<div class="mui-slider-group mui-slider-loop">
 						 <div class="mui-slider-item mui-slider-item-duplicate">
 						 	<a>
-								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ nodes[nodes.length-1].imgs[0] +')'}" class="bg-img" />
+								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ detail_classify.node_imgs[detail_classify.node_imgs.length-1] +')'}" class="bg-img" />
 							</a>
 						 </div>
-						<div class="mui-slider-item" v-for="node in nodes">
+						<div class="mui-slider-item" v-for="node in detail_classify.node_imgs">
 							<a>
-								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node.imgs[0] +')'}" class="bg-img" />
+								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ node +')'}" class="bg-img" />
 							</a>
 						</div>
 						<div class="mui-slider-item mui-slider-item-duplicate">
 						 	<a>
-								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ nodes[0].imgs[0] +')'}" class="bg-img" />
+								<img :src="'./../images/translate.png'" :style="{'background-image': ' url('+ detail_classify.node_imgs[0] +')'}" class="bg-img" />
 							</a>
 						 </div>
 					</div>
@@ -197,7 +197,7 @@
 				self.wish_img = 'is_spiration-' + (self.detail_classify.is_aspiration ? 2 : 1);
 				self.loadData();
 				if (self.classify.is_mark) {
-					self.echart = echarts.init(document.getElementById('map'));
+					self.echart = echarts.init(document.getElementById('map'), 'green');
 					self.map_type = self.detail_classify.map_name != '' ? self.detail_classify.map_name : 'china';
 					if (self.detail_classify.map_name != '') {
 						echarts.util.mapData.params.params[self.detail_classify.map_name] = {
@@ -213,6 +213,8 @@
 				you.authenGet("/detail_classifies/" + self.detail_classify.id +"/joined_user", {}, function(result) {
 					self.finished = result.finished;
 					self.aspiration = result.aspiration;
+					plus.nativeUI.closeWaiting();
+   				mui.currentWebview.show();
 				})
          
 			});

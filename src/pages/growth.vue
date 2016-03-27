@@ -92,7 +92,10 @@
 						detail_classify: item.detail_classify,
 						classify: item.classify,
 						aspiration_id: item.id
-					}
+					},
+					show:{
+			      autoShow:false
+			    }
 				})
 			},
 			news: function() {
