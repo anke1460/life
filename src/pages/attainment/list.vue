@@ -125,7 +125,10 @@
 					extras: {
 						classify: this.classify,
 						detail_classify: detail_classify
-					}
+					},
+					show:{
+			      autoShow:false
+			    }
 				})
 			}
 		}

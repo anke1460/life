@@ -198,38 +198,8 @@
 						}, 1000);
 						return false;
 					};
-					initTemplate("template");
-					initTemplate("other_template");
 				});
-				var initTemplate = function(id) {
-					var headerWebview = mui.preload({
-						url: 'template.html',
-						id: id
-					});
-					//预加载共用子webview
-					var subWebview = mui.preload({
-						url: "" ,
-						id: id + "_sub",
-						styles: {
-							top: '64px',
-							bottom: '0px',
-						}
-					});
-					subWebview.addEventListener('loaded', function() {
-						setTimeout(function() {
-							subWebview.show();
-							you.endLoding();
-						}, 50);
-					});
-					subWebview.hide();
-					headerWebview.append(subWebview);
-					
-					if (mui.os.ios) {//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
-						headerWebview.addEventListener('hide', function() {
-							subWebview.hide("none");
-						});
-					}
-			};		
+				
 			}(mui, document));
 		</script>
 	</body>
