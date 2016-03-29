@@ -19,6 +19,15 @@
 				color: #fff;
 				font-weight: bold;
 			}
+			#shard {
+				background-image: url(images/shard.png);
+				width: 30px;
+				height: 30px;
+				background-size: cover;
+				position: absolute;
+				right: 10px;
+				bottom: 6px;
+			}
 			.ihave {
 				background-image: url(images/woyou.png);
 			}
@@ -99,6 +108,7 @@
 					<input type="search" class="mui-input-clear" placeholder="" style="background: #fff;">
 				</div>
 			</div>-->
+			<a id="shard"></a>
 			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
 			<a id="contact" class="mui-icon mui-icon-contact mui-pull-right" style="margin-right: 10px;display:none"></a>
 		</header>
@@ -135,6 +145,9 @@
 			};
 			
 			var aniShow = {};
+			document.getElementById("shard").addEventListener("tap", function() {
+				mui.fire(plus.webview.getWebviewById("dashbord.html"), 'showMenu');
+			})
 			
 			 //创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
@@ -222,12 +235,17 @@
 //			  		document.getElementById("title").style.display = "";
 //			  	}
 				if (targetTab == 'growth.html') {
+					document.getElementById("shard").style.display = "none";
 					document.getElementById("menu").style.display = "none";
 				} else if (targetTab == 'message.html') {
+					document.getElementById("shard").style.display = "none";
 					mui.fire(plus.webview.getWebviewById("message.html"), "reloadData");
 					document.getElementById("chat").style.display = "none";
 				} else if (targetTab == 'dashbord.html') {
+					document.getElementById("shard").style.display = "";
 					mui.fire(plus.webview.getWebviewById("dashbord.html"), "reloadData");
+				} else {
+					document.getElementById("shard").style.display = "none";
 				}
 				//更换标题
 				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>知趣人生</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<style type="text/css">
+			.mui-grid-4 {
+				margin-top: 20px;
+				float: left;
+				width: 33%;
+			}
+			
+			.mui-grid-4 .shard {
+				width: 80px;
+				height: 112px;
+				background-size: cover;
+				margin: 0 auto;
+			}
+			
+			#weixin {
+				background-image: url(images/weixins.png);
+			}
+			
+			#weibo {
+				background-image: url(images/weibo.png);
+			}
+			
+			#friend {
+				background-image: url(images/friend.png);
+			}
+			
+			#cancel {
+				clear: both;
+				height: 40px;
+				margin-top: 20px;
+				text-align: center;
+				font-size: 20px;
+				line-height: 40px;
+				border-top: 1px solid #ccc;
+			}
+			
+			#panel {
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div id="panel">
+				<div class="mui-grid-4">
+					<div id="weixin" class="shard" index="0"></div>
+				</div>
+				<div class="mui-grid-4">
+					<div id="friend" class="shard" index="1"></div>
+				</div>
+				<div class="mui-grid-4">
+					<div id="weibo" class="shard" index="2"></div>
+				</div>
+			</div>
+
+			<div id="cancel">取消</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script>
+			var shares = {};
+			mui.init();
+			mui.plusReady(function() {
+				mui("#shard_panel").popover('toggle');
+				plus.share.getServices(function(s) {
+					if (s && s.length > 0) {
+						for (var i = 0; i < s.length; i++) {
+							var t = s[i];
+							shares[t.id] = t;
+						}
+					}
+				}, function() {
+					console.log("获取分享服务列表失败");
+				});
+			})
+			document.getElementById("cancel").addEventListener("tap", function() {
+				plus.webview.currentWebview().close()
+			})
+			mui("#panel").on("tap", ".shard", function() {
+				var ids = [{
+					id: "weixin",
+					ex: "WXSceneSession"
+				}, {
+					id: "weixin",
+					ex: "WXSceneTimeline"
+				}, {
+					id: "qq"
+				}];
+				var i = this.getAttribute("index");
+				if (i > 0) {
+					var s_id = ids[i - 1].id;
+					var share = shares[s_id];
+					if (share.authenticated) {
+						shareMessage(share, ids[i - 1].ex);
+					} else {
+						share.authorize(function() {
+							shareMessage(share, ids[i - 1].ex);
+						}, function(e) {
+							console.log("认证授权失败：" + e.code + " - " + e.message);
+							if (e.code == -8) {
+								mui.toast("您还未安装" + share.description + "或着您的版本不支持分享功能");
+							}
+						});
+					}
+				}
+			})
+
+			function shareMessage(share, ex) {
+				var msg = {
+					extra: {
+						scene: ex
+					}
+				};
+				var share_url = "http://www.baidu.com";
+				msg.href = share_url;
+				msg.title = "分享我在知趣人生上的旅行成绩";
+				msg.content = share_url;
+				msg.thumbs = ["_www/images/zhi.png"];
+				share.send(msg, function() {
+					console.log("分享到\"" + share.description + "\"成功！ ");
+				}, function(e) {
+					console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
+					if (e.code == -100 && (e.message.indexOf("canceled") == -1 && e.message.indexOf("取消") == -1 && e.message.indexOf("give up") == -1)) {
+						mui.toast("您还未安装" + share.description + "或着您的版本不支持分享功能");
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>
