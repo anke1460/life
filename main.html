@@ -93,8 +93,18 @@
 			}
 			.msg-dot {
 				left: 50%;
-				top: 5px;
+				top: 2px;
 				margin-left: 5px;
+			}
+			#logo {
+				background-image: url(images/logo1.png);
+				width: 30px;
+				height: 30px;
+				background-size: cover;
+				padding: 0px;
+				position: absolute;
+				right: 10px;
+				bottom: 6px;
 			}
 		</style>
 	</head>
@@ -109,6 +119,7 @@
 				</div>
 			</div>-->
 			<a id="shard"></a>
+			<a id="logo" style="display: none;"><i class="msg-dot" id="sys_msg" style="display: none;"></i></a>
 			<a id="menu" class="mui-icon mui-icon-plusempty mui-pull-right" style="display: none;"></a>
 			<a id="contact" class="mui-icon mui-icon-contact mui-pull-right" style="margin-right: 10px;display:none"></a>
 		</header>
@@ -169,6 +180,9 @@
 					mui.fire(plus.webview.getWebviewById("message.html"), 'add_fans');
 					document.getElementById("msg_dot").style.display = "";
 				}
+				if (plus.storage.getItem(uid + "_sys_msg")) {
+					document.getElementById("sys_msg").style.display = "";
+				}
 				plus.push.addEventListener( "click", function( msg ) {
           plus.runtime.setBadgeNumber(0);
           mui.openWindow({
@@ -194,8 +208,11 @@
 							  break;
 							case 'sys_msg':
 						   	plus.storage.setItem(uid + "_sys_msg", 'true');
-								mui.fire(plus.webview.getWebviewById("message.html"), 'sys_msg');
-								document.getElementById("msg_dot").style.display = "";
+//								mui.fire(plus.webview.getWebviewById("message.html"), 'sys_msg');
+								document.getElementById("sys_msg").style.display = "";
+							  break;
+							case 'trend':
+								mui.fire(plus.webview.getWebviewById("dashbord.html"), 'addMsg', msg.payload);
 							  break;
 						}
 					}
@@ -237,14 +254,18 @@
 				if (targetTab == 'growth.html') {
 					document.getElementById("shard").style.display = "none";
 					document.getElementById("menu").style.display = "none";
+					document.getElementById("logo").style.display = "none";
 				} else if (targetTab == 'message.html') {
+					document.getElementById("logo").style.display = "";
 					document.getElementById("shard").style.display = "none";
 					mui.fire(plus.webview.getWebviewById("message.html"), "reloadData");
 					document.getElementById("chat").style.display = "none";
 				} else if (targetTab == 'dashbord.html') {
+					document.getElementById("logo").style.display = "none";
 					document.getElementById("shard").style.display = "";
 					mui.fire(plus.webview.getWebviewById("dashbord.html"), "reloadData");
 				} else {
+					document.getElementById("logo").style.display = "none";
 					document.getElementById("shard").style.display = "none";
 				}
 				//更换标题
@@ -284,6 +305,13 @@
 			});
 			document.getElementById("contact").addEventListener("tap", function() {
 				plus.webview.getWebviewById(activeTab).evalJS("showContact()");
+			});
+			document.getElementById("logo").addEventListener("tap", function() {
+			  plus.storage.removeItem(uid +"_sys_msg");
+				mui.openWindow({
+					url: 'zhi.html',
+					id: 'zhi.html'
+				})
 			});
 		</script>
 	</body>

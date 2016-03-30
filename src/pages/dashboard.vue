@@ -114,7 +114,7 @@
 			</div>
 			<div id="infos">
 				<div id="baner">
-					<a @tap="load('default')" :class="{'active':current_active == 'default'}">推荐</a>
+					<a @tap="load('default')" :class="{'active':current_active == 'default'}" id="recommand">推荐</a>
 					<a @tap="load('concern')" :class="{'active':current_active == 'concern'}">关注</a>
 					<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
 					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
@@ -226,11 +226,16 @@
 			}.bind(this));
 			window.addEventListener("reloadData", function() {
 				self.page = 1;
-				self.trends = [];
-				self.loadMsg();
+//				self.trends = [];
+//				self.loadMsg();
 				self.loadClassify();
 				self.current_active = "default";
 			})
+			window.addEventListener("addMsg", function(e) {
+				if (document.getElementById("recommand").className == 'active') {
+					self.trends.splice(0,0, e.detail);
+				}
+			});
 			window.addEventListener("showMenu", function() {
 				mui("#shard_menu").popover('toggle');
 			})
@@ -445,7 +450,7 @@
 	}
 	
 	#baner {
-		margin-top: 5px;
+		margin-top: 2px;
 		border-top: 1px solid #F3F3F3;
 		border-bottom: 1px solid #F3F3F3;
 		padding: 10px;

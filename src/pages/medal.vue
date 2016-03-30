@@ -13,7 +13,7 @@
 		<div class="mui-scroll">
 			<div class="mui-content-padded">
 				<ul class="mui-table-view" v-for="item in items">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell" @tap="go(item)">
 						<div class="mui-slider-cell">
 							<div class="wish_content" @click="go(item, $event)">
 								<h6 :class="{'geted': item.finished_at != ''}">
@@ -25,7 +25,7 @@
 										<img :src="item.total_score | to_photo" class="mui-media-object mui-pull-left" />
 										<div class="mui-media-body">
 											{{item.name}}
-											<p> {{item.detail_classify}}</p>
+											<p> {{item.detail_classify_name}}</p>
 											<p>
 												<h5 class="mui-pull-left">
 													<span v-for="p in item.finished_people.users">{{p.name}}</span>
@@ -57,7 +57,17 @@
 			mui.init();
 			mui.plusReady(function() {
 				you.authenGet("/medals", {}, function(result) {
-					self.items = result.medals;
+					var first = [], sec = [], total = [];
+					mui.each(result.medals, function(i, d) {
+						if (d.finished_at != "") {
+							first.push(d)
+						} else {
+							sec.push(d);
+						}
+					})
+					total = total.concat(first.sort(self.compare('total_score')));
+					total = total.concat(sec.sort(self.compare('total_score')));
+					self.items = total;
 					setTimeout(function() {
 						mui(".mui-scroll-wrapper").scroll();
 					}, 150)
@@ -65,11 +75,37 @@
 			})
 		},
 		methods: {
+			go: function(item) {
+				mui.openWindow({
+					url: 'attainment/detail.html',
+					id: 'attainment_detail',
+					extras: {
+						classify: item.classify,
+						detail_classify: item.detail_classify
+					},
+					show:{
+			      autoShow:false
+			    }
+				})
+			},
 			rule: function() {
 				mui.openWindow({
 					url: 'medal_rule.html',
 					id: 'medal_rule'
 				})
+			},
+			compare: function(propertyName) {
+				return function(object1, object2) {
+					var value1 = object1[propertyName];
+					var value2 = object2[propertyName];
+					if (value2 < value1) {
+						return 1;
+					} else if (value2 > value1) {
+						return -1;
+					} else {
+						return 0;
+					}
+				}
 			}
 		}
 	}

@@ -63,14 +63,16 @@
 							});
 							you.authenPost("/system/contacts", {list: JSON.stringify(list)}, function(result) {
 								you.endLoding();
-						   	self.is_up = false;
+								setTimeout(function() {
+									self.is_up = false;
+								},1000)
 							})
 							
 						}, function() {
 							is_start = true;
 						});
 					}, function(e) {
-						you.alert("请确认是否已开启通讯录权限")
+						you.alert("请确认设置通讯录权限已开启")
 					});
 				}
 			}
