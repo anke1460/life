@@ -39,7 +39,8 @@
 					    	    <div class="score-body" :style="{width: user_score[category.alias + '_score'] + 'px'}"></div>
 					    	    <div class="score-right"></div>
 				    	    </div>
-				    	     <span class="score-value">{{user[category.alias + "_score"]}}</span>
+				    	     <span class="score-value">{{user_score[category.alias + '_score_v']}}%</span>
+				    	     <span class="score-num">{{user_score[category.alias + "_score_"]}}</span>
 		    	    	  </div>
 		    	    	</li>
 	    	    </ul>
@@ -85,7 +86,17 @@
 					food_score: 0,
 					social_score: 0,
 					skill_score: 0,
-					hobby_score: 0
+					hobby_score: 0,
+					travel_score_: 0,
+					food_score_: 0,
+					social_score_: 0,
+					skill_score_: 0,
+					hobby_score_: 0,
+					travel_score_v: 0,
+					food_score_v: 0,
+					social_score_v: 0,
+					skill_score_v: 0,
+					hobby_score_v: 0
 				},
 				user_logo: '../images/skill.png',
 				time_range: '',
@@ -99,6 +110,8 @@
 					if (self.user[s.alias + "_score"] == 0) {
 						self.user_score[s.alias + "_score"] = 0;
 					} else {
+						self.user_score[s.alias + "_score_"] = s.score;
+						self.user_score[s.alias + "_score_v"] = (self.user[s.alias + "_score"] / s.score * 100).toFixed(2);
 						self.user_score[s.alias + "_score"] = parseInt(self.user[s.alias + "_score"] / s.score * 100);
 					}
 					

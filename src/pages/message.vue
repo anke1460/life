@@ -41,7 +41,7 @@
 			<div class="mui-table-view-divider">
 			</div>
 			<ul class="mui-table-view mui-table-view-chevron" id="message">
-				<li class="mui-table-view-cell mui-media" @tap="open('zhi.html')">
+				<!--<li class="mui-table-view-cell mui-media" @tap="open('zhi.html')">
 					<a class="mui-navigate-right">
 						<img class="mui-media-object mui-pull-left" :src="img4">
 						<div class="sys">
@@ -49,7 +49,7 @@
 						</div>
 						<i :class="{'msg-dot': sys_msg}"></i>
 					</a>
-				</li>
+				</li>-->
 				<li class="mui-table-view-cell msg mui-disabled" v-for="message in messages" @tap="detail(message, $event)">
 					<div class="mui-slider-right mui-disabled">
 						<a class="mui-btn mui-btn-red" @tap="del(message, $event)">删除</a>
@@ -121,9 +121,9 @@
 				window.addEventListener("add_fans", function() {
 					self.fans_msg = true;
 				})
-				window.addEventListener("sys_msg", function() {
-					self.sys_msg = true;
-				})
+//				window.addEventListener("sys_msg", function() {
+//					self.sys_msg = true;
+//				})
 			})
 			window.addEventListener("reloadData", function() {
 				self.load();
@@ -145,10 +145,10 @@
 				  this.fans_msg = false;
 				  you.removeStore(this.uid +"_fans");
 				}
-				if (url =='zhi.html') {
-					this.sys_msg = false;
-					you.removeStore(this.uid +"_sys_msg")
-				}
+//				if (url =='zhi.html') {
+//					this.sys_msg = false;
+//					you.removeStore(this.uid +"_sys_msg")
+//				}
 				mui.fire(you.webview("main"), 'clear_msg');
 				mui.openWindow({
 					url: url,

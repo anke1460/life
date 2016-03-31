@@ -40,6 +40,7 @@
 						</a>
 					</li>
 				</ul>
+				<p v-show="users.length == 0" class="tip">绑定通讯录，来邀请你联系人中的好友吧</p>
 				<h5 class="no-tip" v-show="findUser && users.length == 0 && loaded">没有该用户</h5>
 	
 			</div>
@@ -203,5 +204,9 @@
 	.search-wraper {
 		position: relative;
 		z-index: 2;
+	}
+	.tip {
+		text-align: center;
+		margin-top: 20px;
 	}
 </style>

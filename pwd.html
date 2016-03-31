@@ -81,7 +81,7 @@
     	  	 	mui.toast("密码不少于6位");
     	    	return true;
     	  }
-    	  if (document.getElementById("password") != document.getElementById("confirm_password")) {
+    	  if (document.getElementById("password").value != document.getElementById("confirm_password").value) {
     	    	mui.toast("密码不一致");
     	    	return true;
     	  }

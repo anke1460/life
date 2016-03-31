@@ -27,7 +27,7 @@
 						<div class="mui-media-body">
 							{{user.name}}
 							<p class="mui-ellipsis">{{user.sign}}</p>
-							<!--<span class="time-ago">{{user.time_at | time }}</span>-->
+							<span class="time-ago">{{user.time_at | time }}</span>
 						</div>
 					</div>
 				</li>
@@ -121,7 +121,7 @@
 	.time-ago {
 		position: absolute;
 		right: 10px;
-		top: 10px;
+		top: 0px;
 		color: #989898;
 		font-size: 14px;
 	}
