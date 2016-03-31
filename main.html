@@ -192,6 +192,8 @@
          }, false );
 
 				plus.push.addEventListener( "receive", function( msg ) {
+					plus.nativeUI.alert(JSON.stringify(msg))
+					alert(JSON.stringify(msg))
 					// 接受透传消息
 					if (msg.payload) {
 						switch (msg.payload.type) {

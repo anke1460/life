@@ -264,7 +264,7 @@
 			load: function(type) {
 				this.page = 1;
 				this.trends = [];
-				//				this.loadMsg(type);
+				this.loadMsg(type);
 				this.current_active = type;
 			},
 			loadMsg: function(type) {
@@ -310,9 +310,9 @@
 						}.bind(this))
 					}
 					self.loadedPage = true;
-					setTimeout(function() {
-						mui("#refreshContainer").pullRefresh().scrollTo(0, 0, 100);
-					}, 300)
+//					setTimeout(function() {
+//						mui("#refreshContainer").pullRefresh().scrollTo(0, 0, 100);
+//					}, 300)
 				}.bind(this))
 			},
 			comment: function(item) {
