@@ -192,8 +192,6 @@
          }, false );
 
 				plus.push.addEventListener( "receive", function( msg ) {
-					plus.nativeUI.alert(JSON.stringify(msg))
-					alert(JSON.stringify(msg))
 					// 接受透传消息
 					if (msg.payload) {
 						switch (msg.payload.type) {
@@ -214,7 +212,7 @@
 								document.getElementById("sys_msg").style.display = "";
 							  break;
 							case 'trend':
-								mui.fire(plus.webview.getWebviewById("dashbord.html"), 'addMsg', msg.payload);
+								mui.fire(plus.webview.getWebviewById("dashbord.html"), 'addMsg', {data: msg.payload});
 							  break;
 						}
 					}

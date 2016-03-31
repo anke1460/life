@@ -17,8 +17,8 @@
 			}
 			
 			.mui-grid-4 .shard {
-				width: 80px;
-				height: 112px;
+				width: 60px;
+				height: 84px;
 				background-size: cover;
 				margin: 0 auto;
 			}
@@ -69,6 +69,7 @@
 		</div>
 
 		<script src="js/mui.min.js"></script>
+		<script src="js/service.js"></script>
 		<script>
 			var shares = {};
 			mui.init();
@@ -96,7 +97,7 @@
 					id: "weixin",
 					ex: "WXSceneTimeline"
 				}, {
-					id: "qq"
+					id: "sinaweibo"
 				}];
 				var i = this.getAttribute("index");
 				if (i > 0) {
@@ -123,18 +124,21 @@
 						scene: ex
 					}
 				};
-				var share_url = "http://www.baidu.com";
+				
+				var share_url = "http://www.zhiqu.life/shared?type=" + you.getStore("type") +"&k=" + you.getStore("token") + "_" + Math.ceil(Math.random()*1010) ;
 				msg.href = share_url;
 				msg.title = "分享我在知趣人生上的旅行成绩";
 				msg.content = share_url;
 				msg.thumbs = ["_www/images/zhi.png"];
 				share.send(msg, function() {
+					you.current_page.close();
 					console.log("分享到\"" + share.description + "\"成功！ ");
 				}, function(e) {
 					console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
 					if (e.code == -100 && (e.message.indexOf("canceled") == -1 && e.message.indexOf("取消") == -1 && e.message.indexOf("give up") == -1)) {
 						mui.toast("您还未安装" + share.description + "或着您的版本不支持分享功能");
 					}
+					you.current_page.close();
 				});
 			}
 		</script>

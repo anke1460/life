@@ -233,7 +233,7 @@
 			})
 			window.addEventListener("addMsg", function(e) {
 				if (document.getElementById("recommand").className == 'active') {
-					self.trends.splice(0,0, e.detail);
+					self.trends.splice(0,0, e.detail.data);
 				}
 			});
 			window.addEventListener("showMenu", function() {
@@ -243,11 +243,12 @@
 		methods: {
 			showShard: function(type) {
 				mui("#shard_menu").popover('toggle');
+				you.setStore("type", type);
 				mui.openWindow({
 					url: 'shard.html',
 					id: 'shard',
 					styles: {
-						top: '70%',
+						top: '60%',
 						bottom: 0
 					},
 					show: {
