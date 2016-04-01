@@ -48,24 +48,31 @@
 			#panel {
 				overflow: hidden;
 			}
+			#fooder {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+			}
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-			<div id="panel">
-				<div class="mui-grid-4">
-					<div id="weixin" class="shard" index="0"></div>
+			<div id="fooder">
+				<div id="panel">
+					<div class="mui-grid-4">
+						<div id="weixin" class="shard" index="1"></div>
+					</div>
+					<div class="mui-grid-4">
+						<div id="friend" class="shard" index="2"></div>
+					</div>
+					<div class="mui-grid-4">
+						<div id="weibo" class="shard" index="3"></div>
+					</div>
 				</div>
-				<div class="mui-grid-4">
-					<div id="friend" class="shard" index="1"></div>
-				</div>
-				<div class="mui-grid-4">
-					<div id="weibo" class="shard" index="2"></div>
-				</div>
+				<div id="cancel">取消</div>
 			</div>
-
-			<div id="cancel">取消</div>
 		</div>
 
 		<script src="js/mui.min.js"></script>
@@ -125,9 +132,10 @@
 					}
 				};
 				
-				var share_url = "http://www.zhiqu.life/shared?type=" + you.getStore("type") +"&k=" + you.getStore("token") + "_" + Math.ceil(Math.random()*1010) ;
+				var share_url = "http://www.zhiqu.life/shared?type=" + you.getStore("type") +"&k=" + you.getStore("token") + "_" + Math.ceil(Math.random()*1010);
 				msg.href = share_url;
-				msg.title = "分享我在知趣人生上的旅行成绩";
+				var t = {"travel": "旅行", "food": '美食', "social": '社交'}
+				msg.title = "分享我在知趣人生上的" + t[you.getStore("type")]+ "成绩";
 				msg.content = share_url;
 				msg.thumbs = ["_www/images/zhi.png"];
 				share.send(msg, function() {

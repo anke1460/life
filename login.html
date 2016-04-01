@@ -88,6 +88,7 @@
 				});
 				$.plusReady(function() {
 					var info = plus.push.getClientInfo();
+					you.endLoding();
 					plus.screen.lockOrientation("portrait-primary");
 					plus.webview.currentWebview().show();
 					plus.webview.currentWebview().setStyle({

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>介绍</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			#close {
+				position: absolute;
+				width: 180px;
+				height: 50px;
+				border-radius: 8px;
+				left: 50%;
+				margin-left: -90px;
+				bottom: 30px;
+				padding: 10px;
+				color: #fff;
+				background-color: #1fcc7b;
+				border: none;
+			}
+			.item-logo {
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			.item-logo a {
+				width: 280px;
+				height: 280px;
+				position: absolute;
+				top: 15%;
+				left: 50%;
+				margin-left: -140px;
+				background-size: cover;
+			}
+			.img1 {
+				background: url(images/img1.png);
+			}
+			.img2 {
+				background: url(images/img2.png);
+			}
+			.img3 {
+				background: url(images/img3.png);
+			}
+			
+		  .bg {
+		  	  height: 70%;
+		  	  position: relative;
+		  }
+			.animate {
+				position: absolute;
+				left: 0;
+				bottom: 15%;
+				width: 100%;
+				color: #fff;
+				display: -moz-box;
+			}
+			.animate h2 {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			.animate li {
+				width: 50%;
+				height: 30px;
+				line-height: 30px;
+				list-style: none;
+				font-size: 16px;
+				text-align: right;
+			}
+			.animate li:nth-child(3) {
+				text-align: left;
+				float: right;
+			}
+			.animated {
+				-webkit-animation-duration: 1s;
+				-webkit-animation-play-state: paused;
+				-webkit-animation-fill-mode: both;
+			}
+			.guide-show .bounceInDown {
+				-webkit-animation-name: bounceInDown;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 1s;
+				display: block;
+			}
+			.guide-show .bounceInLeft {
+				-webkit-animation-name: bounceInLeft;
+				display: block;
+				-webkit-animation-play-state: running;
+			}
+			.guide-show .bounceInRight {
+				-webkit-animation-name: bounceInRight;
+				display: block;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 0.5s;
+			}
+			@-webkit-keyframes bounceInDown {
+				0%, 60%, 75%, 90%, 100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(0, -3000px, 0);
+					transform: translate3d(0, -3000px, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(0, 25px, 0);
+					transform: translate3d(0, 25px, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(0, -5px, 0);
+					transform: translate3d(0, -5px, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(0, 3px, 0);
+					transform: translate3d(0, 3px, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			@-webkit-keyframes bounceInLeft {
+				0%, 60%, 75%, 90%, 100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(-3000px, 0, 0);
+					transform: translate3d(-3000px, 0, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(25px, 0, 0);
+					transform: translate3d(25px, 0, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(-10px, 0, 0);
+					transform: translate3d(-10px, 0, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(5px, 0, 0);
+					transform: translate3d(5px, 0, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			@-webkit-keyframes bounceInRight {
+				0%, 60%, 75%, 90%, 100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(3000px, 0, 0);
+					transform: translate3d(3000px, 0, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(-25px, 0, 0);
+					transform: translate3d(-25px, 0, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(10px, 0, 0);
+					transform: translate3d(10px, 0, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(-5px, 0, 0);
+					transform: translate3d(-5px, 0, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			
+			.bar-img {
+				position: absolute;
+		    bottom: 15px;
+		    text-align: center;
+		    width: 100%;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item .bar-img img {
+				width: 60px;
+			}
+			
+			.title {
+		    text-align: center;
+		    font-size: 40px;
+		    margin-top: 40px;
+		    height: 40px;
+		    line-height: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="slider" class="mui-slider mui-fullscreen" style="background-color: #fff;">
+			<div class="mui-slider-group">
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+					<div class="item-logo">
+						<div class="bg" style="background-color: #5fc2f5">
+							<a class="img1"></a>
+							<div class="bar-img">
+								<img src="images/r.png" style="margin-right: 30px;" />
+								<img src="images/w.png" />
+							</div>
+						</div>
+						<p class="title">测一测，我好棒</p>
+					</div>
+				</div>
+				<!-- 第二张 -->
+				<div class="mui-slider-item">
+					<div class="item-logo">
+						<div class="bg" style="background-color: #fb5d5a">
+							<a class="img2"></a>
+							<div class="bar-img">
+								<img src="images/vs2.png" />
+							</div>
+						</div>
+						<p class="title">比一比，友榜样</p>
+					</div>
+				</div>
+				<!-- 第三张 -->
+				<div class="mui-slider-item">
+					<div class="item-logo">
+						<div class="bg" style="background-color: #1fcc7b">
+							<a class="img3"></a>
+							<div class="bar-img">
+								<img src="images/fenshu.png" />
+							</div>
+						</div>
+						<p class="title">简单分数，述说精彩</p>
+						<div class="">
+							<button id='close' class="mui-btn">开启</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.back = function() {};
+			mui.plusReady(function() {
+				if(mui.os.ios){
+					plus.navigator.setFullscreen(true);
+				}
+				plus.navigator.closeSplashscreen();
+			});
+			//立即体验按钮点击事件
+			document.getElementById("close").addEventListener('tap', function(event) {
+				var i = plus.storage.getItem("loadTag") ? 1 : parseInt(plus.storage.getItem("loadTag"));
+				plus.storage.setItem("loadTag", i+1);
+				plus.navigator.setFullscreen(false);
+				login();
+			}, false);
+			//图片切换时，触发动画
+//			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+//			 	//注意slideNumber是从0开始的；
+//			 	var index = event.detail.slideNumber+1;
+//			 	if(index==2){
+//			 		var item = document.getElementById("tips-"+index);
+//			 		if(item.classList.contains("mui-hidden")){
+//			 			item.classList.remove("mui-hidden");
+//			 			item.classList.add("guide-show");
+//			 		}
+//			 	}
+//			});
+			function login() {
+				var info = plus.push.getClientInfo();
+				if (plus.storage.getItem('token')) {
+					you.authenPost("/login", {p_client_id: info.clientid}, function(result) {
+						you.removeStore("pwd_login");
+						plus.storage.setItem("token", result.authen_token);
+						plus.storage.setItem("name", result.name);
+						plus.storage.setItem("uid", "" + result.uid);
+						plus.storage.setItem('logo', result.logo);
+						plus.storage.setItem('sys_no', result.sys_no);
+						plus.storage.setItem('client_key', result.client_key);
+						plus.storage.setItem('client_name', result.client_name);
+						plus.storage.setItem("push_name", result.push_name);
+						mui.openWindow({
+							id: 'main',
+							url: 'main.html',
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, function() {
+						you.clearStore();
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								autoShow: false
+							}
+						});
+					});
+					
+				} else {
+					you.endLoding();
+					mui.openWindow({
+						url: 'login.html',
+						id: 'login',
+						show: {
+							autoShow: false
+						}
+					});
+				}
+			}
+			
+		</script>
+	</body>
+
+</html>

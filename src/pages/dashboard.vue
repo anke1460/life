@@ -82,10 +82,10 @@
 					</div>
 				</div>
 				<div class="graph-wraper">
-					<div class="class-bg">
+					<div class="class-bg" @tap="share">
 						<div id="c_score">{{current_score}}</div>
 					</div>
-					<div class="score-bg">
+					<div class="score-bg" @tap="share">
 						<div id="c_rank">{{current_rank}}</div>
 					</div>
 					<p class="score-text"><span class="c-g">{{classify_name}}成绩</span><span class="h-g">好友排名</span></p>
@@ -184,7 +184,8 @@
 				loadedPage: false,
 				classify_name: '旅游',
 				friends_count: 0,
-				title: ''
+				title: '',
+				current_type: 'travel'
 			}
 		},
 		ready: function() {
@@ -203,13 +204,17 @@
 			});
 			mui.plusReady(function() {
 				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
-					self.current_score = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_score"];
+					self.current_score = self.user_score[["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber] + "_score"];
 					if (self.friends_count == 0) {
 						self.current_rank = "N/A";
 					} else {
-						self.current_rank = self.user_score[["travel", "food", "hobby", "social", "skill"][event.detail.slideNumber] + "_num"];
+						self.current_rank = self.user_score[["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber] + "_num"];
 					}
 					self.classify_name = ["旅行", "美食", "爱好", "技能", "社交"][event.detail.slideNumber];
+					self.current_type = ["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber];
+					if (plus.webview.getWebviewById("shard")) {
+						plus.webview.getWebviewById("shard").hide();
+					}
 					var options = { 
 						useEasing: true,
 						 useGrouping: true
@@ -241,14 +246,33 @@
 			})
 		},
 		methods: {
-			showShard: function(type) {
-				mui("#shard_menu").popover('toggle');
-				you.setStore("type", type);
+			share: function() {
+				if ( ["travel", "food", "social"].indexOf(this.current_type ) == -1) {
+					return true;
+				}
+				you.setStore("type", ["travel", "food", "social"][this.current_type]);
+				var height = document.body.clientHeight - 60;
 				mui.openWindow({
 					url: 'shard.html',
 					id: 'shard',
 					styles: {
-						top: '60%',
+						top: height,
+						bottom: 0
+					},
+					show: {
+						aniShow: 'slide-in-bottom'
+					}
+				})
+			},
+			showShard: function(type) {
+				mui("#shard_menu").popover('toggle');
+				you.setStore("type", type);
+				var height = document.body.clientHeight - 60;
+				mui.openWindow({
+					url: 'shard.html',
+					id: 'shard',
+					styles: {
+						top: height,
 						bottom: 0
 					},
 					show: {
