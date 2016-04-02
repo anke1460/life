@@ -38,8 +38,7 @@
 					</a>
 				</li>
 			</ul>
-			<div class="mui-table-view-divider">
-			</div>
+			<div class="mui-table-view-divider" v-show="message.length > 0"></div>
 			<ul class="mui-table-view mui-table-view-chevron" id="message">
 				<!--<li class="mui-table-view-cell mui-media" @tap="open('zhi.html')">
 					<a class="mui-navigate-right">

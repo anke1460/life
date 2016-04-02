@@ -54,7 +54,9 @@
 		document.getElementById("logout").addEventListener('tap',function () {
 			you.loading();
 			you.authenDelete("/logout", {}, function() {
+				var i = plus.storage.getItem("loadTag");
 				you.clearStore();
+				plus.storage.setItem("loadTag", i);
 				setTimeout(function() {
       	    plus.runtime.restart();
       	  },500);
