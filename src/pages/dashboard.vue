@@ -185,7 +185,8 @@
 				classify_name: '旅游',
 				friends_count: 0,
 				title: '',
-				current_type: 'travel'
+				current_type: 'travel',
+				advert_id: ''
 			}
 		},
 		ready: function() {
@@ -282,8 +283,11 @@
 			},
 			goAdvert: function() {
 				mui.openWindow({
-					url: 'advert.html',
-					id: 'advert'
+					url: 'advert_detail.html',
+					id: 'advert_detail',
+					extras: {
+						n_id: this.advert_id
+					}
 				})
 			},
 			load: function(type) {
@@ -318,6 +322,7 @@
 					self.advert_img = {
 						backgroundImage: "url(" + result.advert.img + ")"
 					};
+					self.advert_id = result.advert.id;
 					self.user_score = result.user_score;
 					self.friends_count = result.friends;
 					self.current_score = self.user_score.travel_score;

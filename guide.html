@@ -201,6 +201,9 @@
 		<script>
 			mui.back = function() {};
 			mui.plusReady(function() {
+				plus.webview.currentWebview().setStyle({
+					popGesture: 'none'
+				})
 				if (mui.os.ios) {
 					plus.navigator.setFullscreen(true);
 				}
