@@ -208,7 +208,7 @@
 			});
 			//立即体验按钮点击事件
 			document.getElementById("close").addEventListener('tap', function(event) {
-				var i = you.getStore("loadTag") == 'NaN' ? 1 : parseInt(you.getStore("loadTag"));
+				var i = (you.getStore("loadTag") == 'NaN' || you.getStore("loadTag") == undefined ) ? 1 : parseInt(you.getStore("loadTag"));
 				plus.storage.setItem("loadTag", (i + 1).toString());
 				plus.navigator.setFullscreen(false);
 				login();

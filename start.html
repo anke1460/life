@@ -44,7 +44,7 @@
 			};		
 			mui.plusReady(function() {
 				var loadTag = you.getStore("loadTag");
-				if ((loadTag == 'NaN' || loadTag && parseInt(loadTag) < 4)) {
+				if ((loadTag == 'NaN' || loadTag == undefined) || loadTag && parseInt(loadTag) < 4) {
 						if(mui.os.ios){
 							plus.navigator.setFullscreen(true);
 						}

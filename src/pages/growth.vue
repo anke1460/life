@@ -155,8 +155,7 @@
 		margin-top: 7px;
 		span {
 			display: inline-block;
-			height: 100%;
-			top: -1px;
+			height: 6px;
 			background-color: #777;
 			-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
 			-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
