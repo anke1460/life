@@ -40,7 +40,14 @@
 						</a>
 					</li>
 				</ul>
-				<p v-show="users.length == 0" class="tip">绑定通讯录，来邀请你联系人中的好友吧</p>
+				<div v-show="users.length == 0">
+					<p class="tip">邀请好友一起来玩，趣味提升百倍</p>
+					<ol class="tip-text">
+						<li>增加社交评分，通过数据图标全面剖析社交状况</li>
+						<li>比一比，清楚了解自己和小伙伴</li>
+						<li>邀请小伙伴一起实现心愿，共同走向人生巅峰</li>
+					</ol>
+				</div>
 				<h5 class="no-tip" v-show="findUser && users.length == 0 && loaded">没有该用户</h5>
 	
 			</div>
@@ -208,5 +215,11 @@
 	.tip {
 		text-align: center;
 		margin-top: 20px;
+	}
+	
+	.tip-text {
+		color: #989898;
+		font-size: 14px;
+		padding-right: 10px;
 	}
 </style>

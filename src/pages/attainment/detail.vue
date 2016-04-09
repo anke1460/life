@@ -75,7 +75,7 @@
 				</ul>
 				<p id="attainment_tip">
 					<strong>点击以下成就点确认完成</strong>
-					<span id="change_view" @tap="change" v-show="classify.is_mark">点击切换文字</span>
+					<span id="change_view" @tap="change" v-show="classify.is_mark">{{is_text ? '点击切换地图' : '点击切换文字'}}</span>
 				</p>
 				<div v-show="is_text" class="city-wraper">
 					<span class="city-name" v-for="item in city" @tap="mark(item)" v-bind:class="{'selected': item.selected}">{{item.name}}</span>

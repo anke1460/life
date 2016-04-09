@@ -63,7 +63,11 @@
 			</a>
 		</li>
 	</ul>
-
+  <p style="padding: 15px;">
+  详细的个人资料可以促进朋友间互相了解，并增加彼此的社交评分
+  <br/>
+  每完成一项资料可获得社交成就分10分。
+  </p>
 </template>
 <script>
 	module.exports = {
