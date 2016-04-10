@@ -114,7 +114,7 @@
 			</div>
 			<div id="infos">
 				<div id="baner">
-					<a @tap="load('default')" :class="{'active':current_active == 'default'}" id="recommand">推荐</a>
+					<a @tap="load('default')" :class="{'active':current_active == 'default'}" id="recommand">推荐<i class="latest-spot" style="display: none;"></i></a>
 					<a @tap="load('concern')" :class="{'active':current_active == 'concern'}">关注</a>
 					<a @tap="load('friend')" :class="{'active':current_active == 'friend'}">朋友</a>
 					<a @tap="load('self')" :class="{'active':current_active == 'self'}">我</a>
@@ -238,9 +238,10 @@
 				self.current_active = "default";
 			})
 			window.addEventListener("addMsg", function(e) {
-				if (document.getElementById("recommand").className == 'active') {
-					self.trends.splice(0,0, e.detail.data);
-				}
+				mui(".latest-spot")[0].style.display = "";
+//				if (document.getElementById("recommand").className == 'active') {
+//					self.trends.splice(0,0, e.detail.data);
+//				}
 			});
 			window.addEventListener("showMenu", function() {
 				mui("#shard_menu").popover('toggle');
@@ -299,6 +300,9 @@
 			loadMsg: function(type) {
 				var self = this;
 				var type = type || 'default';
+				if (type == 'default') {
+					mui(".latest-spot")[0].style.display = 'none';
+				}
 				mui.plusReady(function() {
 					you.authenGet("/stories", {
 						type: type,
