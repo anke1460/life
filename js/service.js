@@ -1,6 +1,6 @@
 (function($) {
 //	$.web_base = "http://youyou.127.0.0.1.xip.io";
-$.web_base = "http://www.youyou.help";
+$.web_base = "http://www.zhiqu.life";
 	$.app_base = $.web_base + "/api/v1";
 	$.guid = function() {
 		function s4() {

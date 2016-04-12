@@ -249,10 +249,7 @@
 		},
 		methods: {
 			share: function() {
-				if ( ["travel", "food", "social"].indexOf(this.current_type ) == -1) {
-					return true;
-				}
-				you.setStore("type", ["travel", "food", "social"][this.current_type]);
+				you.setStore("type", ["travel", "food", "hobby", "skill", "social"][this.current_type]);
 				var height = document.body.clientHeight - 60;
 				mui.openWindow({
 					url: 'shard.html',

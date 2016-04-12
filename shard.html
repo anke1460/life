@@ -59,6 +59,7 @@
 
 	<body>
 		<div class="mui-content">
+			<h5 class="mui-text-center">分享我的成绩单到</h5>
 			<div id="fooder">
 				<div id="panel">
 					<div class="mui-grid-4">
@@ -132,9 +133,9 @@
 					}
 				};
 				
-				var share_url = "http://www.zhiqu.life/shared?type=" + you.getStore("type") +"&k=" + you.getStore("token") + "_" + Math.ceil(Math.random()*1010);
+				var share_url = "http://www.zhiqu.life/sharies?type=" + you.getStore("type") +"&k=" + you.getStore("token") + "_" + Math.ceil(Math.random()*1010);
 				msg.href = share_url;
-				var t = {"travel": "旅行", "food": '美食', "social": '社交'}
+				var t = {"travel": "旅行", "food": '美食', "social": '社交', "hobby": '爱好', "skill": '技能 '}
 				msg.title = "分享我在知趣人生上的" + t[you.getStore("type")]+ "成绩";
 				msg.content = share_url;
 				msg.thumbs = ["_www/images/zhi.png"];

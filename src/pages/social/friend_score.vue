@@ -35,17 +35,17 @@
 				<div id="tip">与友荣焉</div>
 				<div id="v_line">
 					<div id="level_1">
-						<div>10</div>
+						<div>50</div>
 						<div>成就分</div>
 					</div>
 					<span class="score-tip-1">好友总分达到5000分 +</span>
 					<div id="level_2">
-						<div>20</div>
+						<div>100</div>
 						<div>成就分</div>
 					</div>
 					<span class="score-tip-2">好友总分达到20000分 +</span>
 					<div id="level_3">
-						<div>30</div>
+						<div>150</div>
 						<div>成就分</div>
 					</div>
 					<span class="score-tip-3">好友总分达50000分 +</span>
