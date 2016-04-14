@@ -249,7 +249,7 @@
 		},
 		methods: {
 			share: function() {
-				you.setStore("type", ["travel", "food", "hobby", "skill", "social"][this.current_type]);
+				you.setStore("type", this.current_type);
 				var height = document.body.clientHeight - 60;
 				mui.openWindow({
 					url: 'shard.html',

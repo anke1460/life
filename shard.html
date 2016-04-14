@@ -136,7 +136,7 @@
 				var share_url = "http://www.zhiqu.life/sharies?type=" + you.getStore("type") +"&k=" + you.getStore("token") + "_" + Math.ceil(Math.random()*1010);
 				msg.href = share_url;
 				var t = {"travel": "旅行", "food": '美食', "social": '社交', "hobby": '爱好', "skill": '技能 '}
-				msg.title = "分享我在知趣人生上的" + t[you.getStore("type")]+ "成绩";
+				msg.title = "小伙伴们，快来比比" + t[you.getStore("type")]+ "成绩单吧，我在全国排名是";
 				msg.content = share_url;
 				msg.thumbs = ["_www/images/zhi.png"];
 				share.send(msg, function() {

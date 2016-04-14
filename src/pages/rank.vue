@@ -6,6 +6,7 @@
 <template>
 	<header class="mui-bar mui-bar-nav header">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<a id="shard" @tap="shard"></a>
 		<h1 class="mui-title">排行榜</h1>
 	</header>
 	<div class="mui-content">
@@ -155,7 +156,6 @@
 				}
 			},
 			viewUser: function(user) {
-				console.log('usr', JSON.stringify(user));
 				mui.openWindow({
 					url: 'user/index.html',
 					id: "user_index",
@@ -163,6 +163,20 @@
 						user: {
 							id: user.id
 						}
+					}
+				})
+			},
+			shard: function() {
+				var height = document.body.clientHeight - 174;
+				mui.openWindow({
+					url: 'shard_rank.html',
+					id: 'shard_rank',
+					styles: {
+						top: height,
+						bottom: 0
+					},
+					show: {
+						aniShow: 'slide-in-bottom'
 					}
 				})
 			}
