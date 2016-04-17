@@ -82,10 +82,10 @@
 					</div>
 				</div>
 				<div class="graph-wraper">
-					<div class="class-bg" @tap="share">
+					<div class="class-bg" @tap="openShare">
 						<div id="c_score">{{current_score}}</div>
 					</div>
-					<div class="score-bg" @tap="share">
+					<div class="score-bg" @tap="openShare">
 						<div id="c_rank">{{current_rank}}</div>
 					</div>
 					<p class="score-text"><span class="c-g">{{classify_name}}成绩</span><span class="h-g">好友排名</span></p>
@@ -99,7 +99,6 @@
 				</div>
 			</div>
 			<div id="advert_baner" :style="advert_img" @tap="goAdvert">
-				<!--<p class="new-title">{{advert.title}}</p>-->
 			</div>
 			<div id="three_module">
 				<div class="mui-col-xs-4 mui-pull-left ">
@@ -146,7 +145,7 @@
 		</div>
 	</div>
 	<div class="overlay" id="overlay"></div>
-	<div id="shard_menu" class="mui-popover">
+	<!--<div id="shard_menu" class="mui-popover">
 		<ul class="mui-table-view" id="menu_list">
 			<li class="mui-table-view-cell" @tap="showShard('travel')">
 				<a>分享旅行</a>
@@ -158,7 +157,7 @@
 				<a>分享社交</a>
 			</li>
 		</ul>
-	</div>
+	</div>-->
 </template>
 <script>
 	module.exports = {
@@ -203,30 +202,30 @@
 					}
 				}
 			});
+			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+				self.current_score = self.user_score[["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber] + "_score"];
+				if (self.friends_count == 0) {
+					self.current_rank = "N/A";
+				} else {
+					self.current_rank = self.user_score[["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber] + "_num"];
+				}
+				self.classify_name = ["旅行", "美食", "爱好", "技能", "社交"][event.detail.slideNumber];
+				self.current_type = ["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber];
+				if (plus.webview.getWebviewById("shard")) {
+					plus.webview.getWebviewById("shard").hide();
+				}
+				var options = { 
+					useEasing: true,
+					 useGrouping: true
+				};
+				var c_score = new CountUp("c_score", 0, self.current_score, 0, 0, options);
+				c_score.start();
+				if (self.friends_count != 0) {
+					var c_rank = new CountUp("c_rank", 100, self.current_rank, 0, 0, options);
+					c_rank.start();
+				}
+			})
 			mui.plusReady(function() {
-				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
-					self.current_score = self.user_score[["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber] + "_score"];
-					if (self.friends_count == 0) {
-						self.current_rank = "N/A";
-					} else {
-						self.current_rank = self.user_score[["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber] + "_num"];
-					}
-					self.classify_name = ["旅行", "美食", "爱好", "技能", "社交"][event.detail.slideNumber];
-					self.current_type = ["travel", "food", "hobby", "skill", "social"][event.detail.slideNumber];
-					if (plus.webview.getWebviewById("shard")) {
-						plus.webview.getWebviewById("shard").hide();
-					}
-					var options = { 
-						useEasing: true,
-						 useGrouping: true
-					};
-					var c_score = new CountUp("c_score", 0, self.current_score, 0, 0, options);
-					c_score.start();
-					if (self.friends_count != 0) {
-						var c_rank = new CountUp("c_rank", 100, self.current_rank, 0, 0, options);
-						c_rank.start();
-					}
-				})
 				self.uid = you.getStore("uid");
 				self.loadClassify();
 			}.bind(this));
@@ -243,12 +242,12 @@
 //					self.trends.splice(0,0, e.detail.data);
 //				}
 			});
-			window.addEventListener("showMenu", function() {
-				mui("#shard_menu").popover('toggle');
-			})
+//			window.addEventListener("showMenu", function() {
+//				mui("#shard_menu").popover('toggle');
+//			})
 		},
 		methods: {
-			share: function() {
+			openShare: function() {
 				you.setStore("type", this.current_type);
 				var height = document.body.clientHeight - 60;
 				mui.openWindow({
@@ -263,22 +262,22 @@
 					}
 				})
 			},
-			showShard: function(type) {
-				mui("#shard_menu").popover('toggle');
-				you.setStore("type", type);
-				var height = document.body.clientHeight - 60;
-				mui.openWindow({
-					url: 'shard.html',
-					id: 'shard',
-					styles: {
-						top: height,
-						bottom: 0
-					},
-					show: {
-						aniShow: 'slide-in-bottom'
-					}
-				})
-			},
+//			showShard: function(type) {
+//				mui("#shard_menu").popover('toggle');
+//				you.setStore("type", type);
+//				var height = document.body.clientHeight - 60;
+//				mui.openWindow({
+//					url: 'shard.html',
+//					id: 'shard',
+//					styles: {
+//						top: height,
+//						bottom: 0
+//					},
+//					show: {
+//						aniShow: 'slide-in-bottom'
+//					}
+//				})
+//			},
 			goAdvert: function() {
 				mui.openWindow({
 					url: 'advert_detail.html',
@@ -379,14 +378,31 @@
 			},
 			goAttainment: function(item) {
 				if (item.category_alias == 'social') {
-					mui.openWindow({
-						url: "social/" + item.alias + ".html",
-						id: item.alias,
-						extras: {
-							classify_id: item.id,
-							title: item.name
+					if (item.alias == 'info') {
+						var href = "user/info.html";
+						var third_search_web = plus.webview.getWebviewById("template");
+						var children_view = third_search_web.children()[0];
+						mui.fire(third_search_web, 'updateHeader', {
+							title: "个人信息",
+							target: href,
+							aniShow: 'slide-in-right'
+						});
+						if (children_view.getURL() != href) {
+							children_view.loadURL(href);
+						} else {
+							children_view.show();
 						}
-					});
+						third_search_web.show('slide-in-right', 150);
+					} else {
+						mui.openWindow({
+							url: "social/" + item.alias + ".html",
+							id: item.alias,
+							extras: {
+								classify_id: item.id,
+								title: item.name
+							}
+						});
+					}
 				} else {
 					mui.openWindow({
 						url: "attainment/list.html",

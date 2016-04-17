@@ -58,7 +58,7 @@
 					<div id="self_score" class="{{level}}">
 						<img :src="logo" />
 						<div class="score-text">
-							<div class="score-value">好友年龄段{{item.ages}}个</div>
+							<div class="score-value">好友年龄段{{item.ages.length}}个</div>
 							<div class="score-time">评分时间：{{item.created_at}}</div>
 						</div>
 					</div>
@@ -84,7 +84,7 @@
 					<div id="self_sex_score" class="{{level}}">
 						<img :src="logo" />
 						<div class="score-text">
-							<div class="score-value">好友分布{{item.constellations}}个星座</div>
+							<div class="score-value">好友分布{{item.constellations.length}}个星座</div>
 							<div class="score-time">评分时间：{{item.created_at}}</div>
 						</div>
 					</div>
@@ -203,7 +203,7 @@
 						symbolSize: function(value) {
 							return 8;
 						},
-						data: data
+						data: data.length == 0 ? [[]] : data
 					}]
 				};
 				chart.setOption(option);
