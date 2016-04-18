@@ -43,7 +43,7 @@ $.web_base = "http://www.zhiqu.life";
 		var image_url = obj.getAttribute('data-src');
 		var data_src = image_url;
 		obj.src = src;
-		if (src.indexOf("yunlu6.com") == -1 && data_src.lastIndexOf('?') != -1) {
+		if (src.indexOf("zhiqu.life") == -1 && data_src.lastIndexOf('?') != -1) {
 			data_src = data_src.substring(0, data_src.lastIndexOf('?'));
 		}
 		debug && console.log(image_url);
@@ -119,7 +119,7 @@ $.web_base = "http://www.zhiqu.life";
 	$.clearCachePhoto = function(img) {
 		mui.each(mui(img), function(i, d) {
 			var data_src = d.dataset.src;
-			if (data_src.indexOf("yunlu6.com") == -1) {
+			if (data_src.indexOf("zhiqu.life") == -1) {
 				data_src = data_src.substring(0, data_src.lastIndexOf('?'));
 			}
 			var image_md5 = md5(data_src);
