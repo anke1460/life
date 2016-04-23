@@ -32,6 +32,15 @@
 			.mui-btn {
 				padding: 10px;
 			}
+			
+			.pr {
+				 text-align: center;
+   			 margin-top: 10px;
+			}
+			
+			#protocal {
+			  color: #1FCC7B;
+			}
 		</style>
 	</head>
 
@@ -52,6 +61,9 @@
 					<a class="mui-btn mui-btn-default" id="send_code" style="width: 100px;right: 10px;top: 1px;">发送验证码</a>
 				</div>
 			</form>
+			<div class="pr">
+				注册即表示同意<a id="protocal">《用户协议》</a>
+			</div>
 			<div class="mui-content-padded">
 				<button id='reg' class="mui-btn mui-btn-block mui-btn-default">下一步</button>
 			</div>
@@ -61,6 +73,12 @@
 		<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			(function($, doc) {
+				document.getElementById("protocal").addEventListener("tap", function() {
+					mui.openWindow({
+						url: 'protocal.html',
+						id: 'protocal.html'
+					})
+				})
 				$.init();
 				$.plusReady(function() {
 					var settings = app.getSettings();
