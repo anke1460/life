@@ -129,14 +129,12 @@
 			uploadPhoto: function(file, filename) { //上传图片
 				var self = this;
 				this.loading = true;
-				console.log('begin upload');
 				var task = plus.uploader.createUpload(
 					'http://upload.qiniu.com',
 					{
 						method: "POST"
 					}, 
 					function(t, status) {
-						console.log(JSON.parse(t.responseText));
 						you.endLoding();
 						if (t.state == 4 && status == "201") {
 							var result = JSON.parse(t.responseText);

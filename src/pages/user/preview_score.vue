@@ -16,11 +16,11 @@
 					<div id="radar_graph">
 					</div>
 					<div id="total_score">{{user.score}}</div>
-					<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />旅行</span>
+					<!--<span style="position: absolute;top:5px;left:152px;"><img  class="class-icon" :src="logo1" />旅行</span>
 					<span style="position: absolute;top:58px;left:95px;"><img  class="class-icon" :src="logo2" />美食</span>
 					<span style="position: absolute;top:140px;left:120px;"><img  class="class-icon" :src="logo3" />社交</span>
 					<span style="position: absolute;top:140px;left:180px;"><img  class="class-icon" :src="logo4" />技能</span>
-					<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />爱好</span>
+					<span style="position: absolute;top:58px;left:210px;"><img  class="class-icon" :src="logo5" />爱好</span>-->
 				</div>
 			</div>
 	    	<div class="score-list">
@@ -182,7 +182,7 @@
 							text: '爱好',
 							max: value.hobby
 						}],
-						radius: 45
+						radius: 80
 					}],
 					series: [{
 						name: '',
@@ -206,7 +206,6 @@
 				var self = this;
 				mui.plusReady(function() {
 					you.authenGet("/users/score_recordes", {page: self.page}, function(result) {
-						console.log(JSON.stringify(result));
 						self.recordes = self.recordes.concat(result.recordes);
 						self.time_range = result.time_range;
 						if (self.page * self.per_page > result.total_count) {

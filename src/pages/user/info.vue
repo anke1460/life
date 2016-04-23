@@ -1,9 +1,9 @@
 <template>
 	<ul class="mui-table-view mui-table-view-chevron">
-		<li class="mui-table-view-cell">
+		<li class="mui-table-view-cell" @tap="uploadLogo">
 			<a class="mui-navigate-right" id="upload_avatar">
 				<label style="line-height: 60px;">头像</label>
-				<img class="mui-pull-right avatar" :src="user_info.logo" @tap="uploadLogo"/>
+				<img class="mui-pull-right avatar" :src="user_info.logo"/>
 			</a>
 		</li>
 	</ul>
