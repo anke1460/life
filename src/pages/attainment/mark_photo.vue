@@ -11,7 +11,7 @@
 			<a class="mui-btn mui-btn-link mui-pull-right" @tap="send">发送</a>
 		</header>
 	<div class="mui-content mui-content-padded">
-	   <textarea class="content" v-model="content">{{place}}</textarea>
+	   <textarea class="content" v-model="content" placeholder="{{place}}"></textarea>
 	   <img :src="image.url" v-for="image in images" class="photo" >
 	   <span class="add-photo" @tap="selectImage"></span>
 	   <h5>添加图片可额外获得60%基础分数</h5>
@@ -23,7 +23,7 @@
   	  el: "#app",
   	  data: function() {
   	  	  return {
-  	  	  	  place: '',
+  	  	  	  place: ' ',
   	  	  	  images: [],
   	  	  	  image_ids: [],
   	  	  	  content: ''
@@ -33,11 +33,15 @@
   	  	  mui.init();
   	  	  var self = this;
   	  	  mui.plusReady(function() {
-  	  	  	  self.place = "和" + you.current_page.title + "有关的故事"
+	  	  	  self.place = "和" + you.current_page.title + "有关的故事";
   	  	  })
   	  },
   	  methods: {
   	  	  send: function() {
+  	  	  	  if (this.content.trim() =='') {
+  	  	  	  	 mui.toast("请填写与您有关的故事后，再发送哦");
+  	  	  	  	 return true;
+  	  	  	  }
   	  	  	  you.authenPost("/nodes/" + you.current_page.node_id + "/photo_mark", {
   	  	  	  	  image_ids: this.image_ids, 
   	  	  	  	  content: this.content,

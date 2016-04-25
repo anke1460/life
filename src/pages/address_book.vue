@@ -179,7 +179,7 @@
 	.rank {
 		position: absolute;
 		right: 40px;
-		top: 20px;
+		top: 23px;
 		color: #8F8F94;
 		font-size: 14px;
 	}

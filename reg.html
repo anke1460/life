@@ -123,7 +123,7 @@
 						} else {
 							return;
 						}
-						if (/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/.test(phoneBox.value)) {
+						if (/^(13[0-9]|15[012356789]|18[0-9]|14[57])[0-9]{8}$/.test(phoneBox.value)) {
 							you.get("/send_reg_code", {phone: phoneBox.value}, function(result) {
 								if (result.success) {
 									showTip();
